@@ -1,0 +1,61 @@
+{
+  "project_id": "demo-short",
+  "version": "2026-10-13.1",
+  "title": "柔和插画短片",
+  "summary": "扁平柔和插画，低饱和粉彩，细线，慢推镜头为主。",
+  "medium": "2d_illustration",
+  "palette": {
+    "primary": [
+      { "name": "blush", "hex": "#E8B4B8", "role": "primary" },
+      { "name": "sage", "hex": "#A8C5B0", "role": "primary" }
+    ],
+    "accent": [{ "name": "ink", "hex": "#2C2A29", "role": "accent" }],
+    "background": { "name": "paper", "hex": "#F7F1EA", "role": "bg" },
+    "forbidden": [{ "name": "neon_pink", "hex": "#FF00AA", "role": "forbidden" }]
+  },
+  "line": { "weight": "thin", "style": "clean", "notes": "闭合流畅轮廓" },
+  "lighting": { "mood": "soft_diffused", "notes": "少硬阴影" },
+  "texture": { "grain": "subtle", "paper": true },
+  "typography": {
+    "title_font": "Noto Sans SC",
+    "body_font": "Noto Sans SC",
+    "title_color": { "hex": "#2C2A29", "role": "text" },
+    "body_color": { "hex": "#2C2A29", "role": "text" }
+  },
+  "camera_grammar": {
+    "preferred_shots": ["wide", "medium", "close_up"],
+    "preferred_motion": ["kenburns_in", "static", "parallax"],
+    "avoid_motion": ["whip pan", "shake"],
+    "default_transition": "cut",
+    "pacing": "slow"
+  },
+  "prompt_blocks": {
+    "positive": "soft flat 2d illustration, pastel palette, thin clean lineart, gentle diffused light, paper texture",
+    "character_lock": "same character design, large soft eyes, simple clothing folds",
+    "environment_lock": "simple backgrounds, limited props, airy negative space"
+  },
+  "negative_constraints": [
+    "no photoreal skin",
+    "no neon cyberpunk glow",
+    "no cluttered UI text in frame",
+    "no extreme fisheye"
+  ],
+  "likeness_rules": [
+    "prefer low-saturation pastels",
+    "characters with slightly large eye spacing",
+    "backgrounds stay quiet; subject reads first"
+  ],
+  "anchor_refs": [],
+  "defaults": {
+    "fps": 24,
+    "resolution": { "width": 1920, "height": 1080 },
+    "render_profile_preview": "720p_preview",
+    "render_profile_final": "1080p_final",
+    "default_motion_preset": "kenburns_in",
+    "default_transition": "cut"
+  },
+  "preference_appendix": {
+    "do": ["slow push-ins on still frames"],
+    "dont": ["over-saturated neon"]
+  }
+}

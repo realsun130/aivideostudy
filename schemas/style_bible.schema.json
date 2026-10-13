@@ -1,0 +1,319 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.animation-pipeline/style_bible.schema.json",
+  "title": "StyleBible",
+  "type": "object",
+  "required": [
+    "project_id",
+    "version",
+    "medium",
+    "palette",
+    "line",
+    "lighting",
+    "camera_grammar",
+    "prompt_blocks",
+    "negative_constraints",
+    "likeness_rules",
+    "defaults"
+  ],
+  "properties": {
+    "project_id": { "type": "string" },
+    "version": {
+      "type": "string",
+      "description": "Bump on any lock change, e.g. 2026-10-13.1"
+    },
+    "title": { "type": "string" },
+    "summary": {
+      "type": "string",
+      "description": "One-paragraph human summary of the look"
+    },
+    "medium": {
+      "type": "string",
+      "enum": [
+        "2d_illustration",
+        "2d_cel",
+        "watercolor",
+        "pixel",
+        "3d_stylized",
+        "photoreal",
+        "mixed",
+        "other"
+      ]
+    },
+    "medium_notes": { "type": "string" },
+    "palette": {
+      "type": "object",
+      "required": ["primary", "background"],
+      "properties": {
+        "primary": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/color" }
+        },
+        "accent": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/color" }
+        },
+        "background": { "$ref": "#/$defs/color" },
+        "forbidden": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/color" },
+          "description": "Colors that must not dominate"
+        }
+      }
+    },
+    "line": {
+      "type": "object",
+      "required": ["weight", "style"],
+      "properties": {
+        "weight": {
+          "type": "string",
+          "enum": ["none", "hairline", "thin", "medium", "bold", "variable"]
+        },
+        "style": {
+          "type": "string",
+          "enum": ["clean", "sketchy", "ink", "painterly", "geometric", "soft"]
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "lighting": {
+      "type": "object",
+      "required": ["mood"],
+      "properties": {
+        "mood": {
+          "type": "string",
+          "enum": [
+            "flat",
+            "soft_diffused",
+            "high_key",
+            "low_key",
+            "dramatic",
+            "neon",
+            "natural",
+            "other"
+          ]
+        },
+        "direction": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "texture": {
+      "type": "object",
+      "properties": {
+        "grain": {
+          "type": "string",
+          "enum": ["none", "subtle", "medium", "heavy"]
+        },
+        "paper": { "type": "boolean" },
+        "notes": { "type": "string" }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "description": "For subtitle_card and titles in Remotion",
+      "properties": {
+        "title_font": { "type": "string" },
+        "body_font": { "type": "string" },
+        "title_color": { "$ref": "#/$defs/color" },
+        "body_color": { "$ref": "#/$defs/color" },
+        "stroke_color": { "$ref": "#/$defs/color" },
+        "notes": { "type": "string" }
+      }
+    },
+    "camera_grammar": {
+      "type": "object",
+      "required": ["preferred_shots", "preferred_motion"],
+      "properties": {
+        "preferred_shots": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "extreme_wide",
+              "wide",
+              "medium",
+              "close_up",
+              "extreme_close_up",
+              "over_shoulder",
+              "pov",
+              "insert"
+            ]
+          }
+        },
+        "preferred_motion": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "static",
+              "kenburns_in",
+              "kenburns_out",
+              "pan_left",
+              "pan_right",
+              "parallax",
+              "punch_in",
+              "subtitle_card"
+            ]
+          },
+          "description": "Must align with Bot D motion_preset enum"
+        },
+        "avoid_motion": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "default_transition": {
+          "type": "string",
+          "enum": ["cut", "xfade", "fade_black"]
+        },
+        "pacing": {
+          "type": "string",
+          "enum": ["slow", "medium", "fast", "variable"]
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "prompt_blocks": {
+      "type": "object",
+      "required": ["positive"],
+      "properties": {
+        "positive": {
+          "type": "string",
+          "description": "Reusable positive style block for image models"
+        },
+        "character_lock": {
+          "type": "string",
+          "description": "Appended when generating characters"
+        },
+        "environment_lock": {
+          "type": "string",
+          "description": "Appended when generating scenes"
+        }
+      }
+    },
+    "negative_constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" },
+      "description": "Hard no's for generation and Bot E checks"
+    },
+    "likeness_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" },
+      "description": "Testable 'looks like me' rules, e.g. soft pastel, large eye spacing"
+    },
+    "anchor_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "role"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Relative path under refs/"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "overall",
+              "character",
+              "environment",
+              "color",
+              "line",
+              "typography",
+              "other"
+            ]
+          },
+          "notes": { "type": "string" },
+          "approved": { "type": "boolean" }
+        }
+      }
+    },
+    "defaults": {
+      "type": "object",
+      "required": ["render_profile_preview", "render_profile_final", "fps", "resolution"],
+      "properties": {
+        "fps": { "type": "integer", "enum": [24, 25, 30] },
+        "resolution": {
+          "type": "object",
+          "required": ["width", "height"],
+          "properties": {
+            "width": { "type": "integer" },
+            "height": { "type": "integer" }
+          }
+        },
+        "render_profile_preview": {
+          "type": "string",
+          "description": "e.g. 720p preview settings label"
+        },
+        "render_profile_final": {
+          "type": "string",
+          "description": "e.g. 1080p final settings label"
+        },
+        "default_motion_preset": {
+          "type": "string",
+          "enum": [
+            "static",
+            "kenburns_in",
+            "kenburns_out",
+            "pan_left",
+            "pan_right",
+            "parallax",
+            "punch_in",
+            "subtitle_card"
+          ]
+        },
+        "default_transition": {
+          "type": "string",
+          "enum": ["cut", "xfade", "fade_black"]
+        }
+      }
+    },
+    "preference_appendix": {
+      "type": "object",
+      "description": "Bot F distilled likes/dislikes for this bible version",
+      "properties": {
+        "do": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "dont": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "source_memory_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "locked_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "locked_by": {
+      "type": "string",
+      "description": "Who approved Style Lock"
+    }
+  },
+  "$defs": {
+    "color": {
+      "type": "object",
+      "required": ["hex"],
+      "properties": {
+        "name": { "type": "string" },
+        "hex": {
+          "type": "string",
+          "pattern": "^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["primary", "accent", "bg", "text", "forbidden", "other"]
+        }
+      }
+    }
+  }
+}
