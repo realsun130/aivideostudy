@@ -85,3 +85,7 @@ watermark, username, platform logo, app UI, button overlay, QR code, creator sig
   "notes_for_me": "Source of truth: local unpushed MD at D:\\aivideotest\\grokbot_github\\aivideostudy\\FRAME_01_TEMPLATE.md (commit 6b11b28 '1st' at repo root, not pushed). frame_01.fill.json was empty; PRODUCT_OR_PROP inferred from action (phone). v4 feedback: dark room + paw-lamp key light; phone upright screen-facing."
 }
 ```
+
+## Phone staging convention (user lock)
+When subject is "玩手机", show the **back of the phone** facing the camera while the character's face is visible (phone in hands, browsing pose). Camera bump at TOP (toward headboard), charging-port end DOWN. Do not show screen facing viewer. Negative: screen-facing phone, upside-down phone, inverted phone.
+
