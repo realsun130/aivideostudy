@@ -1,0 +1,69 @@
+{
+  "version": "v4",
+  "method": "Claude-parity Hertzmann sbr.py (8 layers, no ink, S=2)",
+  "source": "/workspace/animation-pipeline/projects/first-frame/frame_01_s01_hero_v8.jpg",
+  "stroke_count": 492683,
+  "layer_counts": {
+    "0": 25560,
+    "1": 4493,
+    "2": 21234,
+    "3": 67396,
+    "4": 90000,
+    "5": 95000,
+    "6": 95000,
+    "7": 94000
+  },
+  "paint": {
+    "mse": 37.028,
+    "mae": 4.5373,
+    "psnr_db": 32.446,
+    "ssim": 0.828,
+    "ssim_blur2": 0.9808
+  },
+  "inked": null,
+  "ink_enabled": false,
+  "psnr_db": 32.446,
+  "mse": 37.028,
+  "mae": 4.5373,
+  "ssim": 0.828,
+  "ssim_blur2": 0.9808,
+  "vs_v3": {
+    "psnr_v3_db": 25.923,
+    "psnr_v4_db": 32.446,
+    "delta_psnr_db": 6.523,
+    "mse_v3": 166.2709,
+    "mse_v4": 37.028,
+    "stroke_count_v3": 439410,
+    "stroke_count_v4": 492683
+  },
+  "cfg": {
+    "radii": [
+      12,
+      7,
+      4.5,
+      3,
+      2,
+      1.3,
+      0.9,
+      0.6
+    ],
+    "thresh": [
+      0,
+      26,
+      20,
+      15,
+      11,
+      8,
+      6,
+      4
+    ],
+    "S": 2
+  },
+  "outputs": {
+    "paint": "/workspace/animation-pipeline/projects/first-frame/stroke_paint/out/v4_paint.png",
+    "paint_native_res": "/workspace/animation-pipeline/projects/first-frame/stroke_paint/out/stroke_v8_v4.png",
+    "compare": "/workspace/animation-pipeline/projects/first-frame/stroke_paint/out/v4_compare.png",
+    "strokes_npz": "/workspace/animation-pipeline/projects/first-frame/stroke_paint/out/v4_strokes.npz"
+  },
+  "honesty": "Faithful port of Claude Sonnet sbr.py; 8-layer cfg matches their v2 description; ink disabled by default because Claude found it raises error."
+}

@@ -141,3 +141,27 @@ python3 projects/first-frame/stroke_paint/compare.py \
 | v3 raw | 439410 | 227.74 | — | **24.56 dB** | 无 tone-match |
 
 相对 v2：PSNR **+3.89 dB**（tone-match 成片）；无 tone-match 仍 **+2.52 dB**。产出：`stroke_v8_v3.png`、`compare_side_v8_v3.jpg`、`metrics_v8_v3.json`、`strokes_v8_v3.npz`。
+
+## v4 Claude-parity（推荐基线）
+
+`sbr.py`：忠实移植 Claude Sonnet 参考脚本（Hertzmann 粗→细、结构张量方向、颜色取自模糊参考图、**默认不加墨线**）。8 层、约 49 万笔、S=2 超分绘制后再缩回 1280×720 算指标。
+
+```bash
+./projects/first-frame/stroke_paint/run_v8_v4.sh
+# 或
+.venv/bin/python projects/first-frame/stroke_paint/sbr.py v4
+# 对照实验（不推荐成片）：加 --ink
+```
+
+### v4 实测（2026-10-14）
+
+| 版本 | 笔触数 | MSE | MAE | PSNR | SSIM | SSIM(blurσ=2) |
+|------|--------|-----|-----|------|------|---------------|
+| v1 | 19441 | 851.11 | 19.02 | 18.83 dB | — | — |
+| v2 | 423571 | 407.15 | 12.04 | 22.03 dB | — | — |
+| v3 | 439410 | 166.27 | 9.12 | 25.92 dB | — | — |
+| **v4** | **492683** | **37.03** | **4.54** | **32.45 dB** | **0.828** | **0.981** |
+
+相对 v3：PSNR **+6.52 dB**，MSE **166 → 37**。产出：`v4_paint.png` / `stroke_v8_v4.png`、`v4_compare.png`、`v4_strokes.npz`（≈8.9MB）、`metrics_v8_v4.json`。
+
+说明：Claude 原报告 SSIM≈0.906 / blur≈0.995（其参考图与参数）；本帧在 ~49 万笔预算下 blur-SSIM≈0.981，已明显超过本仓库 v3。墨线（`--ink`）按 Claude 结论默认关闭。
