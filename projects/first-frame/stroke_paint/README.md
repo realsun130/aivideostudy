@@ -57,7 +57,7 @@ python3 projects/first-frame/stroke_paint/compare.py \
 
 ## 诚实说明（v1 质量）
 
-- **不是** huashu 全量 ETF / 几十万笔 WebGL 级；为了可跑通，笔触上限约 **2.8 万**。
+- **不是** huashu 全量 ETF / 几十万笔 WebGL 级；为了可跑通，v1 上限约 **2.8 万**；v2 目标 **≥40 万**（实测约 42.4 万），笔触存 NPZ。
 - 分区是 **AABB 粗框**，不是像素级遮罩；只够给笔触打 region 标签，不能当精修 matte。
 - 渲染是 Pillow 短线鬃毛近似，毛发细度、眼神高光、爪灯光晕会明显糊于 V8。
 - 预期 PSNR 不会接近「照片级」；本步目标是**闭环可复现**，用误差指导下一轮（加笔、改层、补遮罩）。
@@ -90,3 +90,25 @@ python3 projects/first-frame/stroke_paint/compare.py \
 分层计数：coarse 4440 / mid 6207 / fine 4690 / detail 1604 / ink 2500。
 
 读法：能认出查理王、缅因、手机、爪灯与合影，但整体偏暗糊、毛发与眼神远不及 V8。PSNR≈19 dB 说明这是**可跑通的逼近草稿**，不是成片；下一轮应加笔、提高亮部采样、收紧分区。
+
+## v2 实测指标（≥400k 笔）
+
+`--max-strokes 430000`，实际 **423571** 笔；存储 `strokes_v8_v2.json` + `strokes_v8_v2.npz`。
+
+| 版本 | 笔触数 | MSE | MAE | PSNR |
+|------|--------|-----|-----|------|
+| v1 | 19441 | 851.11 | 19.02 | 18.83 dB |
+| **v2** | **423571** | **407.15** | **12.04** | **22.03 dB** |
+
+相对 v1：PSNR **+3.20 dB**，MSE **-443.97**。仍明显软于原图，但闭环与密度方向正确。
+
+```bash
+# v2 一键（建议用仓库 .venv，含 opencv）
+./projects/first-frame/stroke_paint/run_v8_v2.sh
+# 或
+.venv/bin/python projects/first-frame/stroke_paint/generate_strokes.py --max-strokes 430000 \
+  --out projects/first-frame/stroke_paint/out/strokes_v8_v2.json
+.venv/bin/python projects/first-frame/stroke_paint/render_strokes.py \
+  --strokes projects/first-frame/stroke_paint/out/strokes_v8_v2.json \
+  --out projects/first-frame/stroke_paint/out/stroke_v8_v2.png
+```
