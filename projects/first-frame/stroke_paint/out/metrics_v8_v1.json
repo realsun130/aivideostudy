@@ -1,0 +1,11 @@
+{
+  "mse": 851.1138,
+  "rmse": 29.1739,
+  "mae": 19.0211,
+  "psnr_db": 18.831,
+  "original": "/workspace/animation-pipeline/projects/first-frame/frame_01_s01_hero_v8.jpg",
+  "render": "/workspace/animation-pipeline/projects/first-frame/stroke_paint/out/stroke_v8_v1.png",
+  "width": 1280,
+  "height": 720,
+  "note": "Higher PSNR / lower MSE is better. v1 stroke paint will be well below photo-match."
+}

@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "width": 1280,
+    "height": 720,
+    "stroke_count": 19441,
+    "layers": [
+      "coarse",
+      "mid",
+      "fine",
+      "detail",
+      "ink"
+    ],
+    "structure_tensor_sigma": 2.5,
+    "max_strokes_cap": 28000,
+    "seed": 42,
+    "regions": {
+      "note": "Rough AABB regions from manifest layout + visual V8 read. Not rembg mattes.",
+      "priority": [
+        "wall",
+        "bed_bg",
+        "duvet",
+        "pillow",
+        "nightstand",
+        "wall_photo",
+        "cavalier",
+        "maine",
+        "phone",
+        "paw_lamp"
+      ],
+      "bboxes_xyxy": {
+        "wall_photo": [
+          250,
+          20,
+          700,
+          220
+        ],
+        "cavalier": [
+          420,
+          180,
+          900,
+          620
+        ],
+        "maine": [
+          780,
+          200,
+          1180,
+          620
+        ],
+        "phone": [
+          560,
+          340,
+          720,
+          560
+        ],
+        "paw_lamp": [
+          1040,
+          220,
+          1250,
+          460
+        ],
+        "nightstand": [
+          1100,
+          430,
+          1280,
+          620
+        ],
+        "pillow": [
+          300,
+          280,
+          520,
+          480
+        ],
+        "duvet": [
+          200,
+          480,
+          1100,
+          700
+        ],
+        "wall": [
+          0,
+          0,
+          1280,
+          280
+        ],
+        "bed_bg": [
+          0,
+          250,
+          400,
+          520
+        ]
+      }
+    },
+    "honesty": "v1 validation: orientation from structure tensor; regions are rough AABBs; bristle render is approximate colored-pencil, not a full ETF/Hertzmann clone; expect soft mush vs photographic/illustration detail of V8.",
+    "source": "/workspace/animation-pipeline/projects/first-frame/frame_01_s01_hero_v8.jpg"
+  },
+  "layer_counts": {
+    "coarse": 4440,
+    "mid": 6207,
+    "fine": 4690,
+    "detail": 1604,
+    "ink": 2500
+  }
+}
