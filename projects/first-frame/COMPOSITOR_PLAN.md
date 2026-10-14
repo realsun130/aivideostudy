@@ -112,10 +112,30 @@ Bot D 仍负责「镜头表 → 时间线 → 成片」；本实验只保证 **�
 
 ## 8. 下一步（Step 2 预告，本提交不做）
 
-1. 给 `paw_lamp` / `phone_back` / `cavalier_ear_bow` 做简易 alpha 或矢量替身。
+1. 给 `paw_lamp` / `phone_back` / `cavalier_ear_bow` 做简易 alpha **或继续用 `code_assets/` 矢量/几何替身**（查理王已开这条）。
 2. 写 `compose_frame01.py`（或 Remotion `<Frame01>`）：读 manifest → 按 z 合成 → 导出。
 3. 用「只改 `photo_bowtie_black.visible`」做一次回归：diff 应只落在该 ROI。
 
 ---
 
 *Step 1 完成标志：`assets/manifest.json` 存在，且每个可改元素有路径 + bbox + source_version + editable_params。*
+
+
+## 9. 代码重绘路径（已起步 · Cavalier）
+
+在「底图 + 抠层」之外，另开一条 **纯代码重画** 实验（参考 huashu-art-motion：风格配方 → 参数绘制 → 确定性再渲）：
+
+| 项 | 位置 |
+|----|------|
+| 渲染器 | `projects/first-frame/code_assets/render_cavalier.py` |
+| 原语 / Bible 映射 | `code_assets/lib/sketch_draw.py`, `style_params.py` |
+| 说明 | `code_assets/README.md` |
+| 输出静帧 | `code_assets/out/cavalier_code_v1.png`（及可选 `_9x16`） |
+
+当前状态：
+
+- **已完成**：主体查理王（表情 / 手机背面 / 粉色右耳发卡 可 CLI 开关；同 seed 可复现）。
+- **未做**：缅因、猫爪灯、合影合成；尚未替换 `assets/layers/cavalier_subject_v9.jpg`。
+
+原则不变：配件与道具优先代码参数化；角色可逐步从「锁定模型帧」迁到「代码体」或混合叠层。
+
