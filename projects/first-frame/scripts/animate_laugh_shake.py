@@ -74,7 +74,7 @@ def main() -> None:
     neck = (float(jp["cavalier_neck"]["x"]), float(jp["cavalier_neck"]["y"]))
     ear_L0 = (float(jp["cavalier_ear_L0"]["x"]), float(jp["cavalier_ear_L0"]["y"]))
     ear_R0 = (float(jp["cavalier_ear_R0"]["x"]), float(jp["cavalier_ear_R0"]["y"]))
-    jaw_p = (float(jp["cavalier_jaw"]["x"]), float(jp["cavalier_jaw"]["y"]))
+    chin_p = (float(jp["cavalier_chin"]["x"]), float(jp["cavalier_chin"]["y"]))
 
     m_head = blur_m(load_mask("cavalier_head"), 1.5)
     m_mouth = blur_m(load_mask("cavalier_mouth"), 1.2)
@@ -92,13 +92,13 @@ def main() -> None:
         # Neck pivot drifts slightly for body feel
         ncx = neck[0] + 2.0 * math.sin(2 * math.pi * 3.5 * t)
         ncy = neck[1] + 4.0 * math.sin(2 * math.pi * 4.0 * t + 0.15)
-        jaw_ang = 2.0 * math.sin(2 * math.pi * 4.0 * t)
+        chin_ang = 2.0 * math.sin(2 * math.pi * 4.0 * t)
         wave = math.sin(2 * math.pi * 2.8 * t)
         ear_L_ang = 12.0 * wave + 4.0 * math.sin(2 * math.pi * 4.5 * t)
         ear_R_ang = -11.0 * wave + 3.5 * math.sin(2 * math.pi * 4.5 * t + 0.8)
 
         body_rgb, body_w = warp_rotate(paint, shake_ang, ncx, ncy, m_body)
-        mouth_rgb, mouth_w = warp_rotate(paint, shake_ang + jaw_ang, jaw_p[0], jaw_p[1], m_mouth)
+        mouth_rgb, mouth_w = warp_rotate(paint, shake_ang + chin_ang, chin_p[0], chin_p[1], m_mouth)
         earL_rgb, earL_w = warp_rotate(paint, shake_ang * 0.5 + ear_L_ang, ear_L0[0], ear_L0[1], m_ear_L)
         earR_rgb, earR_w = warp_rotate(paint, shake_ang * 0.5 + ear_R_ang, ear_R0[0], ear_R0[1], m_ear_R)
 

@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """Build Frame 01 part masks + skeleton for 3-beat animation.
 
-Cavalier focus (v2):
-- Vertical head chain (root→neck→head→crown)
-- Each ear = 3-segment chain along fur
-- Jaw + cheek joint
-- Arm: shoulder→elbow→paw_hold→phone
-- Ear masks: hand polygons ∩ rembg (hug fur, not oversized blobs)
-- Mouth mask around open jaw cavity
+Cavalier focus (v3 — user bone chains):
+- Mouth diamond: nose tip → mouth_L / mouth_R → chin lowest
+- Each ear = 3 joints: root → midpoint → lowest edge (L0–L2 / R0–R2)
+- Arm: chest(root) → shoulder → elbow → wrist → phone
+- Keep vertical head chain (root→neck→head→crown) for laugh pivot
+- Ear/mouth masks: hand polygons ∩ rembg (tight to fur)
 """
 from __future__ import annotations
 
@@ -62,23 +61,22 @@ PLACE = {
     "wall_photo": (250, 20),
 }
 
-# Hand-fitted polygons hugging ear fur / open jaw (screen coords)
+# Hand-fitted polygons hugging ear fur / open jaw (screen coords) — v3 tighter
 EAR_L_POLY = [
-    (228, 240), (215, 235), (200, 238), (185, 248), (168, 265), (152, 288),
-    (142, 312), (136, 338), (138, 362), (146, 385), (160, 402), (178, 410),
-    (198, 406), (212, 388), (220, 362), (225, 335), (230, 308), (234, 280),
-    (234, 258), (232, 245),
+    (238, 250), (225, 242), (210, 240), (192, 250), (172, 268), (155, 292),
+    (145, 318), (138, 345), (140, 370), (148, 390), (160, 405), (178, 412),
+    (195, 408), (210, 390), (220, 365), (228, 340), (234, 310), (238, 280),
+    (240, 258),
 ]
 EAR_R_POLY = [
-    (402, 245), (415, 238), (432, 242), (450, 255), (468, 275), (482, 298),
-    (493, 325), (500, 350), (503, 372), (500, 392), (488, 408), (468, 412),
-    (450, 400), (438, 378), (428, 352), (418, 325), (410, 298), (404, 272),
-    (400, 255),
+    (398, 250), (412, 242), (430, 248), (450, 262), (468, 285), (482, 310),
+    (492, 338), (498, 362), (500, 385), (492, 400), (475, 408), (455, 400),
+    (440, 380), (428, 355), (416, 328), (408, 300), (402, 275), (398, 258),
 ]
 MOUTH_POLY = [
-    (275, 348), (295, 335), (318, 328), (342, 332), (362, 348), (372, 370),
-    (370, 392), (358, 412), (338, 425), (312, 430), (288, 422), (272, 400),
-    (268, 375),
+    (288, 358), (305, 348), (318, 345), (332, 348), (348, 360), (358, 375),
+    (355, 395), (342, 415), (325, 430), (310, 434), (295, 422), (285, 400),
+    (282, 378),
 ]
 
 
@@ -197,10 +195,10 @@ def build_masks(edit: np.ndarray) -> dict[str, np.ndarray]:
     cavalier_head *= 1.0 - np.clip(ear_L * 1.1, 0, 1)
     cavalier_head *= 1.0 - np.clip(ear_R * 1.1, 0, 1)
     cavalier_head *= 1.0 - np.clip(mouth * 0.95, 0, 1)
-    cavalier_head *= 1.0 - soft_ellipse(418, 552, 95, 110, 0.1) * 0.95
+    cavalier_head *= 1.0 - soft_ellipse(450, 562, 95, 110, 0.1) * 0.95
     cavalier_head = np.clip(cavalier_head, 0, 1)
 
-    phone_m = np.clip(phone_h + soft_ellipse(418, 552, 55, 75, 0.08) * (cav_h > 0) * 0.3, 0, 1)
+    phone_m = np.clip(phone_h + soft_ellipse(450, 562, 55, 75, 0.08) * (cav_h > 0) * 0.3, 0, 1)
 
     maine_head_ell = soft_ellipse(790, 300, 195, 175, 0.2)
     maine_head = maine_h * maine_head_ell
@@ -293,32 +291,32 @@ def build_overlay(edit: Image.Image, label: np.ndarray) -> Image.Image:
 
 
 def skeleton_dict() -> dict:
-    """Rest pose matching reference overlay + arm chain."""
+    """Rest pose: user chains — mouth diamond, 3-joint ears, chest→phone arm."""
     joints = {
-        # Vertical head chain (screen midline of skull)
-        "cavalier_root": {"x": 338, "y": 505, "parent": None, "note": "chest under duvet"},
-        "cavalier_neck": {"x": 330, "y": 425, "parent": "cavalier_root", "note": "laugh-shake pivot / chin base"},
-        "cavalier_head": {"x": 325, "y": 310, "parent": "cavalier_neck", "note": "skull center"},
-        "cavalier_crown": {"x": 322, "y": 230, "parent": "cavalier_head", "note": "forehead top of vertical chain"},
-        # Ear L — 3 segments along fur (pink bow near L1)
-        "cavalier_ear_L0": {"x": 218, "y": 252, "parent": "cavalier_head", "note": "L ear base"},
-        "cavalier_ear_L1": {"x": 188, "y": 298, "parent": "cavalier_ear_L0", "note": "L mid / pink bow"},
-        "cavalier_ear_L2": {"x": 165, "y": 348, "parent": "cavalier_ear_L1", "note": "L lower"},
-        "cavalier_ear_L3": {"x": 155, "y": 400, "parent": "cavalier_ear_L2", "note": "L tip"},
-        # Ear R — 3 segments
-        "cavalier_ear_R0": {"x": 412, "y": 250, "parent": "cavalier_head", "note": "R ear base"},
-        "cavalier_ear_R1": {"x": 452, "y": 298, "parent": "cavalier_ear_R0", "note": "R mid"},
-        "cavalier_ear_R2": {"x": 482, "y": 348, "parent": "cavalier_ear_R1", "note": "R lower"},
-        "cavalier_ear_R3": {"x": 498, "y": 400, "parent": "cavalier_ear_R2", "note": "R tip"},
-        # Jaw + cheek
-        "cavalier_jaw": {"x": 318, "y": 385, "parent": "cavalier_head", "note": "open mouth / laugh"},
-        "cavalier_cheek": {"x": 248, "y": 335, "parent": "cavalier_neck", "note": "cheek hinge (viewer-left)"},
-        # Arm: shoulder → elbow → paw_hold → phone
-        "cavalier_shoulder": {"x": 352, "y": 468, "parent": "cavalier_root", "note": "shoulder toward phone"},
-        "cavalier_elbow": {"x": 382, "y": 512, "parent": "cavalier_shoulder", "note": "elbow bend"},
-        "cavalier_paw_hold": {"x": 402, "y": 542, "parent": "cavalier_elbow", "note": "paw grip on phone edge"},
-        "phone": {"x": 418, "y": 552, "parent": "cavalier_paw_hold", "note": "phone back center; orientation lock"},
-        # Maine (kept)
+        # Spine (laugh pivot) — kept, not redesigned
+        "cavalier_root": {"x": 340, "y": 500, "parent": None, "note": "chest (arm chain start + torso root)"},
+        "cavalier_neck": {"x": 325, "y": 448, "parent": "cavalier_root", "note": "laugh-shake pivot (throat under chin)"},
+        "cavalier_head": {"x": 325, "y": 298, "parent": "cavalier_neck", "note": "skull center"},
+        "cavalier_crown": {"x": 322, "y": 228, "parent": "cavalier_head", "note": "forehead top"},
+        # Mouth diamond: nose tip → two corners → chin lowest
+        "cavalier_nose": {"x": 318, "y": 345, "parent": "cavalier_head", "note": "nose tip"},
+        "cavalier_mouth_L": {"x": 288, "y": 370, "parent": "cavalier_nose", "note": "viewer-left mouth corner"},
+        "cavalier_mouth_R": {"x": 348, "y": 370, "parent": "cavalier_nose", "note": "viewer-right mouth corner"},
+        "cavalier_chin": {"x": 318, "y": 432, "parent": "cavalier_nose", "note": "chin lowest point / jaw"},
+        # Ear L — 3 joints: root → mid → lowest edge (pink bow near root)
+        "cavalier_ear_L0": {"x": 228, "y": 265, "parent": "cavalier_head", "note": "L ear root (pink bow)"},
+        "cavalier_ear_L1": {"x": 175, "y": 335, "parent": "cavalier_ear_L0", "note": "L ear midpoint"},
+        "cavalier_ear_L2": {"x": 155, "y": 405, "parent": "cavalier_ear_L1", "note": "L ear lowest edge"},
+        # Ear R — 3 joints
+        "cavalier_ear_R0": {"x": 405, "y": 258, "parent": "cavalier_head", "note": "R ear root"},
+        "cavalier_ear_R1": {"x": 462, "y": 332, "parent": "cavalier_ear_R0", "note": "R ear midpoint"},
+        "cavalier_ear_R2": {"x": 498, "y": 400, "parent": "cavalier_ear_R1", "note": "R ear lowest edge"},
+        # Arm: chest → shoulder → elbow → wrist → phone
+        "cavalier_shoulder": {"x": 358, "y": 470, "parent": "cavalier_root", "note": "shoulder toward phone"},
+        "cavalier_elbow": {"x": 392, "y": 522, "parent": "cavalier_shoulder", "note": "elbow bend"},
+        "cavalier_wrist": {"x": 422, "y": 552, "parent": "cavalier_elbow", "note": "wrist / paw grip"},
+        "phone": {"x": 450, "y": 562, "parent": "cavalier_wrist", "note": "phone back center; orientation lock"},
+        # Maine (unchanged)
         "maine_root": {"x": 790, "y": 500, "parent": None, "note": "chest / ruff under duvet"},
         "maine_neck": {"x": 790, "y": 410, "parent": "maine_root", "note": "head-turn pivot"},
         "maine_head": {"x": 790, "y": 300, "parent": "maine_neck", "note": "skull center"},
@@ -330,20 +328,24 @@ def skeleton_dict() -> dict:
         ["cavalier_root", "cavalier_neck"],
         ["cavalier_neck", "cavalier_head"],
         ["cavalier_head", "cavalier_crown"],
+        # mouth diamond
+        ["cavalier_head", "cavalier_nose"],
+        ["cavalier_nose", "cavalier_mouth_L"],
+        ["cavalier_nose", "cavalier_mouth_R"],
+        ["cavalier_mouth_L", "cavalier_chin"],
+        ["cavalier_mouth_R", "cavalier_chin"],
+        # ears 3-joint
         ["cavalier_head", "cavalier_ear_L0"],
         ["cavalier_ear_L0", "cavalier_ear_L1"],
         ["cavalier_ear_L1", "cavalier_ear_L2"],
-        ["cavalier_ear_L2", "cavalier_ear_L3"],
         ["cavalier_head", "cavalier_ear_R0"],
         ["cavalier_ear_R0", "cavalier_ear_R1"],
         ["cavalier_ear_R1", "cavalier_ear_R2"],
-        ["cavalier_ear_R2", "cavalier_ear_R3"],
-        ["cavalier_head", "cavalier_jaw"],
-        ["cavalier_neck", "cavalier_cheek"],
+        # arm
         ["cavalier_root", "cavalier_shoulder"],
         ["cavalier_shoulder", "cavalier_elbow"],
-        ["cavalier_elbow", "cavalier_paw_hold"],
-        ["cavalier_paw_hold", "phone"],
+        ["cavalier_elbow", "cavalier_wrist"],
+        ["cavalier_wrist", "phone"],
         ["maine_root", "maine_neck"],
         ["maine_neck", "maine_head"],
         ["maine_head", "maine_eyes"],
@@ -353,44 +355,44 @@ def skeleton_dict() -> dict:
         "source": "projects/first-frame/frame_01_s01_hero_v8_acc_edit.jpg",
         "canvas": {"width": W, "height": H},
         "coord_space": "source_px",
-        "ear_convention": "L/R = screen left/right; cavalier_ear_L* has pink bow; each ear is 3-segment chain L0→L3 / R0→R3",
+        "ear_convention": "L/R = screen left/right; cavalier_ear_L* has pink bow; each ear = 3 joints root→mid→lowest (L0–L2 / R0–R2)",
         "rest_pose": joints,
         "bones": bones,
         "bone_colors": {
             "head_chain": ["cavalier_root", "cavalier_neck", "cavalier_head", "cavalier_crown"],
-            "ear_L": ["cavalier_ear_L0", "cavalier_ear_L1", "cavalier_ear_L2", "cavalier_ear_L3"],
-            "ear_R": ["cavalier_ear_R0", "cavalier_ear_R1", "cavalier_ear_R2", "cavalier_ear_R3"],
-            "jaw_cheek": ["cavalier_jaw", "cavalier_cheek"],
-            "arm": ["cavalier_shoulder", "cavalier_elbow", "cavalier_paw_hold", "phone"],
+            "mouth": ["cavalier_nose", "cavalier_mouth_L", "cavalier_mouth_R", "cavalier_chin"],
+            "ear_L": ["cavalier_ear_L0", "cavalier_ear_L1", "cavalier_ear_L2"],
+            "ear_R": ["cavalier_ear_R0", "cavalier_ear_R1", "cavalier_ear_R2"],
+            "arm": ["cavalier_root", "cavalier_shoulder", "cavalier_elbow", "cavalier_wrist", "phone"],
         },
         "drivers": {
             "beat1_laugh_shake": [
                 "cavalier_neck",
                 "cavalier_head",
                 "cavalier_crown",
-                "cavalier_jaw",
-                "cavalier_cheek",
+                "cavalier_nose",
+                "cavalier_mouth_L",
+                "cavalier_mouth_R",
+                "cavalier_chin",
                 "cavalier_ear_L0",
                 "cavalier_ear_L1",
                 "cavalier_ear_L2",
-                "cavalier_ear_L3",
                 "cavalier_ear_R0",
                 "cavalier_ear_R1",
                 "cavalier_ear_R2",
-                "cavalier_ear_R3",
             ],
             "beat2_push_phone": [
+                "cavalier_root",
                 "cavalier_shoulder",
                 "cavalier_elbow",
-                "cavalier_paw_hold",
+                "cavalier_wrist",
                 "phone",
-                "cavalier_root",
             ],
             "beat3_maine_lookaway": ["maine_neck", "maine_head", "maine_eyes"],
         },
         "stroke_coord_scale": 2,
         "stroke_coord_note": "acc_strokes.npz pts are in 2560x1440 (sbr S=2); divide by 2 for source px",
-        "quality": "v2: hand polygons∩rembg for ears/mouth; 3-seg ears; arm chain; ±8–15px expected",
+        "quality": "v3: mouth diamond nose→corners→chin; 3-joint ears; chest→shoulder→elbow→wrist→phone; tight poly∩rembg",
     }
 
 
@@ -403,15 +405,15 @@ def draw_skeleton_overlay(edit: Image.Image, skel: dict) -> Image.Image:
     ear_joints = set(skel["bone_colors"]["ear_L"] + skel["bone_colors"]["ear_R"])
     head_set = set(skel["bone_colors"]["head_chain"])
     arm_set = set(skel["bone_colors"]["arm"])
-    jaw_set = set(skel["bone_colors"]["jaw_cheek"])
+    mouth_set = set(skel["bone_colors"]["mouth"])
 
     def bone_color(a: str, b: str):
         if a in ear_joints or b in ear_joints:
             return (255, 220, 40, 220)  # yellow ear chains
         if a in arm_set and b in arm_set:
             return (80, 180, 255, 220)  # blue arm
-        if a in jaw_set or b in jaw_set:
-            return (255, 60, 180, 220)  # magenta jaw/cheek
+        if a in mouth_set or b in mouth_set:
+            return (255, 60, 180, 220)  # magenta mouth diamond
         if a in head_set and b in head_set:
             return (40, 255, 120, 220)  # green vertical head
         return (0, 255, 180, 200)
@@ -423,9 +425,12 @@ def draw_skeleton_overlay(edit: Image.Image, skel: dict) -> Image.Image:
 
     for name, j in joints.items():
         x, y = j["x"], j["y"]
-        if name == "cavalier_cheek":
-            fill = (255, 40, 40, 240)  # red cheek node like reference
+        if name in ("cavalier_nose", "cavalier_chin"):
+            fill = (255, 40, 120, 240)
             r = 8
+        elif name in ("cavalier_mouth_L", "cavalier_mouth_R"):
+            fill = (255, 80, 40, 240)
+            r = 7
         elif name == "phone":
             fill = (255, 255, 255, 240)
             r = 8
@@ -441,6 +446,7 @@ def draw_skeleton_overlay(edit: Image.Image, skel: dict) -> Image.Image:
             .replace("maine_", "m_")
             .replace("ear_L", "eL")
             .replace("ear_R", "eR")
+            .replace("mouth_", "m")
         )
         d.text((x + 9, y - 7), label, fill=(255, 255, 220, 255))
     return Image.alpha_composite(im, layer).convert("RGB")
@@ -468,12 +474,12 @@ def tag_strokes(label: np.ndarray) -> None:
 
 
 def write_anim_rig_md(counts: dict | None) -> None:
-    md = """# Frame 01 · 动画绑定说明（切分 + 骨架）v2
+    md = """# Frame 01 · 动画绑定说明（切分 + 骨架）v3
 
 > 源帧：`frame_01_s01_hero_v8_acc_edit.jpg`  
 > 笔触：`stroke_paint/out/acc_strokes.npz`（约 49 万笔）  
 > 产出目录：`projects/first-frame/rig/`  
-> 参考叠图：用户提供的查理王耳链 / 头链 / 颊关节示意
+> 参考：用户点名 — 鼻尖→两嘴角→下巴；耳根→中→最下缘；胸口→肩→肘→腕→手机
 
 ---
 
@@ -481,8 +487,8 @@ def write_anim_rig_md(counts: dict | None) -> None:
 
 | 拍 | 内容 | 主要驱动关节 / 部件 |
 |----|------|---------------------|
-| **Beat 1** | 查理王大笑抖动 + 耳自然甩动 | `cavalier_neck/head/crown/jaw/cheek` + `ear_L0–L3` / `ear_R0–R3` |
-| **Beat 2** | 手机凑近给缅因 | `shoulder→elbow→paw_hold→phone` |
+| **Beat 1** | 查理王大笑抖动 + 耳自然甩动 | `neck/head/crown` + mouth diamond `nose/mouth_L/R/chin` + `ear_L0–L2` / `ear_R0–R2` |
+| **Beat 2** | 手机凑近给缅因 | `chest(root)→shoulder→elbow→wrist→phone` |
 | **Beat 3** | 缅因无语转头 | `maine_neck` + `maine_eyes` |
 
 静帧：`paw_lamp`、`wall_photo`、`bed`、`bg`。
@@ -516,12 +522,12 @@ def write_anim_rig_md(counts: dict | None) -> None:
 
 坐标系：源图像素，**1280×720**，原点左上。
 
-### 查理王
-- **头链（绿）**：`root → neck → head → crown`（竖直穿过颅中线）
-- **左耳三节（黄）**：`ear_L0 → L1 → L2 → L3`（沿耳毛；L1 近粉发卡）
-- **右耳三节（黄）**：`ear_R0 → R1 → R2 → R3`
-- **颌/颊**：`jaw`（张嘴）+ `cheek`（红点，viewer-left 颊铰）
-- **手臂（蓝）**：`shoulder → elbow → paw_hold → phone`
+### 查理王（用户点名三链）
+- **嘴菱形（品红）**：`nose → mouth_L / mouth_R → chin`（鼻尖→两嘴角→下巴最低点）
+- **左耳三关节（黄）**：`ear_L0 → L1 → L2`（根→中→最下缘；L0 近粉发卡）
+- **右耳三关节（黄）**：`ear_R0 → R1 → R2`
+- **手臂（蓝）**：`root(chest) → shoulder → elbow → wrist → phone`
+- **头链（绿，保留）**：`root → neck → head → crown`（大笑枢轴）
 
 ### 缅因
 `maine_root → neck → head → eyes`
@@ -535,8 +541,8 @@ def write_anim_rig_md(counts: dict | None) -> None:
 
 ### Beat 1 · 大笑抖动
 1. `cavalier_neck` 枢轴，头链小幅旋转/位移（spring）
-2. `jaw` / `cheek` 微张合
-3. 双耳链分段延迟上下甩（secondary）
+2. mouth diamond：`chin` / 嘴角微张合
+3. 双耳三关节分段延迟上下甩（secondary）
 4. 笔触：变换 head / ear_* / mouth
 
 ### Beat 2 · 手机凑近

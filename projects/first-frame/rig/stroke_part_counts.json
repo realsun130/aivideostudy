@@ -1,14 +1,14 @@
 {
-  "bg": 99583,
-  "bed": 157784,
+  "bg": 96636,
+  "bed": 155836,
   "wall_photo": 27817,
   "paw_lamp": 26147,
   "maine_head": 98011,
   "maine_eyes": 14373,
-  "cavalier_head": 41171,
-  "cavalier_ear_L": 2863,
-  "cavalier_ear_R": 12706,
-  "cavalier_mouth": 6120,
+  "cavalier_head": 48780,
+  "cavalier_ear_L": 3213,
+  "cavalier_ear_R": 12001,
+  "cavalier_mouth": 3760,
   "phone": 4902,
-  "unlabeled": 11
+  "unlabeled": 12
 }

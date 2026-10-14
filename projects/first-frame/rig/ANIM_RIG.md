@@ -1,9 +1,9 @@
-# Frame 01 · 动画绑定说明（切分 + 骨架）v2
+# Frame 01 · 动画绑定说明（切分 + 骨架）v3
 
 > 源帧：`frame_01_s01_hero_v8_acc_edit.jpg`  
 > 笔触：`stroke_paint/out/acc_strokes.npz`（约 49 万笔）  
 > 产出目录：`projects/first-frame/rig/`  
-> 参考叠图：用户提供的查理王耳链 / 头链 / 颊关节示意
+> 参考：用户点名 — 鼻尖→两嘴角→下巴；耳根→中→最下缘；胸口→肩→肘→腕→手机
 
 ---
 
@@ -11,8 +11,8 @@
 
 | 拍 | 内容 | 主要驱动关节 / 部件 |
 |----|------|---------------------|
-| **Beat 1** | 查理王大笑抖动 + 耳自然甩动 | `cavalier_neck/head/crown/jaw/cheek` + `ear_L0–L3` / `ear_R0–R3` |
-| **Beat 2** | 手机凑近给缅因 | `shoulder→elbow→paw_hold→phone` |
+| **Beat 1** | 查理王大笑抖动 + 耳自然甩动 | `neck/head/crown` + mouth diamond `nose/mouth_L/R/chin` + `ear_L0–L2` / `ear_R0–R2` |
+| **Beat 2** | 手机凑近给缅因 | `chest(root)→shoulder→elbow→wrist→phone` |
 | **Beat 3** | 缅因无语转头 | `maine_neck` + `maine_eyes` |
 
 静帧：`paw_lamp`、`wall_photo`、`bed`、`bg`。
@@ -46,12 +46,12 @@
 
 坐标系：源图像素，**1280×720**，原点左上。
 
-### 查理王
-- **头链（绿）**：`root → neck → head → crown`（竖直穿过颅中线）
-- **左耳三节（黄）**：`ear_L0 → L1 → L2 → L3`（沿耳毛；L1 近粉发卡）
-- **右耳三节（黄）**：`ear_R0 → R1 → R2 → R3`
-- **颌/颊**：`jaw`（张嘴）+ `cheek`（红点，viewer-left 颊铰）
-- **手臂（蓝）**：`shoulder → elbow → paw_hold → phone`
+### 查理王（用户点名三链）
+- **嘴菱形（品红）**：`nose → mouth_L / mouth_R → chin`（鼻尖→两嘴角→下巴最低点）
+- **左耳三关节（黄）**：`ear_L0 → L1 → L2`（根→中→最下缘；L0 近粉发卡）
+- **右耳三关节（黄）**：`ear_R0 → R1 → R2`
+- **手臂（蓝）**：`root(chest) → shoulder → elbow → wrist → phone`
+- **头链（绿，保留）**：`root → neck → head → crown`（大笑枢轴）
 
 ### 缅因
 `maine_root → neck → head → eyes`
@@ -65,8 +65,8 @@
 
 ### Beat 1 · 大笑抖动
 1. `cavalier_neck` 枢轴，头链小幅旋转/位移（spring）
-2. `jaw` / `cheek` 微张合
-3. 双耳链分段延迟上下甩（secondary）
+2. mouth diamond：`chin` / 嘴角微张合
+3. 双耳三关节分段延迟上下甩（secondary）
 4. 笔触：变换 head / ear_* / mouth
 
 ### Beat 2 · 手机凑近
@@ -94,18 +94,18 @@
 
 | 部件 | 笔数 |
 |------|------|
-| `bg` | 99583 |
-| `bed` | 157784 |
+| `bg` | 96636 |
+| `bed` | 155836 |
 | `wall_photo` | 27817 |
 | `paw_lamp` | 26147 |
 | `maine_head` | 98011 |
 | `maine_eyes` | 14373 |
-| `cavalier_head` | 41171 |
-| `cavalier_ear_L` | 2863 |
-| `cavalier_ear_R` | 12706 |
-| `cavalier_mouth` | 6120 |
+| `cavalier_head` | 48780 |
+| `cavalier_ear_L` | 3213 |
+| `cavalier_ear_R` | 12001 |
+| `cavalier_mouth` | 3760 |
 | `phone` | 4902 |
-| `unlabeled` | 11 |
+| `unlabeled` | 12 |
 
 ---
 
