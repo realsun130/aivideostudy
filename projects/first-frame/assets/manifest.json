@@ -1,0 +1,281 @@
+{
+  "project": "first-frame",
+  "frame_id": "s01_hero",
+  "experiment": "code_layer_v1",
+  "canvas": {
+    "width": 1280,
+    "height": 720,
+    "aspect_note": "Source renders are 1280x720 (16:9). Prompt asked 9:16; compositor may letterbox/crop later."
+  },
+  "sources": {
+    "v8": {
+      "path": "projects/first-frame/frame_01_s01_hero_v8.jpg",
+      "agent_asset": "6ed9c7f1359927ce789bcec592ae67b16b40f8586615eb1ffb351813e52a98c1.jpg",
+      "used_for": [
+        "live_maine_coon"
+      ]
+    },
+    "v9": {
+      "path": "projects/first-frame/frame_01_s01_hero_v9.jpg",
+      "agent_asset": "fbd82c3ad8d781ee6b5a3d093379b389b4c73c5b545447ea6067ad4c25f50f22.jpg",
+      "used_for": [
+        "base_plate",
+        "wall_photo",
+        "photo_ear_bow_pink",
+        "photo_bowtie_black",
+        "cavalier_subject",
+        "cavalier_ear_bow",
+        "phone_back",
+        "paw_lamp"
+      ]
+    },
+    "canonical_locked_hero": {
+      "path": "projects/first-frame/frame_01_s01_hero.jpg",
+      "note": "v10 pixel-edit result; NOT used as extraction source for this experiment (per user correction)."
+    }
+  },
+  "edit_lock_rule": "Change only named editable_params / named assets. All unnamed pixels stay from base_plate.",
+  "phone_convention": "玩手机 = face visible + phone BACK toward camera; camera bump toward headboard (top).",
+  "assets": [
+    {
+      "id": "base_plate",
+      "path": "assets/base/base_plate_v9.jpg",
+      "source_version": "v9",
+      "source_file": "projects/first-frame/frame_01_s01_hero_v9.jpg",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 720,
+        "coord_space": "source_px",
+        "source_size": [
+          1280,
+          720
+        ]
+      },
+      "z_order": 0,
+      "status": "rough_crop",
+      "has_alpha_mask": false,
+      "notes": "Full v9 frame as locked base plate. Characters+props baked in; overlays edit on top.",
+      "editable_params": [
+        "opacity"
+      ]
+    },
+    {
+      "id": "wall_photo",
+      "path": "assets/layers/wall_photo.jpg",
+      "source_version": "v9",
+      "source_file": "projects/first-frame/frame_01_s01_hero_v9.jpg",
+      "bbox": {
+        "x": 250,
+        "y": 20,
+        "w": 450,
+        "h": 200,
+        "coord_space": "source_px",
+        "source_size": [
+          1280,
+          720
+        ]
+      },
+      "z_order": 1,
+      "status": "rough_crop",
+      "has_alpha_mask": false,
+      "notes": "Rough crop of framed wall wedding-style photo (Cavalier+Maine). Includes frame + bit of surrounding wall. Not matted.",
+      "editable_params": [
+        "visible",
+        "offset_xy",
+        "scale"
+      ]
+    },
+    {
+      "id": "photo_bowtie_black",
+      "path": "assets/layers/photo_bowtie_black.jpg",
+      "source_version": "v9",
+      "source_file": "projects/first-frame/frame_01_s01_hero_v9.jpg",
+      "bbox": {
+        "x": 470,
+        "y": 125,
+        "w": 70,
+        "h": 55,
+        "coord_space": "source_px",
+        "source_size": [
+          1280,
+          720
+        ]
+      },
+      "z_order": 2,
+      "status": "rough_crop",
+      "has_alpha_mask": false,
+      "notes": "Rough ROI for wall-photo Maine chest/neck slot. v9 may not clearly show a black bowtie (that was a v10 pixel add). Crop is the edit target region — do not invent pixels; future code may draw a parametric black bowtie here.",
+      "editable_params": [
+        "visible",
+        "offset_xy",
+        "scale",
+        "color"
+      ]
+    },
+    {
+      "id": "photo_ear_bow_pink",
+      "path": "assets/layers/photo_ear_bow_pink.jpg",
+      "source_version": "v9",
+      "source_file": "projects/first-frame/frame_01_s01_hero_v9.jpg",
+      "bbox": {
+        "x": 340,
+        "y": 70,
+        "w": 50,
+        "h": 45,
+        "coord_space": "source_px",
+        "source_size": [
+          1280,
+          720
+        ]
+      },
+      "z_order": 2,
+      "status": "rough_crop",
+      "has_alpha_mask": false,
+      "notes": "Rough ROI for pink ear clip on Cavalier inside wall photo. May include nearby fur.",
+      "editable_params": [
+        "visible",
+        "offset_xy",
+        "scale",
+        "tint"
+      ]
+    },
+    {
+      "id": "live_maine_coon",
+      "path": "assets/layers/live_maine_coon_v8.jpg",
+      "source_version": "v8",
+      "source_file": "projects/first-frame/frame_01_s01_hero_v8.jpg",
+      "bbox": {
+        "x": 560,
+        "y": 200,
+        "w": 420,
+        "h": 460,
+        "coord_space": "source_px",
+        "source_size": [
+          1280,
+          720
+        ]
+      },
+      "z_order": 3,
+      "status": "rough_crop",
+      "has_alpha_mask": false,
+      "notes": "LIVE bed-subject Maine Coon extracted from v8 (user lock: use v8 Maine, not v9/v10). Rough rectangular crop incl. pillow/bedding bleed; not masked.",
+      "editable_params": [
+        "visible",
+        "offset_xy",
+        "scale",
+        "expression_lock"
+      ]
+    },
+    {
+      "id": "cavalier_subject",
+      "path": "assets/layers/cavalier_subject_v9.jpg",
+      "source_version": "v9",
+      "source_file": "projects/first-frame/frame_01_s01_hero_v9.jpg",
+      "bbox": {
+        "x": 80,
+        "y": 200,
+        "w": 480,
+        "h": 500,
+        "coord_space": "source_px",
+        "source_size": [
+          1280,
+          720
+        ]
+      },
+      "z_order": 4,
+      "status": "rough_crop",
+      "has_alpha_mask": false,
+      "notes": "Rough crop of live Cavalier (laughing) from v9, includes phone grip area bleed. Not masked.",
+      "editable_params": [
+        "visible",
+        "offset_xy",
+        "scale"
+      ]
+    },
+    {
+      "id": "cavalier_ear_bow",
+      "path": "assets/layers/cavalier_ear_bow.jpg",
+      "source_version": "v9",
+      "source_file": "projects/first-frame/frame_01_s01_hero_v9.jpg",
+      "bbox": {
+        "x": 250,
+        "y": 270,
+        "w": 120,
+        "h": 110,
+        "coord_space": "source_px",
+        "source_size": [
+          1280,
+          720
+        ]
+      },
+      "z_order": 5,
+      "status": "rough_crop",
+      "has_alpha_mask": false,
+      "notes": "Rough crop of pink bow hair-clip on live Cavalier right-ear root (viewer left). Includes ear fur; not cutout.",
+      "editable_params": [
+        "visible",
+        "offset_xy",
+        "scale",
+        "tint"
+      ]
+    },
+    {
+      "id": "paw_lamp",
+      "path": "assets/layers/paw_lamp.jpg",
+      "source_version": "v9",
+      "source_file": "projects/first-frame/frame_01_s01_hero_v9.jpg",
+      "bbox": {
+        "x": 1030,
+        "y": 230,
+        "w": 210,
+        "h": 240,
+        "coord_space": "source_px",
+        "source_size": [
+          1280,
+          720
+        ]
+      },
+      "z_order": 5,
+      "status": "rough_crop",
+      "has_alpha_mask": false,
+      "notes": "Rough crop of cat-paw night lamp on nightstand (primary practical light). Includes glow halo + table corner bleed.",
+      "editable_params": [
+        "visible",
+        "offset_xy",
+        "scale",
+        "glow_intensity",
+        "color_temp"
+      ]
+    },
+    {
+      "id": "phone_back",
+      "path": "assets/layers/phone_back.jpg",
+      "source_version": "v9",
+      "source_file": "projects/first-frame/frame_01_s01_hero_v9.jpg",
+      "bbox": {
+        "x": 360,
+        "y": 440,
+        "w": 160,
+        "h": 220,
+        "coord_space": "source_px",
+        "source_size": [
+          1280,
+          720
+        ]
+      },
+      "z_order": 6,
+      "status": "rough_crop",
+      "has_alpha_mask": false,
+      "notes": "Rough crop of smartphone held by Cavalier. Convention: back faces camera, camera bump toward headboard (top). Includes paw bleed.",
+      "editable_params": [
+        "visible",
+        "offset_xy",
+        "rotation_deg",
+        "orientation_lock",
+        "scale"
+      ]
+    }
+  ]
+}
