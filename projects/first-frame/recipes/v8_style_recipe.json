@@ -1,0 +1,347 @@
+{
+  "recipe_id": "frame01_s01_hero_v8",
+  "version": "2026-10-14.1",
+  "title": "Frame01 Hero V8 · Dark Bedroom Paw-Lamp MCU",
+  "source_frame": {
+    "path": "projects/first-frame/frame_01_s01_hero_v8.jpg",
+    "agent_asset": "6ed9c7f1359927ce789bcec592ae67b16b40f8586615eb1ffb351813e52a98c1.jpg",
+    "width": 1280,
+    "height": 720,
+    "aspect": "16:9",
+    "framing": "MCU",
+    "role": "locked_hero_plate_for_vision_recipe"
+  },
+  "method": {
+    "pipeline": "generate_lock → vision_breakdown → style_recipe → code_composite",
+    "inspired_by": [
+      "https://github.com/alchaincyf/huashu-art-motion",
+      "user_flow: vision_agent_recipe_card"
+    ],
+    "forbidden": [
+      "whole_frame_regen_for_prop_edits",
+      "freehand_ellipse_redraw_of_locked_characters",
+      "inventing_pixels_with_image_model_inside_rois"
+    ],
+    "preferred": [
+      "keep_v8_v9_locked_character_pixels",
+      "parametric_overlay_for_props_accessories_light",
+      "edit_lock_named_params_only"
+    ]
+  },
+  "style_bible_ref": {
+    "path": "styles/rough-animation-pet-sketch-storyboard-style/style_bible.json",
+    "project_id": "rough-animation-pet-sketch-storyboard",
+    "bible_version": "2026-10-13.2",
+    "mapped_fields": [
+      "palette",
+      "line",
+      "texture",
+      "composition.layer_order",
+      "prompt_blocks.character_lock",
+      "negative_constraints",
+      "likeness_rules"
+    ]
+  },
+  "breakdown_ref": "projects/first-frame/recipes/v8_breakdown.md",
+  "palette": {
+    "note": "Sampled from V8 + Style Bible anchors. Scene is darker than Bible default paper.",
+    "from_bible": {
+      "warm_beige_paper": "#E8DCC8",
+      "cream": "#F5EDE0",
+      "red_brown_pencil": "#8B4513",
+      "dark_burgundy_ink": "#4A1525",
+      "nearly_black_brown": "#2B1A14",
+      "peach_blush": "#E8B4A8"
+    },
+    "from_v8_sample": {
+      "void_wall": "#080605",
+      "pillow_dark": "#130B0A",
+      "duvet_mid": "#4B352A",
+      "cavalier_fur_mid": "#6E4B37",
+      "maine_fur_mid": "#48342B",
+      "paw_lamp_glow": "#D09654",
+      "wall_wash_near_lamp": "#A26F3C",
+      "phone_body_shadow": "#49362D",
+      "highlight_warmest": "#EAD0C1",
+      "true_black": "#000000"
+    },
+    "accents_scene": {
+      "ear_bow_pink": "#E8A0B0",
+      "photo_bowtie_black": "#1A1210",
+      "phone_back_metal": "#2A2420"
+    },
+    "forbidden_hex_echo": ["#00FFCC", "#FF69B4"]
+  },
+  "line_rules": {
+    "weight": "variable",
+    "style": "sketchy",
+    "construction_color": "#8B4513",
+    "contour_color": "#4A1525",
+    "notes": "Preserve red-brown construction + multi-pass burgundy contours from locked plate. Overlays should use same line language (jittered strokes), not clean vector outlines.",
+    "bible_ref": "line"
+  },
+  "texture_wash": {
+    "paper_grain": "medium",
+    "watercolor_alpha_range": [0.35, 0.72],
+    "crosshatch_in_shadows": true,
+    "particle_params": {
+      "dust_motes_near_lamp": {
+        "enabled": false,
+        "count": 24,
+        "size_px": [1, 3],
+        "color": "#EAD0C1",
+        "alpha": 0.15,
+        "drift": "slow_up"
+      },
+      "sketch_crumbs_ticks": {
+        "enabled": true,
+        "density": "sparse",
+        "color": "#2B1A14",
+        "alpha": 0.25
+      }
+    },
+    "bible_ref": "texture"
+  },
+  "lighting": {
+    "mood_override": "dark_interior_practical_key",
+    "bible_default_mood": "soft_diffused",
+    "key": {
+      "id": "paw_lamp",
+      "type": "practical_silhouette_glow",
+      "color": "#D09654",
+      "falloff": "radial",
+      "origin_norm": [0.88, 0.42],
+      "covers": ["maine_right_flank", "nightstand", "right_wall", "duvet_right"],
+      "intensity_default": 1.0,
+      "intensity_anim_range": [0.85, 1.12]
+    },
+    "fill": {
+      "id": "phone_spill",
+      "type": "weak_cool_rim",
+      "strength": 0.25,
+      "note": "Secondary only; must not overpower paw lamp."
+    },
+    "ambient": {
+      "level": 0.08,
+      "color": "#080605"
+    },
+    "rules": [
+      "No cinematic hard key from offscreen left",
+      "No neon/cold overall grade",
+      "Readability comes primarily from paw_lamp coverage"
+    ]
+  },
+  "layers": [
+    {
+      "id": "paper_bg_wash",
+      "z": 0,
+      "source": "locked_plate",
+      "motion_rule": "static"
+    },
+    {
+      "id": "wall_photo",
+      "z": 1,
+      "source": "locked_plate_or_roi",
+      "motion_rule": "static",
+      "children_editable": ["photo_ear_bow_pink", "photo_bowtie_black"]
+    },
+    {
+      "id": "room_props",
+      "z": 2,
+      "source": "locked_plate",
+      "motion_rule": "static"
+    },
+    {
+      "id": "live_maine_coon",
+      "z": 3,
+      "source": "v8_locked_character",
+      "motion_rule": "micro_expression_only",
+      "do_not": "ellipse_redraw"
+    },
+    {
+      "id": "cavalier_subject",
+      "z": 4,
+      "source": "locked_character_plate",
+      "motion_rule": "jaw_and_ear_secondary",
+      "do_not": "ellipse_redraw"
+    },
+    {
+      "id": "cavalier_ear_bow",
+      "z": 5,
+      "source": "code_overlay_or_masked_roi",
+      "motion_rule": "parent_to_ear_anchor"
+    },
+    {
+      "id": "paw_lamp",
+      "z": 5,
+      "source": "code_overlay_preferred",
+      "motion_rule": "glow_pulse"
+    },
+    {
+      "id": "phone_back",
+      "z": 6,
+      "source": "code_overlay_preferred",
+      "motion_rule": "grip_jitter_orientation_locked"
+    },
+    {
+      "id": "foreground_sketch_ticks",
+      "z": 7,
+      "source": "optional_particles",
+      "motion_rule": "sparse_drift"
+    }
+  ],
+  "layer_motion_rules": {
+    "static": {
+      "translate": [0, 0],
+      "opacity": 1.0
+    },
+    "glow_pulse": {
+      "param": "paw_lamp_intensity",
+      "waveform": "sine",
+      "period_s": 2.4,
+      "amplitude": 0.12
+    },
+    "grip_jitter_orientation_locked": {
+      "rotation_deg_range": [-2.5, 2.5],
+      "orientation_lock": "phone_back_toward_camera",
+      "camera_bump_toward": "headboard_top"
+    },
+    "parent_to_ear_anchor": {
+      "anchor_id": "cavalier_right_ear_root",
+      "follow": ["translate", "rotate_small"]
+    },
+    "micro_expression_only": {
+      "allowed": ["blink", "eye_dart"],
+      "forbidden": ["costume_props_appear"]
+    },
+    "jaw_and_ear_secondary": {
+      "allowed": ["jaw_open_pulse", "ear_flap"],
+      "keep_phone_grip": true
+    },
+    "sparse_drift": {
+      "speed_px_s": 4,
+      "opacity": 0.2
+    }
+  },
+  "physics_attractors": [
+    {
+      "id": "lamp_warmth_attractor",
+      "type": "radial_light_pull",
+      "origin_norm": [0.88, 0.42],
+      "affects": ["dust_motes_near_lamp", "warm_grade_strength"],
+      "strength": 0.6,
+      "note": "Optional; particles drift slightly toward lamp glow."
+    },
+    {
+      "id": "phone_grip_anchor",
+      "type": "hard_constraint",
+      "parent": "cavalier_paws",
+      "child": "phone_back",
+      "strength": 1.0
+    },
+    {
+      "id": "ear_bow_anchor",
+      "type": "hard_constraint",
+      "parent": "cavalier_right_ear_root",
+      "child": "cavalier_ear_bow",
+      "strength": 1.0
+    }
+  ],
+  "editable_params": {
+    "ear_bow": {
+      "targets": ["cavalier_ear_bow", "photo_ear_bow_pink"],
+      "type": "object",
+      "fields": {
+        "visible": {"type": "bool", "default": true},
+        "scale": {"type": "float", "default": 1.0, "range": [0.7, 1.3]},
+        "tint": {"type": "hex", "default": "#E8A0B0"},
+        "offset_xy": {"type": "vec2_px", "default": [0, 0]}
+      },
+      "edit_lock": "Changing ear_bow must not alter maine chest or lamp."
+    },
+    "photo_bowtie": {
+      "targets": ["photo_bowtie_black"],
+      "type": "object",
+      "fields": {
+        "visible": {"type": "bool", "default": true},
+        "color": {"type": "hex", "default": "#1A1210"},
+        "scale": {"type": "float", "default": 1.0, "range": [0.6, 1.4]},
+        "offset_xy": {"type": "vec2_px", "default": [0, 0]}
+      },
+      "notes": "Wall-photo Maine chest black bowtie slot. Draw parametrically in ROI; do not image-model inpaint."
+    },
+    "live_maine_chest_bowtie": {
+      "targets": ["live_maine_coon"],
+      "type": "object",
+      "fields": {
+        "visible": {"type": "bool", "default": false},
+        "note": "User intent: bed Maine should NOT wear chest bowtie; default off."
+      }
+    },
+    "phone_back": {
+      "targets": ["phone_back"],
+      "type": "object",
+      "fields": {
+        "visible": {"type": "bool", "default": true},
+        "orientation_lock": {
+          "type": "enum",
+          "default": "back_toward_camera",
+          "allowed": ["back_toward_camera"]
+        },
+        "camera_bump_toward": {
+          "type": "enum",
+          "default": "headboard_top",
+          "allowed": ["headboard_top"]
+        },
+        "rotation_deg": {"type": "float", "default": 0, "range": [-8, 8]},
+        "scale": {"type": "float", "default": 1.0, "range": [0.85, 1.15]}
+      },
+      "convention": "玩手机 = face visible + phone BACK toward camera"
+    },
+    "paw_lamp_intensity": {
+      "targets": ["paw_lamp", "lamp_glow"],
+      "type": "float",
+      "default": 1.0,
+      "range": [0.5, 1.4],
+      "affects": ["key_light_coverage", "wall_wash_near_lamp"]
+    }
+  },
+  "phone_convention": {
+    "zh": "玩手机 = 看得见角色面部 + 镜头同时看见手机背面；镜头模组朝床头（上）",
+    "en": "Playing with phone = face visible AND phone back toward camera; camera bump toward headboard (top)"
+  },
+  "edit_lock_rule": "Change only named editable_params / named layer ids. All unnamed pixels stay from the locked plate.",
+  "transition_grid": {
+    "still_frame": "N/A",
+    "mcu_notes": {
+      "interest_points": ["cavalier_face", "maine_eyes", "paw_lamp"],
+      "safe_area_9x16": "Keep both faces; watch right lamp and upper-left wall photo when cropping from 16:9",
+      "cut_types_future": ["hold", "slow_push_in", "cutaway_to_wall_photo"]
+    }
+  },
+  "compositor_hooks": {
+    "manifest": "projects/first-frame/assets/manifest.json",
+    "plan": "projects/first-frame/COMPOSITOR_PLAN.md",
+    "next_impl": [
+      "compose_frame01.py reads this recipe + manifest",
+      "Remotion props mirror editable_params",
+      "Regression: toggle photo_bowtie.visible → diff only that ROI"
+    ]
+  },
+  "quality_gate": {
+    "must": [
+      "Characters remain from locked plates (no ellipse body redraw)",
+      "Paw lamp remains primary key light",
+      "Phone orientation lock held",
+      "Named-param edits do not reshuffle unrelated props"
+    ],
+    "fail_if": [
+      "Whole-frame image model regen used for accessory tweak",
+      "Bed Maine gains unsolicited chest bowtie",
+      "Phone flips to screen-facing"
+    ]
+  },
+  "created_at": "2026-10-14T01:29:00-07:00",
+  "created_by": "grok-bot-executor",
+  "status": "recipe_v1_locked_to_v8_vision"
+}

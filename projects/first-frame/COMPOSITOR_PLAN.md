@@ -2,6 +2,24 @@
 
 > 目标：把「整图重绘抽卡」改成「锁定底图 + 可命名道具叠层」，局部改只动参数，不再整帧重抽。
 
+## 0. 首选路径（2026-10-14 更新）：Vision → 风格配方卡
+
+用户验证后的先进流程（对齐 [huashu-art-motion](https://github.com/alchaincyf/huashu-art-motion)）：
+
+1. **生图锁定帧**（视觉基调）→ 本实验以 **V8** 为 Vision 源：`frame_01_s01_hero_v8.jpg`
+2. **Vision 拆解** → 几何元素 / 图层 z-order / 爪灯主光 / 道具 / 运动热图
+3. **风格配方卡（Recipe）** → 存入 `projects/first-frame/recipes/`，作为同类镜头护城河
+4. **代码按配方合成** → 只动 `editable_params`（发卡、合影领结、手机背面、爪灯强度）；**角色像素保留锁定帧**
+
+| 产物 | 路径 |
+|------|------|
+| Vision 拆解 | [`recipes/v8_breakdown.md`](recipes/v8_breakdown.md) |
+| 机读配方 | [`recipes/v8_style_recipe.json`](recipes/v8_style_recipe.json) |
+| 人读配方卡 | [`recipes/v8_style_recipe.md`](recipes/v8_style_recipe.md) |
+
+**明确降级**：`code_assets/render_cavalier.py` 椭圆自由手绘角色 = 草稿玩具，**不是**最终角色路径。禁止用椭圆代码体替换 V8/V9 锁定角色。
+
+
 ## 1. 第一步就是：抽素材 → 代码化
 
 是的。本实验 **Step 1** 只做两件事：
@@ -77,8 +95,12 @@
 ```text
 projects/first-frame/
   COMPOSITOR_PLAN.md          ← 本文件
-  frame_01_s01_hero_v8.jpg    ← 缅因抽取源
+  frame_01_s01_hero_v8.jpg    ← Vision 源 + 缅因抽取源
   frame_01_s01_hero_v9.jpg    ← 其余抽取源
+  recipes/                    ← Vision→配方护城河（首选）
+    v8_breakdown.md
+    v8_style_recipe.json
+    v8_style_recipe.md
   assets/
     manifest.json
     sources/SOURCES.md
@@ -110,32 +132,31 @@ projects/first-frame/
 
 Bot D 仍负责「镜头表 → 时间线 → 成片」；本实验只保证 **单帧可参数改图**，避免为配件再走图像模型。
 
-## 8. 下一步（Step 2 预告，本提交不做）
+## 8. 下一步（Step 2 预告）
 
-1. 给 `paw_lamp` / `phone_back` / `cavalier_ear_bow` 做简易 alpha **或继续用 `code_assets/` 矢量/几何替身**（查理王已开这条）。
-2. 写 `compose_frame01.py`（或 Remotion `<Frame01>`）：读 manifest → 按 z 合成 → 导出。
-3. 用「只改 `photo_bowtie_black.visible`」做一次回归：diff 应只落在该 ROI。
+1. 写 `compose_frame01.py`（或 Remotion `<Frame01>`）：读 **`recipes/v8_style_recipe.json`** + `assets/manifest.json` → 按 z 合成 → 导出。
+2. 道具层（`paw_lamp` / `phone_back` / `cavalier_ear_bow` / 合影领结）用代码叠层或 alpha；**角色层继续用锁定帧**，不用椭圆重画。
+3. 回归：只改 `photo_bowtie.visible` 或 `paw_lamp_intensity` → 像素 diff 应只落在对应 ROI / 光晕。
 
 ---
 
 *Step 1 完成标志：`assets/manifest.json` 存在，且每个可改元素有路径 + bbox + source_version + editable_params。*
 
 
-## 9. 代码重绘路径（已起步 · Cavalier）
+## 9. 路径优先级（必读）
 
-在「底图 + 抠层」之外，另开一条 **纯代码重画** 实验（参考 huashu-art-motion：风格配方 → 参数绘制 → 确定性再渲）：
+| 优先级 | 路径 | 状态 | 用途 |
+|--------|------|------|------|
+| **P0 · 首选** | **Vision → Recipe → 代码叠层** | ✅ V8 配方已写入 `recipes/` | 最终生产路径：锁定角色帧 + 参数改道具/光 |
+| P1 | `assets/` 粗裁 + manifest | ✅ Step 1 | ROI / bbox 契约；待 alpha 或矢量替身 |
+| P2 · 降级 | `code_assets/render_cavalier.py` 椭圆重画 | ⚠️ 已做但观感灾难 | **仅作几何草稿 / 教学**；不得替换锁定英雄帧 |
 
-| 项 | 位置 |
-|----|------|
-| 渲染器 | `projects/first-frame/code_assets/render_cavalier.py` |
-| 原语 / Bible 映射 | `code_assets/lib/sketch_draw.py`, `style_params.py` |
-| 说明 | `code_assets/README.md` |
-| 输出静帧 | `code_assets/out/cavalier_code_v1.png`（及可选 `_9x16`） |
+原则（更新后）：
 
-当前状态：
+- **AI 出角色与氛围一次并锁定**（V8/V9），不为改领结/灯/手机整图抽卡。
+- **Vision 拆解写入 Recipe**，护城河在 JSON，不在口头 prompt。
+- **道具与光参数化**：`ear_bow` / `photo_bowtie` / `phone_back` / `paw_lamp_intensity`。
+- **禁止**用椭圆拼形冒充最终查理王/缅因。
 
-- **已完成**：主体查理王（表情 / 手机背面 / 粉色右耳发卡 可 CLI 开关；同 seed 可复现）。
-- **未做**：缅因、猫爪灯、合影合成；尚未替换 `assets/layers/cavalier_subject_v9.jpg`。
-
-原则不变：配件与道具优先代码参数化；角色可逐步从「锁定模型帧」迁到「代码体」或混合叠层。
+`code_assets/` 仍可保留作「线条原语试验床」，但合成器默认读取 `recipes/v8_style_recipe.json` + `assets/manifest.json`。
 
