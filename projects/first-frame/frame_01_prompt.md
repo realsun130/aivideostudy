@@ -89,3 +89,12 @@ watermark, username, platform logo, app UI, button overlay, QR code, creator sig
 ## Phone staging convention (user lock)
 When subject is "玩手机", show the **back of the phone** facing the camera while the character's face is visible (phone in hands, browsing pose). Camera bump at TOP (toward headboard), charging-port end DOWN. Do not show screen facing viewer. Negative: screen-facing phone, upside-down phone, inverted phone.
 
+## Edit lock (user rule)
+On each revision, change ONLY the user-named deltas; keep all other pixels/composition/lighting/props/poses identical to the previous approved frame.
+
+## Character accessories (locked)
+- Live Cavalier: small pink bow hair-clip at right-ear root (viewer's left ear). No neck bowtie.
+- Live Maine Coon: no ear clip, no bowtie.
+- Wall photo Cavalier: pink ear clip only; no neck bowtie.
+- Wall photo Maine Coon: chest/neck bowtie; no ear clip.
+
