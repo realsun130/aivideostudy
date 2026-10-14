@@ -1,0 +1,27 @@
+{
+  "frame_id": "s01_hero",
+  "project_id": "",
+  "aspect_ratio": "16:9",
+  "duration_sec_hint": null,
+  "variables": {
+    "SUBJECT": "",
+    "SUBJECT_ACTION": "",
+    "PRODUCT_OR_PROP": "",
+    "LOCATION": "",
+    "BACKGROUND_ELEMENTS": "",
+    "MAIN_TEXT": "",
+    "SECONDARY_TEXT": "",
+    "ACCENT_SYMBOL": "",
+    "WARDROBE_STYLE": "",
+    "ASPECT_RATIO": "16:9"
+  },
+  "composition": {
+    "shot_size": "MS",
+    "camera_angle": "eye-level",
+    "extreme_expression_character": "",
+    "deadpan_reaction_character": ""
+  },
+  "style_bible_ref": "styles/rough-animation-pet-sketch-storyboard-style/style_bible.json",
+  "style_bible_ver": "2026-10-13.2",
+  "notes_for_me": ""
+}
