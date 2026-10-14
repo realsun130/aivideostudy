@@ -75,7 +75,7 @@
 
 从后到前（见 `assets/manifest.json`）：
 
-0. `base_plate`（v9 全帧）
+0. `base_plate`（**clean plate**：V8 去角色/道具，见 `assets/base/base_plate_clean.jpg`；旧烘焙板保留为 `base_plate_v9.jpg`）
 1. `wall_photo`
 2. `photo_ear_bow_pink` / `photo_bowtie_black`（合影内 ROI）
 3. `live_maine_coon`（**v8**）
@@ -102,12 +102,17 @@ projects/first-frame/
     v8_style_recipe.json
     v8_style_recipe.md
   scripts/
+    build_clean_plate.py      ← V8 → base_plate_clean.jpg
+    compose_from_recipe.py    ← recipe + alphas → still PNG
     rembg_cut.py              ← rembg 自动抠透明层
     requirements-rembg.txt
   assets/
     manifest.json
     sources/SOURCES.md
-    base/base_plate_v9.jpg
+    base/
+      base_plate_clean.jpg    ← v2 默认清底（去角色）
+      base_plate_clean_mask.png
+      base_plate_v9.jpg       ← 旧烘焙全帧（对照）
     layers/                   ← rough_crop jpg（保留）
     layers_alpha/             ← rembg RGBA PNG（V8）
       v8_full_rgba.png
@@ -133,7 +138,7 @@ projects/first-frame/
 
 Bot D 仍负责「镜头表 → 时间线 → 成片」；本实验只保证 **单帧可参数改图**，避免为配件再走图像模型。
 
-## 8. rembg 透明层（已完成）→ 下一步合成器
+## 8. rembg → 清底图 → 合成器 v2
 
 **rembg 已跑通（2026-10-14）**：
 
@@ -142,17 +147,25 @@ Bot D 仍负责「镜头表 → 时间线 → 成片」；本实验只保证 **�
 - 产物：`assets/layers_alpha/*.png`；manifest 对应层 `status: alpha_rembg` + `alpha_path`
 - 诚实：全帧易合并主体；分块仍有床品/毛边出血，非正式精修
 
-**合成器 v1（已完成 2026-10-14）**：
+**清底图（2026-10-14）**：
+
+- 脚本：`scripts/build_clean_plate.py`
+- 输入：V8 + `layers_alpha/v8_full_rgba.png` + 头顶部/爪灯 bbox
+- 输出：`assets/base/base_plate_clean.jpg`（mask 调试：`base_plate_clean_mask.png`）
+- 方法：rembg 遮罩 ∪ 头顶部/灯 bbox → 多尺度模糊填洞（非生成式 inpaint）
+- 诚实残留：主体洞是软枕头/墙糊；灯晕可能拖影；耳缘可能有光晕。墙照合影保留。
+
+**合成器 v2（已完成 2026-10-14）**：
 
 - 脚本：`scripts/compose_from_recipe.py`
-- 读：`recipes/v8_style_recipe.json` + `assets/manifest.json`（优先 `alpha_path`）→ 按 bbox/z_order Pillow 叠层
-- 默认可调：`--paw-lamp-intensity`、`--hide`、`--overlays-only`、`--no-photo-bowtie`、`--base v9|v8|none`
-- 默认输出：`code_assets/out/compose_v8_recipe_v1.png`
-- 诚实缺口：底图烘焙角色 + 再叠角色 alpha 会重影（日常改道具请用 `--overlays-only`）；matte 未精修；无动画
+- 默认 `--base clean` → 叠 rembg alpha **不再双重曝光烘焙角色**
+- 默认可调：`--paw-lamp-intensity`、`--hide`、`--overlays-only`、`--no-photo-bowtie`、`--base clean|v9|v8|none`
+- 默认输出：`code_assets/out/compose_v8_recipe_v2.png`
+- 诚实缺口：matte 未精修（毛边/糊块仍可能从透明边缘露底）；无动画；发卡/床上缅因领结尚无独立 alpha
 
 **下一步**：
 
-1. 精修 matte / 去角色底图，消除双重曝光。
+1. 精修 matte / 生成式 inpaint 清底（可选）。
 2. 回归：只改 `photo_bowtie` / `paw_lamp_intensity` → 像素 diff 只落在 ROI / 光晕。
 3. Remotion `<Frame01>` 镜像 `editable_params` + `glow_pulse`。
 
@@ -166,7 +179,7 @@ Bot D 仍负责「镜头表 → 时间线 → 成片」；本实验只保证 **�
 | 优先级 | 路径 | 状态 | 用途 |
 |--------|------|------|------|
 | **P0 · 首选** | **Vision → Recipe → 代码叠层** | ✅ V8 配方已写入 `recipes/` | 最终生产路径：锁定角色帧 + 参数改道具/光 |
-| P1 | `assets/` 粗裁 + rembg + compose | ✅ rembg + compose v1 | ROI / bbox + `layers_alpha/` + `compose_from_recipe.py` |
+| P1 | `assets/` 粗裁 + rembg + 清底 + compose | ✅ rembg + clean plate + compose v2 | ROI / bbox + `layers_alpha/` + `base_plate_clean.jpg` + `compose_from_recipe.py` |
 | P2 · 降级 | `code_assets/render_cavalier.py` 椭圆重画 | ⚠️ 已做但观感灾难 | **仅作几何草稿 / 教学**；不得替换锁定英雄帧 |
 
 原则（更新后）：

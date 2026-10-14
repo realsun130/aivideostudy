@@ -39,9 +39,9 @@
   "assets": [
     {
       "id": "base_plate",
-      "path": "assets/base/base_plate_v9.jpg",
-      "source_version": "v9",
-      "source_file": "projects/first-frame/frame_01_s01_hero_v9.jpg",
+      "path": "assets/base/base_plate_clean.jpg",
+      "source_version": "v8_clean",
+      "source_file": "projects/first-frame/frame_01_s01_hero_v8.jpg",
       "bbox": {
         "x": 0,
         "y": 0,
@@ -54,12 +54,14 @@
         ]
       },
       "z_order": 0,
-      "status": "rough_crop",
+      "status": "clean_plate_blurfill",
       "has_alpha_mask": false,
-      "notes": "Full v9 frame as locked base plate. Characters+props baked in; overlays edit on top.",
+      "notes": "Character/prop-free plate from V8 via rembg full matte ∪ subject bboxes, multi-scale blur fill (scripts/build_clean_plate.py). Wall photo kept. Residual: soft mush in subject holes, lamp-glow smear. Use with rembg alphas to avoid double-exposure. Previous baked plate: assets/base/base_plate_v9.jpg.",
       "editable_params": [
         "opacity"
-      ]
+      ],
+      "mask_debug": "assets/base/base_plate_clean_mask.png",
+      "builder": "projects/first-frame/scripts/build_clean_plate.py"
     },
     {
       "id": "wall_photo",
@@ -303,13 +305,15 @@
     "source_note": "All alpha mattes cut from V8 (not v9), per rembg experiment step.",
     "full_rgba": "assets/layers_alpha/v8_full_rgba.png",
     "quality_honesty": "Single-subject saliency: full-frame matte merges Cavalier+Maine+phone+lamp. Per-bbox crops are better but still bleed bedding/paws/glow. Not production cutouts.",
-    "next": "compose_from_recipe.py (done v1) → refine mattes / overlays-only workflow"
+    "next": "compose_from_recipe.py v2 on clean plate → refine mattes / motion"
   },
   "compositor": {
-    "status": "v1",
+    "status": "v2",
     "script": "projects/first-frame/scripts/compose_from_recipe.py",
     "recipe": "projects/first-frame/recipes/v8_style_recipe.json",
-    "default_out": "projects/first-frame/code_assets/out/compose_v8_recipe_v1.png",
-    "notes": "Pillow paste by bbox/z_order; paw_lamp_intensity + hide flags; photo_bowtie parametric."
+    "default_base": "clean",
+    "default_out": "projects/first-frame/code_assets/out/compose_v8_recipe_v2.png",
+    "clean_plate": "assets/base/base_plate_clean.jpg",
+    "notes": "v2 default base=clean plate so full alpha stack avoids ghosting. --overlays-only / --base v9|v8 still available."
   }
 }

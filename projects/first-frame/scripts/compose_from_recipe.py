@@ -11,14 +11,15 @@ Places each alpha layer at its manifest bbox, sorted by z_order.
 Respects a few editable_params from the recipe (CLI overrides):
   --paw-lamp-intensity, --hide / --show layer ids, photo_bowtie draw.
 
-Honesty (v1 gaps):
-  - Base plate already has characters baked in; restacking character alphas
-    causes ghosting / double exposure. Use --base none to see pure stack,
-    or --overlays-only to paste only props (paw_lamp, phone_back, wall_photo).
+Honesty (v2 gaps):
+  - Default base is assets/base/base_plate_clean.jpg (characters/props erased
+    via rembg matte + bbox blur-fill). Restacking rembg alphas should NOT
+    double-expose. Residual: soft mush holes, lamp-glow smear, possible halos.
   - rembg mattes still bleed bedding/paws; not production cutouts.
   - No motion / glow_pulse animation yet (still frame only).
   - photo_bowtie is a tiny parametric Pillow shape, not a matted asset.
   - ear_bow / live_maine_chest_bowtie have no alpha assets yet.
+  - --overlays-only still available for prop-only edits on a baked plate.
 
 From repo root:
   python3 projects/first-frame/scripts/compose_from_recipe.py
@@ -37,7 +38,7 @@ REPO = Path(__file__).resolve().parents[3]
 FF = REPO / "projects" / "first-frame"
 DEFAULT_RECIPE = FF / "recipes" / "v8_style_recipe.json"
 DEFAULT_MANIFEST = FF / "assets" / "manifest.json"
-DEFAULT_OUT = FF / "code_assets" / "out" / "compose_v8_recipe_v1.png"
+DEFAULT_OUT = FF / "code_assets" / "out" / "compose_v8_recipe_v2.png"
 
 # Layers treated as "prop overlays" when --overlays-only
 OVERLAY_IDS = {"paw_lamp", "phone_back", "wall_photo"}
@@ -198,7 +199,7 @@ def compose(
     recipe: dict,
     manifest: dict,
     *,
-    base_mode: str = "v9",
+    base_mode: str = "clean",
     overlays_only: bool = False,
     hide: set[str] | None = None,
     show: set[str] | None = None,
@@ -221,14 +222,29 @@ def compose(
         canvas = Image.open(src).convert("RGBA")
         if canvas.size != (W, H):
             canvas = canvas.resize((W, H), Image.Resampling.LANCZOS)
-    else:  # v9
-        base_asset = assets_by_id.get("base_plate")
-        if base_asset:
-            base_path = resolve_asset_path(FF / "assets", base_asset["path"])
-        else:
-            base_path = FF / "assets" / "base" / "base_plate_v9.jpg"
+    elif base_mode == "v9":
+        base_path = FF / "assets" / "base" / "base_plate_v9.jpg"
         if not base_path.exists():
             base_path = FF / "frame_01_s01_hero_v9.jpg"
+        canvas = Image.open(base_path).convert("RGBA")
+        if canvas.size != (W, H):
+            canvas = canvas.resize((W, H), Image.Resampling.LANCZOS)
+    else:  # clean (default)
+        base_asset = assets_by_id.get("base_plate")
+        if base_asset and base_asset.get("path"):
+            base_path = resolve_asset_path(FF / "assets", base_asset["path"])
+        else:
+            base_path = FF / "assets" / "base" / "base_plate_clean.jpg"
+        if not base_path.exists():
+            # fallback chain
+            for cand in (
+                FF / "assets" / "base" / "base_plate_clean.jpg",
+                FF / "assets" / "base" / "base_plate_v9.jpg",
+                FF / "frame_01_s01_hero_v8.jpg",
+            ):
+                if cand.exists():
+                    base_path = cand
+                    break
         canvas = Image.open(base_path).convert("RGBA")
         if canvas.size != (W, H):
             canvas = canvas.resize((W, H), Image.Resampling.LANCZOS)
@@ -306,14 +322,14 @@ def main() -> None:
     ap.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     ap.add_argument(
         "--base",
-        choices=["v9", "v8", "none"],
-        default="v9",
-        help="Canvas base: locked v9 plate, v8 full, or dark void",
+        choices=["clean", "v9", "v8", "none"],
+        default="clean",
+        help="Canvas base: clean plate (default), baked v9/v8, or dark void",
     )
     ap.add_argument(
         "--overlays-only",
         action="store_true",
-        help="Paste only paw_lamp / phone_back / wall_photo (avoid character ghosting on baked base)",
+        help="Paste only paw_lamp / phone_back / wall_photo (prop edits; skip character alphas)",
     )
     ap.add_argument(
         "--paw-lamp-intensity",
