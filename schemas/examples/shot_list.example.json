@@ -1,0 +1,55 @@
+{
+  "project_id": "demo-short",
+  "version": "2026-10-13.1",
+  "fps": 24,
+  "resolution": {
+    "width": 1920,
+    "height": 1080
+  },
+  "style_bible_ver": "2026-10-13.2",
+  "shots": [
+    {
+      "shot_id": "s01",
+      "scene": "kitchen",
+      "duration_sec": 3.0,
+      "action": "cat stares at cookie jar",
+      "cinematography": {
+        "shot_size": "MS",
+        "shot_type": "two-shot",
+        "camera_movement": "push-in",
+        "camera_angle": "eye-level"
+      },
+      "programmatic_motion": {
+        "preset": "kenburns_in",
+        "params": {
+          "zoom": [
+            1.0,
+            1.08
+          ]
+        }
+      },
+      "frames": {
+        "hero": "frames/s01/hero.png"
+      },
+      "transition_to_next": "cut",
+      "transition_programmatic": "cut"
+    },
+    {
+      "shot_id": "s02",
+      "scene": "kitchen",
+      "duration_sec": 2.5,
+      "action": "dog freezes guilty",
+      "cinematography": {
+        "shot_size": "CU",
+        "shot_type": "reaction",
+        "camera_movement": "static",
+        "camera_angle": "eye-level"
+      },
+      "frames": {
+        "hero": "frames/s02/hero.png"
+      },
+      "transition_to_next": "dissolve",
+      "transition_sec": 0.4
+    }
+  ]
+}

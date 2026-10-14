@@ -2,25 +2,56 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://local.animation-pipeline/shot_list.schema.json",
   "title": "ShotList",
+  "description": "Shot Lock contract (Bot B → D). Cinematography enums adapted from FilmGraph (MIT). Motion execution for Remotion uses programmatic_motion + transition_programmatic.",
   "type": "object",
-  "required": ["project_id", "version", "fps", "resolution", "shots"],
+  "required": [
+    "project_id",
+    "version",
+    "fps",
+    "resolution",
+    "style_bible_ver",
+    "shots"
+  ],
   "properties": {
-    "project_id": { "type": "string" },
-    "version": { "type": "string", "description": "e.g. 2026-10-13.1" },
-    "fps": { "type": "integer", "enum": [24, 25, 30] },
+    "project_id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "fps": {
+      "type": "integer",
+      "enum": [
+        24,
+        25,
+        30
+      ]
+    },
     "resolution": {
       "type": "object",
-      "required": ["width", "height"],
+      "required": [
+        "width",
+        "height"
+      ],
       "properties": {
-        "width": { "type": "integer" },
-        "height": { "type": "integer" }
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        }
       }
     },
-    "style_bible_ver": { "type": "string" },
+    "style_bible_ver": {
+      "type": "string",
+      "description": "Locked Style Bible version this shot list was written against"
+    },
     "shots": {
       "type": "array",
       "minItems": 1,
-      "items": { "$ref": "#/$defs/shot" }
+      "items": {
+        "$ref": "#/$defs/shot"
+      }
     }
   },
   "$defs": {
@@ -29,56 +60,203 @@
       "required": [
         "shot_id",
         "duration_sec",
-        "motion_preset",
-        "frames",
-        "transition_to_next"
+        "cinematography",
+        "transition_to_next",
+        "frames"
       ],
       "properties": {
-        "shot_id": { "type": "string", "pattern": "^[A-Za-z0-9_\\-]+$" },
-        "scene": { "type": "string" },
-        "duration_sec": { "type": "number", "exclusiveMinimum": 0 },
-        "action": { "type": "string" },
-        "dialogue": { "type": "string" },
-        "motion_preset": {
+        "shot_id": {
           "type": "string",
-          "enum": [
-            "static",
-            "kenburns_in",
-            "kenburns_out",
-            "pan_left",
-            "pan_right",
-            "parallax",
-            "punch_in",
-            "subtitle_card"
-          ]
+          "pattern": "^[A-Za-z0-9_\\-]+$"
         },
-        "motion_params": {
+        "scene": {
+          "type": "string"
+        },
+        "duration_sec": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "action": {
+          "type": "string"
+        },
+        "dialogue": {
+          "type": "string"
+        },
+        "cinematography": {
           "type": "object",
-          "description": "Preset-specific, e.g. {\"zoom\":[1.0,1.08], \"easing\":\"easeInOut\"}",
-          "additionalProperties": true
+          "required": [
+            "shot_size",
+            "camera_movement"
+          ],
+          "properties": {
+            "shot_size": {
+              "type": "string",
+              "enum": [
+                "ECU",
+                "BCU",
+                "CU",
+                "MCU",
+                "MS",
+                "MLS",
+                "MWS",
+                "WS",
+                "EWS",
+                "INSERT",
+                "AERIAL",
+                "OTHER"
+              ],
+              "description": "FilmGraph ShotSize"
+            },
+            "shot_type": {
+              "type": "string",
+              "enum": [
+                "single",
+                "two-shot",
+                "group",
+                "over-the-shoulder",
+                "point-of-view",
+                "reaction",
+                "establishing",
+                "insert",
+                "cutaway",
+                "master",
+                "other"
+              ],
+              "description": "FilmGraph ShotType"
+            },
+            "camera_movement": {
+              "type": "string",
+              "enum": [
+                "static",
+                "pan",
+                "tilt",
+                "dolly",
+                "truck",
+                "tracking",
+                "handheld",
+                "crane",
+                "drone",
+                "zoom",
+                "whip-pan",
+                "push-in",
+                "pull-out",
+                "arc",
+                "rack-focus",
+                "steadicam",
+                "other"
+              ],
+              "description": "FilmGraph CameraMovement — semantic intent"
+            },
+            "camera_angle": {
+              "type": "string",
+              "enum": [
+                "eye-level",
+                "high-angle",
+                "low-angle",
+                "birds-eye",
+                "worms-eye",
+                "dutch-angle",
+                "overhead",
+                "ground-level",
+                "other"
+              ],
+              "description": "FilmGraph CameraAngle"
+            },
+            "notes": {
+              "type": "string"
+            }
+          }
+        },
+        "programmatic_motion": {
+          "type": "object",
+          "description": "Bot D Remotion execution. If omitted, derive from cinematography.camera_movement via cinematography_vocab.json mapping.",
+          "properties": {
+            "preset": {
+              "type": "string",
+              "enum": [
+                "static",
+                "kenburns_in",
+                "kenburns_out",
+                "pan_left",
+                "pan_right",
+                "parallax",
+                "punch_in",
+                "subtitle_card"
+              ]
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": true,
+              "description": "e.g. {\"zoom\":[1.0,1.08], \"easing\":\"easeInOut\"}"
+            }
+          }
         },
         "frames": {
           "type": "object",
-          "required": ["hero"],
+          "required": [
+            "hero"
+          ],
           "properties": {
-            "hero": { "type": "string", "description": "Path relative to frames_root" },
-            "bg": { "type": "string" },
-            "char": { "type": "string" },
-            "fx": { "type": "string" },
+            "hero": {
+              "type": "string"
+            },
+            "bg": {
+              "type": "string"
+            },
+            "char": {
+              "type": "string"
+            },
+            "fx": {
+              "type": "string"
+            },
             "overlays": {
               "type": "array",
-              "items": { "type": "string" }
+              "items": {
+                "type": "string"
+              }
             }
           }
         },
         "transition_to_next": {
           "type": "string",
-          "enum": ["cut", "xfade", "fade_black"]
+          "enum": [
+            "cut",
+            "dissolve",
+            "fade-in",
+            "fade-out",
+            "fade-to-black",
+            "wipe",
+            "match-cut",
+            "jump-cut",
+            "j-cut",
+            "l-cut",
+            "smash-cut",
+            "other"
+          ],
+          "description": "FilmGraph Transition — semantic edit"
         },
-        "transition_sec": { "type": "number", "minimum": 0 },
-        "subtitle": { "type": "string" },
-        "audio_cue": { "type": "string" },
-        "notes": { "type": "string" }
+        "transition_sec": {
+          "type": "number",
+          "minimum": 0
+        },
+        "transition_programmatic": {
+          "type": "string",
+          "enum": [
+            "cut",
+            "xfade",
+            "fade_black"
+          ],
+          "description": "Bot D executable transition. If omitted, map from transition_to_next."
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "audio_cue": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
       }
     }
   }

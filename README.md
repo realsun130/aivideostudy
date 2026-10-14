@@ -6,9 +6,10 @@ Bot D 已锁定：不上图生视频，成本优先。
 
 ## Schemas
 
-- `schemas/style_bible.schema.json` — Style Lock 合同（Bot A / F）
-- `schemas/shot_list.schema.json` — Shot Lock 合同（Bot B → D）
-- `schemas/examples/style_bible.example.json` — 示例 Style Bible
+- `schemas/style_bible.schema.json` — **只锁画风**（色、线、光、静帧构图、prompt）
+- `schemas/shot_list.schema.json` — 镜头表：FilmGraph 景别/运镜/转场 + 可选 Remotion `programmatic_motion`
+- `schemas/cinematography_vocab.json` — FilmGraph 枚举与程序化默认映射
+- Examples under `schemas/examples/`
 
 ## Adopted styles
 

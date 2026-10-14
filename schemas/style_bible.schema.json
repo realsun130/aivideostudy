@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://local.animation-pipeline/style_bible.schema.json",
   "title": "StyleBible",
+  "description": "Visual look lock only. Motion, transitions, and timing belong in shot_list / Bot D — not here.",
   "type": "object",
   "required": [
     "project_id",
@@ -10,19 +11,23 @@
     "palette",
     "line",
     "lighting",
-    "camera_grammar",
+    "composition",
     "prompt_blocks",
     "negative_constraints",
     "likeness_rules",
     "defaults"
   ],
   "properties": {
-    "project_id": { "type": "string" },
+    "project_id": {
+      "type": "string"
+    },
     "version": {
       "type": "string",
-      "description": "Bump on any lock change, e.g. 2026-10-13.1"
+      "description": "Bump on any lock change, e.g. 2026-10-13.2"
     },
-    "title": { "type": "string" },
+    "title": {
+      "type": "string"
+    },
     "summary": {
       "type": "string",
       "description": "One-paragraph human summary of the look"
@@ -40,46 +45,80 @@
         "other"
       ]
     },
-    "medium_notes": { "type": "string" },
+    "medium_notes": {
+      "type": "string"
+    },
     "palette": {
       "type": "object",
-      "required": ["primary", "background"],
+      "required": [
+        "primary",
+        "background"
+      ],
       "properties": {
         "primary": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/$defs/color" }
+          "items": {
+            "$ref": "#/$defs/color"
+          }
         },
         "accent": {
           "type": "array",
-          "items": { "$ref": "#/$defs/color" }
+          "items": {
+            "$ref": "#/$defs/color"
+          }
         },
-        "background": { "$ref": "#/$defs/color" },
+        "background": {
+          "$ref": "#/$defs/color"
+        },
         "forbidden": {
           "type": "array",
-          "items": { "$ref": "#/$defs/color" },
+          "items": {
+            "$ref": "#/$defs/color"
+          },
           "description": "Colors that must not dominate"
         }
       }
     },
     "line": {
       "type": "object",
-      "required": ["weight", "style"],
+      "required": [
+        "weight",
+        "style"
+      ],
       "properties": {
         "weight": {
           "type": "string",
-          "enum": ["none", "hairline", "thin", "medium", "bold", "variable"]
+          "enum": [
+            "none",
+            "hairline",
+            "thin",
+            "medium",
+            "bold",
+            "variable"
+          ]
         },
         "style": {
           "type": "string",
-          "enum": ["clean", "sketchy", "ink", "painterly", "geometric", "soft"]
+          "enum": [
+            "clean",
+            "sketchy",
+            "ink",
+            "painterly",
+            "geometric",
+            "soft"
+          ]
         },
-        "notes": { "type": "string" }
+        "notes": {
+          "type": "string"
+        }
       }
     },
     "lighting": {
       "type": "object",
-      "required": ["mood"],
+      "required": [
+        "mood"
+      ],
       "properties": {
         "mood": {
           "type": "string",
@@ -94,8 +133,12 @@
             "other"
           ]
         },
-        "direction": { "type": "string" },
-        "notes": { "type": "string" }
+        "direction": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
       }
     },
     "texture": {
@@ -103,29 +146,53 @@
       "properties": {
         "grain": {
           "type": "string",
-          "enum": ["none", "subtle", "medium", "heavy"]
+          "enum": [
+            "none",
+            "subtle",
+            "medium",
+            "heavy"
+          ]
         },
-        "paper": { "type": "boolean" },
-        "notes": { "type": "string" }
+        "paper": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        }
       }
     },
     "typography": {
       "type": "object",
-      "description": "For subtitle_card and titles in Remotion",
+      "description": "Still-frame title/caption look if text appears in frames",
       "properties": {
-        "title_font": { "type": "string" },
-        "body_font": { "type": "string" },
-        "title_color": { "$ref": "#/$defs/color" },
-        "body_color": { "$ref": "#/$defs/color" },
-        "stroke_color": { "$ref": "#/$defs/color" },
-        "notes": { "type": "string" }
+        "title_font": {
+          "type": "string"
+        },
+        "body_font": {
+          "type": "string"
+        },
+        "title_color": {
+          "$ref": "#/$defs/color"
+        },
+        "body_color": {
+          "$ref": "#/$defs/color"
+        },
+        "stroke_color": {
+          "$ref": "#/$defs/color"
+        },
+        "notes": {
+          "type": "string"
+        }
       }
     },
-    "camera_grammar": {
+    "composition": {
       "type": "object",
-      "required": ["preferred_shots", "preferred_motion"],
+      "description": "Still-frame framing language only — not motion or editing.",
+      "required": [
+        "preferred_framings"
+      ],
       "properties": {
-        "preferred_shots": {
+        "preferred_framings": {
           "type": "array",
           "minItems": 1,
           "items": {
@@ -142,42 +209,30 @@
             ]
           }
         },
-        "preferred_motion": {
+        "aspect_hints": {
           "type": "array",
-          "minItems": 1,
           "items": {
-            "type": "string",
-            "enum": [
-              "static",
-              "kenburns_in",
-              "kenburns_out",
-              "pan_left",
-              "pan_right",
-              "parallax",
-              "punch_in",
-              "subtitle_card"
-            ]
+            "type": "string"
           },
-          "description": "Must align with Bot D motion_preset enum"
+          "description": "e.g. 9:16 poster, 16:9 board — crop for stills, not animation timing"
         },
-        "avoid_motion": {
+        "layer_order": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          },
+          "description": "Paint/layer stack for still generation (bg → fg)"
         },
-        "default_transition": {
-          "type": "string",
-          "enum": ["cut", "xfade", "fade_black"]
-        },
-        "pacing": {
-          "type": "string",
-          "enum": ["slow", "medium", "fast", "variable"]
-        },
-        "notes": { "type": "string" }
+        "notes": {
+          "type": "string"
+        }
       }
     },
     "prompt_blocks": {
       "type": "object",
-      "required": ["positive"],
+      "required": [
+        "positive"
+      ],
       "properties": {
         "positive": {
           "type": "string",
@@ -196,24 +251,30 @@
     "negative_constraints": {
       "type": "array",
       "minItems": 1,
-      "items": { "type": "string" },
-      "description": "Hard no's for generation and Bot E checks"
+      "items": {
+        "type": "string"
+      },
+      "description": "Hard visual no's for generation and Bot E look checks"
     },
     "likeness_rules": {
       "type": "array",
       "minItems": 1,
-      "items": { "type": "string" },
-      "description": "Testable 'looks like me' rules, e.g. soft pastel, large eye spacing"
+      "items": {
+        "type": "string"
+      },
+      "description": "Testable visual 'looks like this bible' rules"
     },
     "anchor_refs": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["path", "role"],
+        "required": [
+          "path",
+          "role"
+        ],
         "properties": {
           "path": {
-            "type": "string",
-            "description": "Relative path under refs/"
+            "type": "string"
           },
           "role": {
             "type": "string",
@@ -227,66 +288,66 @@
               "other"
             ]
           },
-          "notes": { "type": "string" },
-          "approved": { "type": "boolean" }
+          "notes": {
+            "type": "string"
+          },
+          "approved": {
+            "type": "boolean"
+          }
         }
       }
     },
     "defaults": {
       "type": "object",
-      "required": ["render_profile_preview", "render_profile_final", "fps", "resolution"],
+      "required": [
+        "resolution"
+      ],
+      "description": "Still/output canvas defaults only. No motion presets.",
       "properties": {
-        "fps": { "type": "integer", "enum": [24, 25, 30] },
         "resolution": {
           "type": "object",
-          "required": ["width", "height"],
+          "required": [
+            "width",
+            "height"
+          ],
           "properties": {
-            "width": { "type": "integer" },
-            "height": { "type": "integer" }
+            "width": {
+              "type": "integer"
+            },
+            "height": {
+              "type": "integer"
+            }
           }
         },
-        "render_profile_preview": {
-          "type": "string",
-          "description": "e.g. 720p preview settings label"
+        "preview_label": {
+          "type": "string"
         },
-        "render_profile_final": {
-          "type": "string",
-          "description": "e.g. 1080p final settings label"
-        },
-        "default_motion_preset": {
-          "type": "string",
-          "enum": [
-            "static",
-            "kenburns_in",
-            "kenburns_out",
-            "pan_left",
-            "pan_right",
-            "parallax",
-            "punch_in",
-            "subtitle_card"
-          ]
-        },
-        "default_transition": {
-          "type": "string",
-          "enum": ["cut", "xfade", "fade_black"]
+        "final_label": {
+          "type": "string"
         }
       }
     },
     "preference_appendix": {
       "type": "object",
-      "description": "Bot F distilled likes/dislikes for this bible version",
+      "description": "Bot F distilled visual likes/dislikes",
       "properties": {
         "do": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "dont": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "source_memory_refs": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -295,23 +356,33 @@
       "format": "date-time"
     },
     "locked_by": {
-      "type": "string",
-      "description": "Who approved Style Lock"
+      "type": "string"
     }
   },
   "$defs": {
     "color": {
       "type": "object",
-      "required": ["hex"],
+      "required": [
+        "hex"
+      ],
       "properties": {
-        "name": { "type": "string" },
+        "name": {
+          "type": "string"
+        },
         "hex": {
           "type": "string",
           "pattern": "^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$"
         },
         "role": {
           "type": "string",
-          "enum": ["primary", "accent", "bg", "text", "forbidden", "other"]
+          "enum": [
+            "primary",
+            "accent",
+            "bg",
+            "text",
+            "forbidden",
+            "other"
+          ]
         }
       }
     }

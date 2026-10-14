@@ -1,6 +1,6 @@
 {
   "project_id": "rough-animation-pet-sketch-storyboard",
-  "version": "2026-10-13.1",
+  "version": "2026-10-13.2",
   "title": "Rough Animation Pet Sketch Storyboard",
   "summary": "松散动画分镜素描风：暖米色纸、红棕结构线、暗红褐潦草轮廓、半透明水色填充、夸张宠物表情与简单室内道具驱动的喜剧节拍。",
   "medium": "2d_illustration",
@@ -112,26 +112,25 @@
     },
     "notes": "MAIN_TEXT/SECONDARY_TEXT 仅作短手写制作备注；通常可空。忌完美排版与密集可读招牌。"
   },
-  "camera_grammar": {
-    "preferred_shots": [
+  "composition": {
+    "preferred_framings": [
       "medium",
       "close_up",
       "wide"
     ],
-    "preferred_motion": [
-      "static",
-      "kenburns_in",
-      "punch_in",
-      "parallax"
+    "aspect_hints": [
+      "9:16 vertical storyboard poster",
+      "16:9 horizontal animation-board crop"
     ],
-    "avoid_motion": [
-      "whip pan",
-      "shake",
-      "glossy 3D orbit"
+    "layer_order": [
+      "warm beige paper or interior wash",
+      "thin red-brown room construction lines",
+      "loose color blocks for characters and prop",
+      "dark scratchy contour passes",
+      "facial features and exaggerated eyes",
+      "foreground crumbs, motion ticks, stress marks, sparks, and rough shadows"
     ],
-    "default_transition": "cut",
-    "pacing": "medium",
-    "notes": "竖屏 9:16 分镜海报或横屏 16:9 动画板；角色/道具/反应角色分层。程序化成片以慢推+硬切为主，保留草图感。"
+    "notes": "只描述静帧取景与图层堆叠；运动/转场/时长不在本文件。"
   },
   "prompt_blocks": {
     "positive": "Create an image in the Rough Animation Pet Sketch Storyboard style. Warm beige paper, loose red-brown construction lines, scratchy dark burgundy contour strokes, semi-transparent watercolor-like color wash, rough animation storyboard finish, lightly sketched interior background, exaggerated original pet expressions, huge oval eyes, tiny pupils, visible correction strokes, one clear comic prop-driven beat. Stage like an animation story artist frame: one character extreme emotion, another deadpan or suspicious; foreground prop explains the joke; leave sketch marks, motion ticks, crumbs, rough shadows, unfinished room lines visible.",
@@ -167,15 +166,12 @@
     }
   ],
   "defaults": {
-    "fps": 24,
     "resolution": {
       "width": 1920,
       "height": 1080
     },
-    "render_profile_preview": "720p_preview",
-    "render_profile_final": "1080p_final",
-    "default_motion_preset": "kenburns_in",
-    "default_transition": "cut"
+    "preview_label": "720p_still_preview",
+    "final_label": "1080p_still"
   },
   "preference_appendix": {
     "do": [
