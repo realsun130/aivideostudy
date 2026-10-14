@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Playwright local render demo</title>
+  <style>
+    html, body {
+      margin: 0;
+      width: 640px;
+      height: 360px;
+      overflow: hidden;
+      background: #0f3460;
+      font-family: system-ui, sans-serif;
+    }
+    canvas { display: block; }
+    #label {
+      position: absolute;
+      left: 0; right: 0; bottom: 40px;
+      text-align: center;
+      color: #eee;
+      font-size: 28px;
+      letter-spacing: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="c" width="640" height="360"></canvas>
+  <div id="label">Playwright + FFmpeg local render</div>
+  <script>
+    const FPS = 30;
+    const DURATION = 90; // frames
+    const canvas = document.getElementById("c");
+    const ctx = canvas.getContext("2d");
+    const label = document.getElementById("label");
+
+    window.__FRAME__ = 0;
+
+    function draw(frame) {
+      const t = frame / FPS;
+      ctx.fillStyle = "#0f3460";
+      ctx.fillRect(0, 0, 640, 360);
+
+      const bounce = Math.abs(Math.sin(t * Math.PI * 2));
+      const y = 180 - bounce * 80;
+      ctx.beginPath();
+      ctx.arc(320, y, 48, 0, Math.PI * 2);
+      ctx.fillStyle = "#16c79a";
+      ctx.fill();
+      ctx.shadowColor = "rgba(22, 199, 154, 0.45)";
+      ctx.shadowBlur = 24;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      let opacity = 1;
+      if (frame < 15) opacity = frame / 15;
+      if (frame > DURATION - 15) opacity = (DURATION - frame) / 15;
+      label.style.opacity = String(Math.max(0, Math.min(1, opacity)));
+    }
+
+    /** Called by Playwright each frame before screenshot. */
+    window.renderFrame = function (frame) {
+      window.__FRAME__ = frame;
+      draw(frame);
+    };
+
+    draw(0);
+  </script>
+</body>
+</html>

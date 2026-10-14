@@ -10,3 +10,9 @@ projects/first-frame/debug/
 
 # rembg experiment venv
 .venv-rembg/
+
+# local-render demos
+projects/local-render/**/out/
+projects/local-render/**/frames/
+projects/local-render/**/node_modules/
+projects/local-render/**/.venv/
