@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "width": 1280,
+    "height": 720,
+    "stroke_count": 439410,
+    "layers": [
+      "coarse",
+      "mid",
+      "fine",
+      "detail",
+      "micro",
+      "highlight",
+      "ink"
+    ],
+    "layer_counts": {
+      "coarse": 14092,
+      "mid": 39365,
+      "fine": 70853,
+      "detail": 99400,
+      "micro": 120700,
+      "highlight": 60000,
+      "ink": 35000
+    },
+    "structure_tensor_sigmas": [
+      4.0,
+      2.5,
+      1.4
+    ],
+    "max_strokes_cap": 450000,
+    "seed": 47,
+    "storage": "npz",
+    "regions": {
+      "note": "Rough AABB regions from manifest layout + visual V8 read. Not rembg mattes.",
+      "priority": [
+        "wall",
+        "bed_bg",
+        "duvet",
+        "pillow",
+        "nightstand",
+        "wall_photo",
+        "cavalier",
+        "maine",
+        "phone",
+        "paw_lamp"
+      ],
+      "bboxes_xyxy": {
+        "wall_photo": [
+          250,
+          20,
+          700,
+          220
+        ],
+        "cavalier": [
+          420,
+          180,
+          900,
+          620
+        ],
+        "maine": [
+          780,
+          200,
+          1180,
+          620
+        ],
+        "phone": [
+          560,
+          340,
+          720,
+          560
+        ],
+        "paw_lamp": [
+          1040,
+          220,
+          1250,
+          460
+        ],
+        "nightstand": [
+          1100,
+          430,
+          1280,
+          620
+        ],
+        "pillow": [
+          300,
+          280,
+          520,
+          480
+        ],
+        "duvet": [
+          200,
+          480,
+          1100,
+          700
+        ],
+        "wall": [
+          0,
+          0,
+          1280,
+          280
+        ],
+        "bed_bg": [
+          0,
+          250,
+          400,
+          520
+        ]
+      }
+    },
+    "region_id_to_name": {
+      "1": "wall",
+      "2": "bed_bg",
+      "3": "duvet",
+      "4": "pillow",
+      "5": "nightstand",
+      "6": "wall_photo",
+      "7": "cavalier",
+      "8": "maine",
+      "9": "phone",
+      "10": "paw_lamp",
+      "0": "grid_misc"
+    },
+    "method": "Hertzmann-style coarse-to-fine + structure-tensor curves + highlight pass",
+    "honesty": "v3: Hertzmann grid residual, multi-scale ETF, curved strokes on coarse/mid/fine, source-sampled color (no *0.97 darken), highlight density pass, soft local-color ink. Still not illustration-perfect; regions remain rough AABBs.",
+    "version": "v3",
+    "source": "projects/first-frame/frame_01_s01_hero_v8.jpg"
+  },
+  "layer_counts": {
+    "coarse": 14092,
+    "mid": 39365,
+    "fine": 70853,
+    "detail": 99400,
+    "micro": 120700,
+    "highlight": 60000,
+    "ink": 35000
+  }
+}

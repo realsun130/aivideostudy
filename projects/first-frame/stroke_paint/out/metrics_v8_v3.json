@@ -1,0 +1,32 @@
+{
+  "mse": 166.2709,
+  "rmse": 12.8946,
+  "mae": 9.1212,
+  "psnr_db": 25.923,
+  "original": "projects/first-frame/frame_01_s01_hero_v8.jpg",
+  "render": "projects/first-frame/stroke_paint/out/stroke_v8_v3.png",
+  "width": 1280,
+  "height": 720,
+  "note": "Higher PSNR / lower MSE is better. v3 uses Hertzmann-style residual painting; render applies light per-channel mean/std tone-match to source.",
+  "version": "v3",
+  "stroke_count": 439410,
+  "layer_counts": {
+    "coarse": 14092,
+    "mid": 39365,
+    "fine": 70853,
+    "detail": 99400,
+    "micro": 120700,
+    "highlight": 60000,
+    "ink": 35000
+  },
+  "vs_v2": {
+    "psnr_v2_db": 22.033,
+    "psnr_v3_db": 25.923,
+    "delta_psnr_db": 3.89,
+    "mse_v2": 407.1464,
+    "mse_v3": 166.2709
+  },
+  "method": "Hertzmann coarse-to-fine + structure-tensor curves + highlight pass + light tone-match",
+  "psnr_raw_no_tonematch_db": 24.556,
+  "mse_raw_no_tonematch": 227.7356
+}

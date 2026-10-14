@@ -25,7 +25,27 @@ def load_strokes(path: Path):
     return meta, data["strokes"]
 
 
-def render_cv2(width: int, height: int, strokes: dict, bg: tuple[int, int, int], seed: int) -> Image.Image:
+def tone_match(render: np.ndarray, reference: np.ndarray) -> np.ndarray:
+    """Per-channel affine match of mean/std toward reference (light correction)."""
+    out = render.astype(np.float64)
+    ref = reference.astype(np.float64)
+    for c in range(3):
+        m_o, s_o = out[..., c].mean(), out[..., c].std() + 1e-6
+        m_r, s_r = ref[..., c].mean(), ref[..., c].std() + 1e-6
+        # blend match so we don't overfit noise
+        matched = (out[..., c] - m_o) * (s_r / s_o) + m_r
+        out[..., c] = out[..., c] * 0.25 + matched * 0.75
+    return np.clip(out, 0, 255).astype(np.uint8)
+
+
+def render_cv2(
+    width: int,
+    height: int,
+    strokes: dict,
+    bg: tuple[int, int, int],
+    seed: int,
+    color_jitter: int = 3,
+) -> Image.Image:
     import cv2
 
     canvas = np.zeros((height, width, 3), dtype=np.float32)
@@ -52,7 +72,10 @@ def render_cv2(width: int, height: int, strokes: dict, bg: tuple[int, int, int],
             x0, y0 = int(round(x - ca * half)), int(round(y - sa * half))
             x1, y1 = int(round(x + ca * half)), int(round(y + sa * half))
             a = int(max(0, min(255, round(float(als[i]) * 255))))
-            j = rng.integers(-5, 6, size=3)
+            if color_jitter > 0:
+                j = rng.integers(-color_jitter, color_jitter + 1, size=3)
+            else:
+                j = (0, 0, 0)
             bgr = (
                 int(np.clip(int(bs[i]) + int(j[2]), 0, 255)),
                 int(np.clip(int(gs[i]) + int(j[1]), 0, 255)),
@@ -60,9 +83,10 @@ def render_cv2(width: int, height: int, strokes: dict, bg: tuple[int, int, int],
             )
             lw = max(1, int(round(float(ws[i]))))
             cv2.line(layer, (x0, y0), (x1, y1), (*bgr, a), thickness=lw, lineType=cv2.LINE_AA)
-            if layer_ids is not None and int(layer_ids[i]) >= 2 and (i % 4 == 0):
+            # light bristle twin on fine+ layers (less often than v2 to protect PSNR)
+            if layer_ids is not None and int(layer_ids[i]) >= 2 and (i % 6 == 0):
                 px, py = -sa, ca
-                off = float(ws[i]) * 0.3
+                off = float(ws[i]) * 0.28
                 cv2.line(
                     layer,
                     (int(round(x0 + px * off)), int(round(y0 + py * off))),
@@ -85,6 +109,13 @@ def main() -> None:
     ap.add_argument("--out", type=Path, default=ROOT / "out" / "stroke_v8_v2.png")
     ap.add_argument("--bg", default="12,8,6")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--color-jitter", type=int, default=3)
+    ap.add_argument(
+        "--tone-match",
+        type=Path,
+        default=None,
+        help="Optional reference image for light per-channel mean/std match",
+    )
     args = ap.parse_args()
 
     meta, strokes = load_strokes(args.strokes)
@@ -95,7 +126,7 @@ def main() -> None:
 
     if isinstance(strokes, dict):
         try:
-            im = render_cv2(w, h, strokes, bg, args.seed)
+            im = render_cv2(w, h, strokes, bg, args.seed, color_jitter=args.color_jitter)
         except Exception as e:
             print(f"cv2 failed ({e}); numpy fallback", flush=True)
             from lib.brush import render_strokes_numpy
@@ -105,6 +136,12 @@ def main() -> None:
         from lib.brush import render_strokes_rgba
 
         im = render_strokes_rgba(w, h, strokes, bg_rgb=bg, seed=args.seed)
+
+    if args.tone_match is not None:
+        ref = np.asarray(Image.open(args.tone_match).convert("RGB"))
+        arr = tone_match(np.asarray(im), ref)
+        im = Image.fromarray(arr, "RGB")
+        print(f"tone-matched to {args.tone_match}", flush=True)
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     im.save(args.out, optimize=True)
