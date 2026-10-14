@@ -7,3 +7,6 @@ venv/
 projects/first-frame/_dbg_*
 projects/first-frame/_edit_*
 projects/first-frame/debug/
+
+# rembg experiment venv
+.venv-rembg/

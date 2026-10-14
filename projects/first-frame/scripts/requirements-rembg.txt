@@ -1,0 +1,5 @@
+# rembg auto-matting for Frame 01 (CPU)
+# Install: python3 -m venv .venv-rembg && .venv-rembg/bin/pip install -r projects/first-frame/scripts/requirements-rembg.txt
+rembg[cpu]>=2.0.60
+onnxruntime>=1.17
+pillow>=10.0

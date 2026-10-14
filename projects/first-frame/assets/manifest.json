@@ -78,14 +78,17 @@
         ]
       },
       "z_order": 1,
-      "status": "rough_crop",
-      "has_alpha_mask": false,
-      "notes": "Rough crop of framed wall wedding-style photo (Cavalier+Maine). Includes frame + bit of surrounding wall. Not matted.",
+      "status": "alpha_rembg",
+      "has_alpha_mask": true,
+      "notes": "Rough crop of framed wall wedding-style photo (Cavalier+Maine). Includes frame + bit of surrounding wall. Not matted. rembg alpha from V8 bbox crop → alpha_path. Expect fur-edge / bedding bleed; full scene subjects may still merge at edges.",
       "editable_params": [
         "visible",
         "offset_xy",
         "scale"
-      ]
+      ],
+      "alpha_path": "assets/layers_alpha/wall_photo.png",
+      "alpha_source_version": "v8",
+      "alpha_source_file": "projects/first-frame/frame_01_s01_hero_v8.jpg"
     },
     {
       "id": "photo_bowtie_black",
@@ -158,15 +161,18 @@
         ]
       },
       "z_order": 3,
-      "status": "rough_crop",
-      "has_alpha_mask": false,
-      "notes": "LIVE bed-subject Maine Coon extracted from v8 (user lock: use v8 Maine, not v9/v10). Rough rectangular crop incl. pillow/bedding bleed; not masked.",
+      "status": "alpha_rembg",
+      "has_alpha_mask": true,
+      "notes": "LIVE bed-subject Maine Coon extracted from v8 (user lock: use v8 Maine, not v9/v10). Rough rectangular crop incl. pillow/bedding bleed; not masked. rembg alpha from V8 bbox crop → alpha_path. Expect fur-edge / bedding bleed; full scene subjects may still merge at edges.",
       "editable_params": [
         "visible",
         "offset_xy",
         "scale",
         "expression_lock"
-      ]
+      ],
+      "alpha_path": "assets/layers_alpha/live_maine_coon.png",
+      "alpha_source_version": "v8",
+      "alpha_source_file": "projects/first-frame/frame_01_s01_hero_v8.jpg"
     },
     {
       "id": "cavalier_subject",
@@ -185,14 +191,17 @@
         ]
       },
       "z_order": 4,
-      "status": "rough_crop",
-      "has_alpha_mask": false,
-      "notes": "Rough crop of live Cavalier (laughing) from v9, includes phone grip area bleed. Not masked.",
+      "status": "alpha_rembg",
+      "has_alpha_mask": true,
+      "notes": "Rough crop of live Cavalier (laughing) from v9, includes phone grip area bleed. Not masked. rembg alpha from V8 bbox crop → alpha_path. Expect fur-edge / bedding bleed; full scene subjects may still merge at edges.",
       "editable_params": [
         "visible",
         "offset_xy",
         "scale"
-      ]
+      ],
+      "alpha_path": "assets/layers_alpha/cavalier_subject.png",
+      "alpha_source_version": "v8",
+      "alpha_source_file": "projects/first-frame/frame_01_s01_hero_v8.jpg"
     },
     {
       "id": "cavalier_ear_bow",
@@ -238,16 +247,19 @@
         ]
       },
       "z_order": 5,
-      "status": "rough_crop",
-      "has_alpha_mask": false,
-      "notes": "Rough crop of cat-paw night lamp on nightstand (primary practical light). Includes glow halo + table corner bleed.",
+      "status": "alpha_rembg",
+      "has_alpha_mask": true,
+      "notes": "Rough crop of cat-paw night lamp on nightstand (primary practical light). Includes glow halo + table corner bleed. rembg alpha from V8 bbox crop → alpha_path. Expect fur-edge / bedding bleed; full scene subjects may still merge at edges.",
       "editable_params": [
         "visible",
         "offset_xy",
         "scale",
         "glow_intensity",
         "color_temp"
-      ]
+      ],
+      "alpha_path": "assets/layers_alpha/paw_lamp.png",
+      "alpha_source_version": "v8",
+      "alpha_source_file": "projects/first-frame/frame_01_s01_hero_v8.jpg"
     },
     {
       "id": "phone_back",
@@ -266,16 +278,31 @@
         ]
       },
       "z_order": 6,
-      "status": "rough_crop",
-      "has_alpha_mask": false,
-      "notes": "Rough crop of smartphone held by Cavalier. Convention: back faces camera, camera bump toward headboard (top). Includes paw bleed.",
+      "status": "alpha_rembg",
+      "has_alpha_mask": true,
+      "notes": "Rough crop of smartphone held by Cavalier. Convention: back faces camera, camera bump toward headboard (top). Includes paw bleed. rembg alpha from V8 bbox crop → alpha_path. Expect fur-edge / bedding bleed; full scene subjects may still merge at edges.",
       "editable_params": [
         "visible",
         "offset_xy",
         "rotation_deg",
         "orientation_lock",
         "scale"
-      ]
+      ],
+      "alpha_path": "assets/layers_alpha/phone_back.png",
+      "alpha_source_version": "v8",
+      "alpha_source_file": "projects/first-frame/frame_01_s01_hero_v8.jpg"
     }
-  ]
+  ],
+  "rembg": {
+    "status": "done",
+    "tool": "rembg",
+    "model": "u2net",
+    "script": "projects/first-frame/scripts/rembg_cut.py",
+    "requirements": "projects/first-frame/scripts/requirements-rembg.txt",
+    "source_frame": "projects/first-frame/frame_01_s01_hero_v8.jpg",
+    "source_note": "All alpha mattes cut from V8 (not v9), per rembg experiment step.",
+    "full_rgba": "assets/layers_alpha/v8_full_rgba.png",
+    "quality_honesty": "Single-subject saliency: full-frame matte merges Cavalier+Maine+phone+lamp. Per-bbox crops are better but still bleed bedding/paws/glow. Not production cutouts.",
+    "next": "compositor reading recipes/v8_style_recipe.json + these alpha layers"
+  }
 }

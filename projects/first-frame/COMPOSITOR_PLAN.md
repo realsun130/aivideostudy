@@ -83,7 +83,7 @@
 5. `cavalier_ear_bow` / `paw_lamp`
 6. `phone_back`（最前道具之一）
 
-当前裁切均为 **rough_crop**：带背景出血、无 alpha。真正「扣出来可透明叠」要等 Step 2 蒙版或矢量重绘。
+主层（缅因/查理王/手机/爪灯/合影）已有 **`alpha_rembg`** 透明 PNG（自 V8）；其余 ROI（发卡/合影领结槽）仍为 rough_crop。rembg 非精修，毛边/合并仍在。
 
 ### 已知缺口
 
@@ -101,20 +101,21 @@ projects/first-frame/
     v8_breakdown.md
     v8_style_recipe.json
     v8_style_recipe.md
+  scripts/
+    rembg_cut.py              ← rembg 自动抠透明层
+    requirements-rembg.txt
   assets/
     manifest.json
     sources/SOURCES.md
     base/base_plate_v9.jpg
-    layers/
-      live_maine_coon_v8.jpg
-      cavalier_subject_v9.jpg
-      cavalier_ear_bow.jpg
-      phone_back.jpg
-      paw_lamp.jpg
-      wall_photo.jpg
-      photo_ear_bow_pink.jpg
-      photo_bowtie_black.jpg
-      _bbox_overview_v9.jpg   ← bbox 总览（调试）
+    layers/                   ← rough_crop jpg（保留）
+    layers_alpha/             ← rembg RGBA PNG（V8）
+      v8_full_rgba.png
+      live_maine_coon.png
+      cavalier_subject.png
+      phone_back.png
+      paw_lamp.png
+      wall_photo.png
 ```
 
 ## 7. 接到 Bot D / Remotion
@@ -132,10 +133,19 @@ projects/first-frame/
 
 Bot D 仍负责「镜头表 → 时间线 → 成片」；本实验只保证 **单帧可参数改图**，避免为配件再走图像模型。
 
-## 8. 下一步（Step 2 预告）
+## 8. rembg 透明层（已完成）→ 下一步合成器
 
-1. 写 `compose_frame01.py`（或 Remotion `<Frame01>`）：读 **`recipes/v8_style_recipe.json`** + `assets/manifest.json` → 按 z 合成 → 导出。
-2. 道具层（`paw_lamp` / `phone_back` / `cavalier_ear_bow` / 合影领结）用代码叠层或 alpha；**角色层继续用锁定帧**，不用椭圆重画。
+**rembg 已跑通（2026-10-14）**：
+
+- 脚本：`scripts/rembg_cut.py`（依赖见 `scripts/requirements-rembg.txt`）
+- 源：仅 **V8** 全帧 + manifest bbox 分块
+- 产物：`assets/layers_alpha/*.png`；manifest 对应层 `status: alpha_rembg` + `alpha_path`
+- 诚实：全帧易合并主体；分块仍有床品/毛边出血，非正式精修
+
+**下一步（合成器）**：
+
+1. 写 `compose_frame01.py`（或 Remotion `<Frame01>`）：读 **`recipes/v8_style_recipe.json`** + `assets/manifest.json`（优先 `alpha_path`）→ 按 z 合成 → 导出。
+2. 道具层用 alpha / 代码叠层；**角色层继续用锁定帧像素**，不用椭圆重画。
 3. 回归：只改 `photo_bowtie.visible` 或 `paw_lamp_intensity` → 像素 diff 应只落在对应 ROI / 光晕。
 
 ---
@@ -148,7 +158,7 @@ Bot D 仍负责「镜头表 → 时间线 → 成片」；本实验只保证 **�
 | 优先级 | 路径 | 状态 | 用途 |
 |--------|------|------|------|
 | **P0 · 首选** | **Vision → Recipe → 代码叠层** | ✅ V8 配方已写入 `recipes/` | 最终生产路径：锁定角色帧 + 参数改道具/光 |
-| P1 | `assets/` 粗裁 + manifest | ✅ Step 1 | ROI / bbox 契约；待 alpha 或矢量替身 |
+| P1 | `assets/` 粗裁 + rembg alpha | ✅ Step 1 + rembg | ROI / bbox + `layers_alpha/`；下一步合成器读 Recipe |
 | P2 · 降级 | `code_assets/render_cavalier.py` 椭圆重画 | ⚠️ 已做但观感灾难 | **仅作几何草稿 / 教学**；不得替换锁定英雄帧 |
 
 原则（更新后）：
