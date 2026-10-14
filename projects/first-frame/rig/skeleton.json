@@ -1,0 +1,160 @@
+{
+  "frame": "s01_hero",
+  "source": "projects/first-frame/frame_01_s01_hero_v8_acc_edit.jpg",
+  "canvas": {
+    "width": 1280,
+    "height": 720
+  },
+  "coord_space": "source_px",
+  "ear_convention": "L/R = screen left/right; cavalier_ear_L has pink bow (= anatomical right if facing camera)",
+  "rest_pose": {
+    "cavalier_root": {
+      "x": 340,
+      "y": 520,
+      "parent": null,
+      "note": "chest under duvet"
+    },
+    "cavalier_neck": {
+      "x": 340,
+      "y": 445,
+      "parent": "cavalier_root",
+      "note": "laugh-shake pivot"
+    },
+    "cavalier_head": {
+      "x": 325,
+      "y": 300,
+      "parent": "cavalier_neck",
+      "note": "skull center"
+    },
+    "cavalier_ear_L": {
+      "x": 185,
+      "y": 280,
+      "parent": "cavalier_head",
+      "note": "screen-left ear + pink bow"
+    },
+    "cavalier_ear_R": {
+      "x": 470,
+      "y": 285,
+      "parent": "cavalier_head",
+      "note": "screen-right ear"
+    },
+    "cavalier_jaw": {
+      "x": 320,
+      "y": 385,
+      "parent": "cavalier_head",
+      "note": "mouth open / laugh"
+    },
+    "cavalier_paw_hold": {
+      "x": 400,
+      "y": 530,
+      "parent": "cavalier_root",
+      "note": "both paws grip phone"
+    },
+    "phone": {
+      "x": 420,
+      "y": 555,
+      "parent": "cavalier_paw_hold",
+      "note": "phone back center; orientation lock"
+    },
+    "maine_root": {
+      "x": 790,
+      "y": 500,
+      "parent": null,
+      "note": "chest / ruff under duvet"
+    },
+    "maine_neck": {
+      "x": 790,
+      "y": 410,
+      "parent": "maine_root",
+      "note": "head-turn pivot"
+    },
+    "maine_head": {
+      "x": 790,
+      "y": 300,
+      "parent": "maine_neck",
+      "note": "skull center"
+    },
+    "maine_eyes": {
+      "x": 755,
+      "y": 295,
+      "parent": "maine_head",
+      "note": "gaze; look-away target"
+    },
+    "paw_lamp": {
+      "x": 1144,
+      "y": 346,
+      "parent": null,
+      "note": "static practical key"
+    },
+    "wall_photo": {
+      "x": 475,
+      "y": 120,
+      "parent": null,
+      "note": "static; accessory already edited"
+    }
+  },
+  "bones": [
+    [
+      "cavalier_root",
+      "cavalier_neck"
+    ],
+    [
+      "cavalier_neck",
+      "cavalier_head"
+    ],
+    [
+      "cavalier_head",
+      "cavalier_ear_L"
+    ],
+    [
+      "cavalier_head",
+      "cavalier_ear_R"
+    ],
+    [
+      "cavalier_head",
+      "cavalier_jaw"
+    ],
+    [
+      "cavalier_root",
+      "cavalier_paw_hold"
+    ],
+    [
+      "cavalier_paw_hold",
+      "phone"
+    ],
+    [
+      "maine_root",
+      "maine_neck"
+    ],
+    [
+      "maine_neck",
+      "maine_head"
+    ],
+    [
+      "maine_head",
+      "maine_eyes"
+    ]
+  ],
+  "drivers": {
+    "beat1_laugh_shake": [
+      "cavalier_neck",
+      "cavalier_head",
+      "cavalier_jaw",
+      "cavalier_ear_L",
+      "cavalier_ear_R"
+    ],
+    "beat2_push_phone": [
+      "cavalier_paw_hold",
+      "phone",
+      "cavalier_root"
+    ],
+    "beat3_maine_lookaway": [
+      "maine_neck",
+      "maine_head",
+      "maine_eyes"
+    ]
+  },
+  "stroke_coord_scale": 2,
+  "stroke_coord_note": "acc_strokes.npz pts are in 2560x1440 (sbr S=2); divide by 2 for source px",
+  "quality": "hand-placed rest joints on acc_edit; not auto-tracked. ±10–20px expected. Masks = rembg∩ROI, rough."
+}

@@ -1,0 +1,18 @@
+{
+  "width": 1280,
+  "height": 720,
+  "parts": {
+    "bg": 1,
+    "bed": 2,
+    "wall_photo": 3,
+    "paw_lamp": 4,
+    "maine_head": 5,
+    "maine_eyes": 6,
+    "cavalier_head": 7,
+    "cavalier_ear_L": 8,
+    "cavalier_ear_R": 9,
+    "cavalier_mouth": 10,
+    "phone": 11
+  },
+  "zero": "unlabeled"
+}
