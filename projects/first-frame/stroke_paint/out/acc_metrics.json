@@ -1,0 +1,34 @@
+{
+  "version": "acc",
+  "method": "accessory local edit on V8 then Hertzmann sbr (same CFG_V4)",
+  "source": "projects/first-frame/frame_01_s01_hero_v8_acc_edit.jpg",
+  "base_locked": "projects/first-frame/frame_01_s01_hero_v8.jpg",
+  "edit_script": "projects/first-frame/scripts/edit_accessories_v8.py",
+  "edits": [
+    "remove live Maine bows (v9 fur paste)",
+    "remove wall Maine hair bow (v9 fur paste)",
+    "wall Maine neck: recolor red bow → black 领结",
+    "wall Cavalier: add pink ear bow (v9 ROI)",
+    "live Cavalier pink ear bow unchanged"
+  ],
+  "stroke_count": 491488,
+  "paint": {
+    "mse": 36.6976,
+    "mae": 4.5178,
+    "psnr_db": 32.484,
+    "ssim": 0.8292,
+    "ssim_blur2": 0.9809
+  },
+  "psnr_db": 32.484,
+  "ssim": 0.8292,
+  "ssim_blur2": 0.9809,
+  "outputs": {
+    "edited_still": "projects/first-frame/frame_01_s01_hero_v8_acc_edit.jpg",
+    "paint": "projects/first-frame/stroke_paint/out/acc_paint.png",
+    "paint_native": "projects/first-frame/stroke_paint/out/stroke_v8_acc.png",
+    "compare": "projects/first-frame/stroke_paint/out/acc_compare.png",
+    "compare_side": "projects/first-frame/stroke_paint/out/compare_side_v8_acc.jpg",
+    "compare_v8_edit_stroke": "projects/first-frame/stroke_paint/out/compare_v8_edit_stroke_acc.jpg",
+    "strokes_npz": "projects/first-frame/stroke_paint/out/acc_strokes.npz"
+  }
+}

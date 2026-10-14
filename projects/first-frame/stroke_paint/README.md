@@ -165,3 +165,18 @@ python3 projects/first-frame/stroke_paint/compare.py \
 相对 v3：PSNR **+6.52 dB**，MSE **166 → 37**。产出：`v4_paint.png` / `stroke_v8_v4.png`、`v4_compare.png`、`v4_strokes.npz`（≈8.9MB）、`metrics_v8_v4.json`。
 
 说明：Claude 原报告 SSIM≈0.906 / blur≈0.995（其参考图与参数）；本帧在 ~49 万笔预算下 blur-SSIM≈0.981，已明显超过本仓库 v3。墨线（`--ink`）按 Claude 结论默认关闭。
+
+## Accessory local edit → re-stroke (`acc`)
+
+Script: `../scripts/edit_accessories_v8.py`
+
+1. Local pixel edit on locked V8 (v9 fur paste for removals; recolor red neck-bow → black 领结; paste wall-Cavalier pink ear bow from v9).
+2. Re-run Hertzmann `sbr.py` CFG_V4 on the edited still → `out/acc_*` / `stroke_v8_acc.png`.
+
+Outputs:
+- `../frame_01_s01_hero_v8_acc_edit.jpg` — edited still
+- `out/compare_acc_edit_v8.jpg` — v8 | edit | diff heat
+- `out/compare_v8_edit_stroke_acc.jpg` — v8 | edit | stroke
+- `out/acc_strokes.npz` — stroke list for later animation
+
+Edit lock: live Cavalier pink ear bow unchanged; only Maine bows + wall-photo accessories.
