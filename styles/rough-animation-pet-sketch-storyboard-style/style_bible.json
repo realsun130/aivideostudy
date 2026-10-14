@@ -1,0 +1,228 @@
+{
+  "project_id": "rough-animation-pet-sketch-storyboard",
+  "version": "2026-10-13.1",
+  "title": "Rough Animation Pet Sketch Storyboard",
+  "summary": "松散动画分镜素描风：暖米色纸、红棕结构线、暗红褐潦草轮廓、半透明水色填充、夸张宠物表情与简单室内道具驱动的喜剧节拍。",
+  "medium": "2d_illustration",
+  "medium_notes": "动画开发草图 / storyboard 完成度，不是精修矢量卡通；保留修正笔触与未完成感。源自 Cookbook style_slug=rough-animation-pet-sketch-storyboard-style v2026.05.15",
+  "palette": {
+    "primary": [
+      {
+        "name": "warm_beige",
+        "hex": "#E8DCC8",
+        "role": "primary"
+      },
+      {
+        "name": "cream",
+        "hex": "#F5EDE0",
+        "role": "primary"
+      },
+      {
+        "name": "pale_peach",
+        "hex": "#F0D5C4",
+        "role": "primary"
+      },
+      {
+        "name": "soft_tan",
+        "hex": "#D4B896",
+        "role": "primary"
+      }
+    ],
+    "accent": [
+      {
+        "name": "red_brown_pencil",
+        "hex": "#8B4513",
+        "role": "accent"
+      },
+      {
+        "name": "dark_burgundy_ink",
+        "hex": "#4A1525",
+        "role": "accent"
+      },
+      {
+        "name": "nearly_black_brown",
+        "hex": "#2B1A14",
+        "role": "accent"
+      },
+      {
+        "name": "muted_gray_blue",
+        "hex": "#8FA0B0",
+        "role": "accent"
+      },
+      {
+        "name": "peach_blush",
+        "hex": "#E8B4A8",
+        "role": "accent"
+      },
+      {
+        "name": "orange_food",
+        "hex": "#E07A3D",
+        "role": "accent"
+      },
+      {
+        "name": "warm_ochre",
+        "hex": "#C9953A",
+        "role": "accent"
+      }
+    ],
+    "background": {
+      "name": "warm_paper",
+      "hex": "#E8DCC8",
+      "role": "bg"
+    },
+    "forbidden": [
+      {
+        "name": "cold_neon",
+        "hex": "#00FFCC",
+        "role": "forbidden"
+      },
+      {
+        "name": "gloss_plastic",
+        "hex": "#FF69B4",
+        "role": "forbidden"
+      }
+    ]
+  },
+  "line": {
+    "weight": "variable",
+    "style": "sketchy",
+    "notes": "红棕结构线可见；暗红褐潦草轮廓多层叠压；允许修正笔触与未完成线。"
+  },
+  "lighting": {
+    "mood": "soft_diffused",
+    "notes": "暖室内漫射；忌电影级硬光与超写实毛发高光。"
+  },
+  "texture": {
+    "grain": "medium",
+    "paper": true,
+    "notes": "暖米色纸感 + 半透明水色填充；保留粗糙阴影与碎屑/动势记号。"
+  },
+  "typography": {
+    "title_font": "handwritten rough note",
+    "body_font": "tiny production scribble",
+    "title_color": {
+      "name": "ink",
+      "hex": "#4A1525",
+      "role": "text"
+    },
+    "body_color": {
+      "name": "pencil",
+      "hex": "#8B4513",
+      "role": "text"
+    },
+    "notes": "MAIN_TEXT/SECONDARY_TEXT 仅作短手写制作备注；通常可空。忌完美排版与密集可读招牌。"
+  },
+  "camera_grammar": {
+    "preferred_shots": [
+      "medium",
+      "close_up",
+      "wide"
+    ],
+    "preferred_motion": [
+      "static",
+      "kenburns_in",
+      "punch_in",
+      "parallax"
+    ],
+    "avoid_motion": [
+      "whip pan",
+      "shake",
+      "glossy 3D orbit"
+    ],
+    "default_transition": "cut",
+    "pacing": "medium",
+    "notes": "竖屏 9:16 分镜海报或横屏 16:9 动画板；角色/道具/反应角色分层。程序化成片以慢推+硬切为主，保留草图感。"
+  },
+  "prompt_blocks": {
+    "positive": "Create an image in the Rough Animation Pet Sketch Storyboard style. Warm beige paper, loose red-brown construction lines, scratchy dark burgundy contour strokes, semi-transparent watercolor-like color wash, rough animation storyboard finish, lightly sketched interior background, exaggerated original pet expressions, huge oval eyes, tiny pupils, visible correction strokes, one clear comic prop-driven beat. Stage like an animation story artist frame: one character extreme emotion, another deadpan or suspicious; foreground prop explains the joke; leave sketch marks, motion ticks, crumbs, rough shadows, unfinished room lines visible.",
+    "character_lock": "original pet/animal characters only; huge oval eyes with tiny pupils; exaggerated comic expressions; sketchy optional collar/scarf/tag; no franchise characters; keep red-brown construction lines on bodies.",
+    "environment_lock": "warm simple interiors (kitchen, sofa corner, hallway, dining table); lightly sketched shelves/frames/cabinets/windows; secondary to characters; warm pale unfinished room lines."
+  },
+  "negative_constraints": [
+    "watermark / username / platform logo / app UI / QR / creator signature / brand logo",
+    "exact reference or franchise characters",
+    "polished vector art / clean corporate mascot",
+    "3D render / photorealistic pet photo / airbrushed fur / hyperreal lighting / glossy toy look",
+    "anime cel shading",
+    "dense readable signage / perfect typography",
+    "cold neon palette / dark horror / violence",
+    "flat empty background / overfinished lineart"
+  ],
+  "likeness_rules": [
+    "读起来像动画开发帧，不是精修卡通",
+    "红棕结构线在角色和背景上都可见",
+    "用一个前景道具解释喜剧情境",
+    "一体极端表情 + 一体面瘫/怀疑对比",
+    "眼睛巨大简单，情绪一眼可读",
+    "半透明暖色填充在更深潦草轮廓之下",
+    "线条保持凌乱、分层、可修正、未完成",
+    "背景暖、淡、轻描、次要"
+  ],
+  "anchor_refs": [
+    {
+      "path": "source/style.json",
+      "role": "other",
+      "notes": "上游完整 style.json（含 examples 与 variables）",
+      "approved": true
+    }
+  ],
+  "defaults": {
+    "fps": 24,
+    "resolution": {
+      "width": 1920,
+      "height": 1080
+    },
+    "render_profile_preview": "720p_preview",
+    "render_profile_final": "1080p_final",
+    "default_motion_preset": "kenburns_in",
+    "default_transition": "cut"
+  },
+  "preference_appendix": {
+    "do": [
+      "通过 SUBJECT / SUBJECT_ACTION / PRODUCT_OR_PROP / LOCATION 等变量换内容",
+      "保留 style_fidelity_anchors",
+      "MAIN_TEXT / SECONDARY_TEXT 保持短而可读，通常可空"
+    ],
+    "dont": [
+      "把参考图当场景照抄",
+      "洗成精修矢量或写实宠物照片",
+      "冷霓虹、恐怖、暴力调性"
+    ],
+    "source_memory_refs": [
+      "upstream:VigoZhao/AI-Visual-Prompt-Cookbook@rough-animation-pet-sketch-storyboard-style"
+    ]
+  },
+  "cookbook_bridge": {
+    "style_slug": "rough-animation-pet-sketch-storyboard-style",
+    "style_version": "2026.05.15",
+    "upstream_url": "https://github.com/VigoZhao/AI-Visual-Prompt-Cookbook/tree/main/styles/rough-animation-pet-sketch-storyboard-style",
+    "environment_variables": [
+      "SUBJECT",
+      "SUBJECT_ACTION",
+      "PRODUCT_OR_PROP",
+      "LOCATION",
+      "BACKGROUND_ELEMENTS",
+      "MAIN_TEXT",
+      "SECONDARY_TEXT",
+      "ACCENT_SYMBOL",
+      "WARDROBE_STYLE",
+      "ASPECT_RATIO"
+    ],
+    "layer_order": [
+      "warm beige paper or interior wash",
+      "thin red-brown room construction lines",
+      "loose color blocks for characters and prop",
+      "dark scratchy contour passes",
+      "facial features and exaggerated eyes",
+      "foreground crumbs, motion ticks, stress marks, sparks, and rough shadows"
+    ],
+    "example_case_names": [
+      "Midnight Snack Interrogation",
+      "Vacuum Cleaner Alarm",
+      "Houseplant Evidence",
+      "Birthday Candle Chaos"
+    ]
+  },
+  "locked_at": "2026-10-14T01:47:31Z",
+  "locked_by": "pending_user_style_lock"
+}
