@@ -303,6 +303,13 @@
     "source_note": "All alpha mattes cut from V8 (not v9), per rembg experiment step.",
     "full_rgba": "assets/layers_alpha/v8_full_rgba.png",
     "quality_honesty": "Single-subject saliency: full-frame matte merges Cavalier+Maine+phone+lamp. Per-bbox crops are better but still bleed bedding/paws/glow. Not production cutouts.",
-    "next": "compositor reading recipes/v8_style_recipe.json + these alpha layers"
+    "next": "compose_from_recipe.py (done v1) → refine mattes / overlays-only workflow"
+  },
+  "compositor": {
+    "status": "v1",
+    "script": "projects/first-frame/scripts/compose_from_recipe.py",
+    "recipe": "projects/first-frame/recipes/v8_style_recipe.json",
+    "default_out": "projects/first-frame/code_assets/out/compose_v8_recipe_v1.png",
+    "notes": "Pillow paste by bbox/z_order; paw_lamp_intensity + hide flags; photo_bowtie parametric."
   }
 }

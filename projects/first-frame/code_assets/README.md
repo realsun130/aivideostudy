@@ -75,12 +75,25 @@ code_assets/
 - **未追求**：与 v9 裁切像素对齐（任务明确不要求）；毛发仍是椭圆水色块，不是真实长耳卷毛；身体偏「两个椭圆」几何感，故事板完成度够、精修卡通不够（这符合 Bible「未完成感」）。
 - **和抠图路线的关系**：这条是 **纯代码重画**，不依赖 `assets/layers/*` 的矩形粗裁；粗裁库仍可用于混合合成对照。
 
+## 合成器（recipe + rembg）
+
+静帧合成已接到 `scripts/compose_from_recipe.py`：读 `recipes/v8_style_recipe.json` + `assets/layers_alpha/`，按 manifest bbox/z_order 叠层。
+
+```bash
+python3 projects/first-frame/scripts/compose_from_recipe.py
+# 改参数示例（少重影用 --overlays-only）
+python3 projects/first-frame/scripts/compose_from_recipe.py \
+  --overlays-only --paw-lamp-intensity 1.3 --hide phone_back
+```
+
+输出：`out/compose_v8_recipe_v1.png`。说明见 `scripts/README.md`。
+
 ## 下一步
 
-1. **缅因猫**代码体（面瘫表情预设）— 同一套 `sketch_draw` 原语。
-2. **猫爪灯**参数化光罩（颜色/强度/落点）— 纯几何+径向渐变。
-3. **合成器** `compose_frame01.py`：底图或空白纸 + 查理王层 + 缅因层 + 灯/合影，用 manifest 的 `editable_params` 开关配件。
-4. 道具层（领结/发卡）优先代码画，避免再整图抽卡。
+1. 精修 rembg matte（或二次抠）减少床品粘连；底图去角色版 plate，避免双重曝光。
+2. 发卡 / 合影领结独立透明层或纯代码画（合成器已支持参数黑领结开关）。
+3. 读 recipe `layer_motion_rules` 出短循环（glow_pulse），接 Remotion。
+4. 椭圆查理王草稿仅作对照；正式角色像素继续锁 v8/v9 plate。
 
 ---
 

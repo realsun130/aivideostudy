@@ -142,11 +142,19 @@ Bot D 仍负责「镜头表 → 时间线 → 成片」；本实验只保证 **�
 - 产物：`assets/layers_alpha/*.png`；manifest 对应层 `status: alpha_rembg` + `alpha_path`
 - 诚实：全帧易合并主体；分块仍有床品/毛边出血，非正式精修
 
-**下一步（合成器）**：
+**合成器 v1（已完成 2026-10-14）**：
 
-1. 写 `compose_frame01.py`（或 Remotion `<Frame01>`）：读 **`recipes/v8_style_recipe.json`** + `assets/manifest.json`（优先 `alpha_path`）→ 按 z 合成 → 导出。
-2. 道具层用 alpha / 代码叠层；**角色层继续用锁定帧像素**，不用椭圆重画。
-3. 回归：只改 `photo_bowtie.visible` 或 `paw_lamp_intensity` → 像素 diff 应只落在对应 ROI / 光晕。
+- 脚本：`scripts/compose_from_recipe.py`
+- 读：`recipes/v8_style_recipe.json` + `assets/manifest.json`（优先 `alpha_path`）→ 按 bbox/z_order Pillow 叠层
+- 默认可调：`--paw-lamp-intensity`、`--hide`、`--overlays-only`、`--no-photo-bowtie`、`--base v9|v8|none`
+- 默认输出：`code_assets/out/compose_v8_recipe_v1.png`
+- 诚实缺口：底图烘焙角色 + 再叠角色 alpha 会重影（日常改道具请用 `--overlays-only`）；matte 未精修；无动画
+
+**下一步**：
+
+1. 精修 matte / 去角色底图，消除双重曝光。
+2. 回归：只改 `photo_bowtie` / `paw_lamp_intensity` → 像素 diff 只落在 ROI / 光晕。
+3. Remotion `<Frame01>` 镜像 `editable_params` + `glow_pulse`。
 
 ---
 
@@ -158,7 +166,7 @@ Bot D 仍负责「镜头表 → 时间线 → 成片」；本实验只保证 **�
 | 优先级 | 路径 | 状态 | 用途 |
 |--------|------|------|------|
 | **P0 · 首选** | **Vision → Recipe → 代码叠层** | ✅ V8 配方已写入 `recipes/` | 最终生产路径：锁定角色帧 + 参数改道具/光 |
-| P1 | `assets/` 粗裁 + rembg alpha | ✅ Step 1 + rembg | ROI / bbox + `layers_alpha/`；下一步合成器读 Recipe |
+| P1 | `assets/` 粗裁 + rembg + compose | ✅ rembg + compose v1 | ROI / bbox + `layers_alpha/` + `compose_from_recipe.py` |
 | P2 · 降级 | `code_assets/render_cavalier.py` 椭圆重画 | ⚠️ 已做但观感灾难 | **仅作几何草稿 / 教学**；不得替换锁定英雄帧 |
 
 原则（更新后）：
