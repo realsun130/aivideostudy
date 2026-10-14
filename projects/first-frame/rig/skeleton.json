@@ -6,53 +6,113 @@
     "height": 720
   },
   "coord_space": "source_px",
-  "ear_convention": "L/R = screen left/right; cavalier_ear_L has pink bow (= anatomical right if facing camera)",
+  "ear_convention": "L/R = screen left/right; cavalier_ear_L* has pink bow; each ear is 3-segment chain L0→L3 / R0→R3",
   "rest_pose": {
     "cavalier_root": {
-      "x": 340,
-      "y": 520,
+      "x": 338,
+      "y": 505,
       "parent": null,
       "note": "chest under duvet"
     },
     "cavalier_neck": {
-      "x": 340,
-      "y": 445,
+      "x": 330,
+      "y": 425,
       "parent": "cavalier_root",
-      "note": "laugh-shake pivot"
+      "note": "laugh-shake pivot / chin base"
     },
     "cavalier_head": {
       "x": 325,
-      "y": 300,
+      "y": 310,
       "parent": "cavalier_neck",
       "note": "skull center"
     },
-    "cavalier_ear_L": {
-      "x": 185,
-      "y": 280,
+    "cavalier_crown": {
+      "x": 322,
+      "y": 230,
       "parent": "cavalier_head",
-      "note": "screen-left ear + pink bow"
+      "note": "forehead top of vertical chain"
     },
-    "cavalier_ear_R": {
-      "x": 470,
-      "y": 285,
+    "cavalier_ear_L0": {
+      "x": 218,
+      "y": 252,
       "parent": "cavalier_head",
-      "note": "screen-right ear"
+      "note": "L ear base"
+    },
+    "cavalier_ear_L1": {
+      "x": 188,
+      "y": 298,
+      "parent": "cavalier_ear_L0",
+      "note": "L mid / pink bow"
+    },
+    "cavalier_ear_L2": {
+      "x": 165,
+      "y": 348,
+      "parent": "cavalier_ear_L1",
+      "note": "L lower"
+    },
+    "cavalier_ear_L3": {
+      "x": 155,
+      "y": 400,
+      "parent": "cavalier_ear_L2",
+      "note": "L tip"
+    },
+    "cavalier_ear_R0": {
+      "x": 412,
+      "y": 250,
+      "parent": "cavalier_head",
+      "note": "R ear base"
+    },
+    "cavalier_ear_R1": {
+      "x": 452,
+      "y": 298,
+      "parent": "cavalier_ear_R0",
+      "note": "R mid"
+    },
+    "cavalier_ear_R2": {
+      "x": 482,
+      "y": 348,
+      "parent": "cavalier_ear_R1",
+      "note": "R lower"
+    },
+    "cavalier_ear_R3": {
+      "x": 498,
+      "y": 400,
+      "parent": "cavalier_ear_R2",
+      "note": "R tip"
     },
     "cavalier_jaw": {
-      "x": 320,
+      "x": 318,
       "y": 385,
       "parent": "cavalier_head",
-      "note": "mouth open / laugh"
+      "note": "open mouth / laugh"
+    },
+    "cavalier_cheek": {
+      "x": 248,
+      "y": 335,
+      "parent": "cavalier_neck",
+      "note": "cheek hinge (viewer-left)"
+    },
+    "cavalier_shoulder": {
+      "x": 352,
+      "y": 468,
+      "parent": "cavalier_root",
+      "note": "shoulder toward phone"
+    },
+    "cavalier_elbow": {
+      "x": 382,
+      "y": 512,
+      "parent": "cavalier_shoulder",
+      "note": "elbow bend"
     },
     "cavalier_paw_hold": {
-      "x": 400,
-      "y": 530,
-      "parent": "cavalier_root",
-      "note": "both paws grip phone"
+      "x": 402,
+      "y": 542,
+      "parent": "cavalier_elbow",
+      "note": "paw grip on phone edge"
     },
     "phone": {
-      "x": 420,
-      "y": 555,
+      "x": 418,
+      "y": 552,
       "parent": "cavalier_paw_hold",
       "note": "phone back center; orientation lock"
     },
@@ -104,18 +164,58 @@
     ],
     [
       "cavalier_head",
-      "cavalier_ear_L"
+      "cavalier_crown"
     ],
     [
       "cavalier_head",
-      "cavalier_ear_R"
+      "cavalier_ear_L0"
+    ],
+    [
+      "cavalier_ear_L0",
+      "cavalier_ear_L1"
+    ],
+    [
+      "cavalier_ear_L1",
+      "cavalier_ear_L2"
+    ],
+    [
+      "cavalier_ear_L2",
+      "cavalier_ear_L3"
+    ],
+    [
+      "cavalier_head",
+      "cavalier_ear_R0"
+    ],
+    [
+      "cavalier_ear_R0",
+      "cavalier_ear_R1"
+    ],
+    [
+      "cavalier_ear_R1",
+      "cavalier_ear_R2"
+    ],
+    [
+      "cavalier_ear_R2",
+      "cavalier_ear_R3"
     ],
     [
       "cavalier_head",
       "cavalier_jaw"
     ],
     [
+      "cavalier_neck",
+      "cavalier_cheek"
+    ],
+    [
       "cavalier_root",
+      "cavalier_shoulder"
+    ],
+    [
+      "cavalier_shoulder",
+      "cavalier_elbow"
+    ],
+    [
+      "cavalier_elbow",
       "cavalier_paw_hold"
     ],
     [
@@ -135,15 +235,55 @@
       "maine_eyes"
     ]
   ],
+  "bone_colors": {
+    "head_chain": [
+      "cavalier_root",
+      "cavalier_neck",
+      "cavalier_head",
+      "cavalier_crown"
+    ],
+    "ear_L": [
+      "cavalier_ear_L0",
+      "cavalier_ear_L1",
+      "cavalier_ear_L2",
+      "cavalier_ear_L3"
+    ],
+    "ear_R": [
+      "cavalier_ear_R0",
+      "cavalier_ear_R1",
+      "cavalier_ear_R2",
+      "cavalier_ear_R3"
+    ],
+    "jaw_cheek": [
+      "cavalier_jaw",
+      "cavalier_cheek"
+    ],
+    "arm": [
+      "cavalier_shoulder",
+      "cavalier_elbow",
+      "cavalier_paw_hold",
+      "phone"
+    ]
+  },
   "drivers": {
     "beat1_laugh_shake": [
       "cavalier_neck",
       "cavalier_head",
+      "cavalier_crown",
       "cavalier_jaw",
-      "cavalier_ear_L",
-      "cavalier_ear_R"
+      "cavalier_cheek",
+      "cavalier_ear_L0",
+      "cavalier_ear_L1",
+      "cavalier_ear_L2",
+      "cavalier_ear_L3",
+      "cavalier_ear_R0",
+      "cavalier_ear_R1",
+      "cavalier_ear_R2",
+      "cavalier_ear_R3"
     ],
     "beat2_push_phone": [
+      "cavalier_shoulder",
+      "cavalier_elbow",
       "cavalier_paw_hold",
       "phone",
       "cavalier_root"
@@ -156,5 +296,5 @@
   },
   "stroke_coord_scale": 2,
   "stroke_coord_note": "acc_strokes.npz pts are in 2560x1440 (sbr S=2); divide by 2 for source px",
-  "quality": "hand-placed rest joints on acc_edit; not auto-tracked. ±10–20px expected. Masks = rembg∩ROI, rough."
+  "quality": "v2: hand polygons∩rembg for ears/mouth; 3-seg ears; arm chain; ±8–15px expected"
 }
