@@ -4,12 +4,19 @@
 
 Bot D 已锁定：不上图生视频，成本优先。
 
+## 人读总览（中文）
+
+- [`docs/STYLE_AND_SHOT_SUMMARY.md`](docs/STYLE_AND_SHOT_SUMMARY.md) — **风格 + 镜头两部分总览**（分离原则、当前 Style Bible 摘要、FilmGraph 词表中文释义）
+- [`docs/style-bible-rough-pet-sketch.md`](docs/style-bible-rough-pet-sketch.md) — 当前锁定风格深摘要（纯画风）
+- [`docs/cinematography-filmgraph.md`](docs/cinematography-filmgraph.md) — FilmGraph 景别/运镜/转场 + Remotion 映射
+
 ## Schemas
 
 - `schemas/style_bible.schema.json` — **只锁画风**（色、线、光、静帧构图、prompt）
 - `schemas/shot_list.schema.json` — 镜头表：FilmGraph 景别/运镜/转场 + 可选 Remotion `programmatic_motion`
 - `schemas/cinematography_vocab.json` — FilmGraph 枚举与程序化默认映射
 - Examples under `schemas/examples/`
+- 分离说明：[`schemas/README.md`](schemas/README.md)
 
 ## Adopted styles
 
