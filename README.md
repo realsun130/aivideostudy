@@ -11,6 +11,7 @@ Bot D 已锁定：不上图生视频，成本优先。
 - [`docs/cinematography-filmgraph.md`](docs/cinematography-filmgraph.md) — FilmGraph 景别/运镜/转场 + Remotion 映射
 
 - [`docs/DISPATCH_CONVENTIONS.md`](docs/DISPATCH_CONVENTIONS.md) — **调度约定：扇出提问 + 置信度路由**（导演分派 / Bot E 审片门）
+- [`docs/OPENMONTAGE_GAP_ANALYSIS.md`](docs/OPENMONTAGE_GAP_ANALYSIS.md) — OpenMontage 对照查漏 + P0/P1/P2 待办
 
 ## Schemas
 
