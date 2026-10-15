@@ -1,0 +1,391 @@
+{
+  "frame": "s01_hero",
+  "source": "projects/first-frame/frame_01_s01_hero_v8_acc_edit.jpg",
+  "canvas": {
+    "width": 1280,
+    "height": 720
+  },
+  "coord_space": "source_px",
+  "ear_convention": "L/R = screen left/right; cavalier_ear_L* has pink bow; each ear = 3 joints root→mid→lowest (L0–L2 / R0–R2)",
+  "proposal": "vision_v1",
+  "proposal_method": "No Claude/Qwen-VL API on box. Used: (1) multimodal Read of hero + face/ear/mouth/phone crops; (2) part_masks geometry (medial ear chains, mouth extrema, mask centroids); (3) color landmarks (black nose above mouth, dusty-pink bow for ear_L0).",
+  "rest_pose": {
+    "cavalier_root": {
+      "x": 363.9,
+      "y": 490.8,
+      "parent": null,
+      "note": "chest (arm chain start + torso root)",
+      "confidence": "medium",
+      "method": "bright-fur band between neck & phone"
+    },
+    "cavalier_neck": {
+      "x": 341.4,
+      "y": 447.7,
+      "parent": "cavalier_root",
+      "note": "laugh-shake pivot (throat under chin)",
+      "confidence": "medium",
+      "method": "head-mask strip under chin"
+    },
+    "cavalier_head": {
+      "x": 341.1,
+      "y": 292.3,
+      "parent": "cavalier_neck",
+      "note": "skull center (between crown & nose / eye band)",
+      "confidence": "medium",
+      "method": "interp crown→nose (mask mid was pulled into muzzle)"
+    },
+    "cavalier_crown": {
+      "x": 355.2,
+      "y": 262.5,
+      "parent": "cavalier_head",
+      "note": "forehead top / blaze",
+      "confidence": "high",
+      "method": "top 6% head mask excl. ears"
+    },
+    "cavalier_nose": {
+      "x": 323.8,
+      "y": 328.8,
+      "parent": "cavalier_head",
+      "note": "nose tip",
+      "confidence": "high",
+      "method": "dark blob above mouth ∩ ¬mouth"
+    },
+    "cavalier_mouth_L": {
+      "x": 282.0,
+      "y": 377.0,
+      "parent": "cavalier_nose",
+      "note": "viewer-left mouth corner",
+      "confidence": "high",
+      "method": "mouth-mask left extrema (upper 55%)"
+    },
+    "cavalier_mouth_R": {
+      "x": 358.0,
+      "y": 375.0,
+      "parent": "cavalier_nose",
+      "note": "viewer-right mouth corner",
+      "confidence": "high",
+      "method": "mouth-mask right extrema (upper 55%)"
+    },
+    "cavalier_chin": {
+      "x": 320.2,
+      "y": 426.7,
+      "parent": "cavalier_nose",
+      "note": "chin lowest point / jaw",
+      "confidence": "high",
+      "method": "mouth-mask bottom 5% (x blended to nose)"
+    },
+    "cavalier_ear_L0": {
+      "x": 240.1,
+      "y": 305.8,
+      "parent": "cavalier_head",
+      "note": "L ear root (pink bow)",
+      "confidence": "high",
+      "method": "pink-bow color peak blended to ear_L mask top"
+    },
+    "cavalier_ear_L1": {
+      "x": 208.5,
+      "y": 352.7,
+      "parent": "cavalier_ear_L0",
+      "note": "L ear midpoint",
+      "confidence": "high",
+      "method": "ear_L mask medial sample t=0.5"
+    },
+    "cavalier_ear_L2": {
+      "x": 179.1,
+      "y": 400.8,
+      "parent": "cavalier_ear_L1",
+      "note": "L ear lowest edge",
+      "confidence": "high",
+      "method": "ear_L mask medial sample t=0.95"
+    },
+    "cavalier_ear_R0": {
+      "x": 416.9,
+      "y": 259.5,
+      "parent": "cavalier_head",
+      "note": "R ear root",
+      "confidence": "high",
+      "method": "ear_R mask medial sample t=0.05"
+    },
+    "cavalier_ear_R1": {
+      "x": 452.1,
+      "y": 327.0,
+      "parent": "cavalier_ear_R0",
+      "note": "R ear midpoint",
+      "confidence": "high",
+      "method": "ear_R mask medial sample t=0.5"
+    },
+    "cavalier_ear_R2": {
+      "x": 473.0,
+      "y": 394.8,
+      "parent": "cavalier_ear_R1",
+      "note": "R ear lowest edge",
+      "confidence": "high",
+      "method": "ear_R mask medial sample t=0.95"
+    },
+    "cavalier_shoulder": {
+      "x": 382.1,
+      "y": 468.8,
+      "parent": "cavalier_root",
+      "note": "shoulder toward phone (viewer-right)",
+      "confidence": "low",
+      "method": "anatomical estimate: up-right of chest toward phone; fur occlusion"
+    },
+    "cavalier_elbow": {
+      "x": 385.9,
+      "y": 515.7,
+      "parent": "cavalier_shoulder",
+      "note": "elbow bend",
+      "confidence": "low",
+      "method": "interp shoulder→wrist; fur occlusion — dubious"
+    },
+    "cavalier_wrist": {
+      "x": 389.0,
+      "y": 547.0,
+      "parent": "cavalier_elbow",
+      "note": "wrist / paw grip",
+      "confidence": "medium",
+      "method": "phone-mask left-center (paw grip)"
+    },
+    "phone": {
+      "x": 415.9,
+      "y": 553.0,
+      "parent": "cavalier_wrist",
+      "note": "phone back center; orientation lock",
+      "confidence": "high",
+      "method": "phone-mask centroid"
+    },
+    "maine_root": {
+      "x": 804.3,
+      "y": 512.6,
+      "parent": null,
+      "note": "chest / ruff under duvet",
+      "confidence": "medium",
+      "method": "offset below maine head centroid"
+    },
+    "maine_neck": {
+      "x": 804.3,
+      "y": 432.6,
+      "parent": "maine_root",
+      "note": "head-turn pivot",
+      "confidence": "medium",
+      "method": "mid maine_head→root"
+    },
+    "maine_head": {
+      "x": 804.3,
+      "y": 352.6,
+      "parent": "maine_neck",
+      "note": "skull center",
+      "confidence": "high",
+      "method": "maine_head mask centroid"
+    },
+    "maine_eyes": {
+      "x": 755.6,
+      "y": 295.0,
+      "parent": "maine_head",
+      "note": "gaze; look-away target",
+      "confidence": "high",
+      "method": "maine_eyes mask centroid"
+    },
+    "paw_lamp": {
+      "x": 1144.4,
+      "y": 346.4,
+      "parent": null,
+      "note": "static practical key",
+      "confidence": "high",
+      "method": "paw_lamp mask centroid"
+    },
+    "wall_photo": {
+      "x": 397.5,
+      "y": 124.6,
+      "parent": null,
+      "note": "static; accessory already edited",
+      "confidence": "high",
+      "method": "wall_photo mask centroid"
+    }
+  },
+  "bones": [
+    [
+      "cavalier_root",
+      "cavalier_neck"
+    ],
+    [
+      "cavalier_neck",
+      "cavalier_head"
+    ],
+    [
+      "cavalier_head",
+      "cavalier_crown"
+    ],
+    [
+      "cavalier_head",
+      "cavalier_nose"
+    ],
+    [
+      "cavalier_nose",
+      "cavalier_mouth_L"
+    ],
+    [
+      "cavalier_nose",
+      "cavalier_mouth_R"
+    ],
+    [
+      "cavalier_mouth_L",
+      "cavalier_chin"
+    ],
+    [
+      "cavalier_mouth_R",
+      "cavalier_chin"
+    ],
+    [
+      "cavalier_head",
+      "cavalier_ear_L0"
+    ],
+    [
+      "cavalier_ear_L0",
+      "cavalier_ear_L1"
+    ],
+    [
+      "cavalier_ear_L1",
+      "cavalier_ear_L2"
+    ],
+    [
+      "cavalier_head",
+      "cavalier_ear_R0"
+    ],
+    [
+      "cavalier_ear_R0",
+      "cavalier_ear_R1"
+    ],
+    [
+      "cavalier_ear_R1",
+      "cavalier_ear_R2"
+    ],
+    [
+      "cavalier_root",
+      "cavalier_shoulder"
+    ],
+    [
+      "cavalier_shoulder",
+      "cavalier_elbow"
+    ],
+    [
+      "cavalier_elbow",
+      "cavalier_wrist"
+    ],
+    [
+      "cavalier_wrist",
+      "phone"
+    ],
+    [
+      "maine_root",
+      "maine_neck"
+    ],
+    [
+      "maine_neck",
+      "maine_head"
+    ],
+    [
+      "maine_head",
+      "maine_eyes"
+    ]
+  ],
+  "bone_colors": {
+    "head_chain": [
+      "cavalier_root",
+      "cavalier_neck",
+      "cavalier_head",
+      "cavalier_crown"
+    ],
+    "mouth": [
+      "cavalier_nose",
+      "cavalier_mouth_L",
+      "cavalier_mouth_R",
+      "cavalier_chin"
+    ],
+    "ear_L": [
+      "cavalier_ear_L0",
+      "cavalier_ear_L1",
+      "cavalier_ear_L2"
+    ],
+    "ear_R": [
+      "cavalier_ear_R0",
+      "cavalier_ear_R1",
+      "cavalier_ear_R2"
+    ],
+    "arm": [
+      "cavalier_root",
+      "cavalier_shoulder",
+      "cavalier_elbow",
+      "cavalier_wrist",
+      "phone"
+    ]
+  },
+  "drivers": {
+    "beat1_laugh_shake": [
+      "cavalier_neck",
+      "cavalier_head",
+      "cavalier_crown",
+      "cavalier_nose",
+      "cavalier_mouth_L",
+      "cavalier_mouth_R",
+      "cavalier_chin",
+      "cavalier_ear_L0",
+      "cavalier_ear_L1",
+      "cavalier_ear_L2",
+      "cavalier_ear_R0",
+      "cavalier_ear_R1",
+      "cavalier_ear_R2"
+    ],
+    "beat2_push_phone": [
+      "cavalier_root",
+      "cavalier_shoulder",
+      "cavalier_elbow",
+      "cavalier_wrist",
+      "phone"
+    ],
+    "beat3_maine_lookaway": [
+      "maine_neck",
+      "maine_head",
+      "maine_eyes"
+    ]
+  },
+  "confidence_notes": {
+    "high": [
+      "cavalier_nose",
+      "cavalier_mouth_L",
+      "cavalier_mouth_R",
+      "cavalier_chin",
+      "cavalier_ear_L0",
+      "cavalier_ear_L1",
+      "cavalier_ear_L2",
+      "cavalier_ear_R0",
+      "cavalier_ear_R1",
+      "cavalier_ear_R2",
+      "cavalier_crown",
+      "phone",
+      "maine_head",
+      "maine_eyes",
+      "paw_lamp",
+      "wall_photo"
+    ],
+    "medium": [
+      "cavalier_head",
+      "cavalier_neck",
+      "cavalier_root",
+      "cavalier_wrist",
+      "maine_root",
+      "maine_neck"
+    ],
+    "dubious_low": [
+      "cavalier_shoulder — long fur + phone occlusion; anatomical up-right of chest",
+      "cavalier_elbow — no visible joint; geometric interp only",
+      "cavalier_root — chest under duvet/fur; bright-band estimate",
+      "cavalier_head — mask mid fell into muzzle; re-interpolated crown→nose",
+      "ear_L mask starts y≈293; pink bow (~240,308) pins L0 (old L0 at 228,265 was off-mask)"
+    ],
+    "vs_prior_v3": "Prior crown/eL0 sampled into near-black void outside masks; phone joint was right of mask centroid. Vision pass snaps L0 to pink bow, crown onto head top, phone to mask centroid, mouth diamond to mask extrema."
+  },
+  "stroke_coord_scale": 2,
+  "stroke_coord_note": "acc_strokes.npz pts are in 2560x1440 (sbr S=2); divide by 2 for source px",
+  "quality": "vision_v1b: mask+color+crop-VL; head interp; arm anatomical estimate"
+}
