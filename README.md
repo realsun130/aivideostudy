@@ -10,6 +10,8 @@ Bot D 已锁定：不上图生视频，成本优先。
 - [`docs/style-bible-rough-pet-sketch.md`](docs/style-bible-rough-pet-sketch.md) — 当前锁定风格深摘要（纯画风）
 - [`docs/cinematography-filmgraph.md`](docs/cinematography-filmgraph.md) — FilmGraph 景别/运镜/转场 + Remotion 映射
 
+- [`docs/DISPATCH_CONVENTIONS.md`](docs/DISPATCH_CONVENTIONS.md) — **调度约定：扇出提问 + 置信度路由**（导演分派 / Bot E 审片门）
+
 ## Schemas
 
 - `schemas/style_bible.schema.json` — **只锁画风**（色、线、光、静帧构图、prompt）
