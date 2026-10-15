@@ -77,15 +77,21 @@ F 在这里的角色：把你历史「要/不要」写进 bible 的**偏好附�
 
 两层产物，一层锁一层：
 
-1. **Story Card**（主题、人物弧、情绪曲线、禁区）→ 你确认  
+1. **Story Card**（主题、人物弧、情绪曲线、禁区、**交付承诺**）→ 你确认  
+   交付承诺（delivery promise，必填）：
+   ```json
+   "delivery_promise": {"mode": "motion_led | still_led | mixed", "min_motion_shot_ratio": 0.6}
+   ```
+   起始值：motion_led ≥ 0.6，mixed ≥ 0.35，still_led 不设下限（写 0）。成片由 `tools/final_review.py --promise story_card.json` 用帧差核对，不达标即 fail。
 2. **Shot List**（机器可读）每镜至少含：
    - `shot_id`, `duration_sec`, `scene`, `camera`, `action`, `dialogue`
+   - `shot_intent`（这一镜为何存在）+ `information_role`（必填，见 schema）
    - `keyframe_ids`（起/中/末或关键姿态）
    - `style_ref`（指向 Style Bible 版本）
    - `audio_cue`（可选）
    - `transition_to_next`
 
-没有 Shot List，D 几乎不可能「一次成功率高」。
+没有 Shot List，D 几乎不可能「一次成功率高」。Shot Lock 前跑 `tools/slideshow_risk.py`，verdict=block 不得锁定。
 
 ### 2.4 画面面（原 C）
 

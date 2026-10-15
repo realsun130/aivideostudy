@@ -1,0 +1,50 @@
+{
+  "style_slug": "rough-animation-pet-sketch-storyboard-style",
+  "version": "2026-10-15.0-draft",
+  "status": "draft",
+  "notes": "DRAFT. Numbers derived from docs/MOTION_LESSONS.md §3/§7/§10; does not modify style_bible.json. Lock after first 10-15s sample.",
+  "pacing": {
+    "hook": {"min_sec": 1.0, "max_sec": 2.5},
+    "setup": {"min_sec": 2.0, "max_sec": 4.0},
+    "context": {"min_sec": 1.5, "max_sec": 3.5},
+    "explain_mechanism": {"min_sec": 3.0, "max_sec": 6.0},
+    "evidence_data": {"min_sec": 2.5, "max_sec": 5.0},
+    "emotional_beat": {"min_sec": 2.0, "max_sec": 5.0},
+    "reaction": {"min_sec": 0.8, "max_sec": 2.0},
+    "transition_bridge": {"min_sec": 0.5, "max_sec": 1.5},
+    "payoff": {"min_sec": 1.5, "max_sec": 3.5},
+    "cta": {"min_sec": 2.0, "max_sec": 3.0},
+    "brand": {"min_sec": 1.5, "max_sec": 3.0}
+  },
+  "text_hold": {"sec_per_word": 0.3, "base_sec": 0.5, "hold_push_pct": 2},
+  "transitions": {
+    "default": "cut",
+    "allowed": ["cut", "dissolve", "match-cut", "fade-to-black"],
+    "duration_sec": {"cut": 0, "dissolve": 0.4, "match-cut": 0, "fade-to-black": 0.6}
+  },
+  "easing": {
+    "enter": "ease-out",
+    "exit": "ease-in",
+    "exit_shorter_pct": 45,
+    "camera": "ease-in-out-quart",
+    "linear_only_for": ["rotation", "progress", "loop_phase"]
+  },
+  "springs": {
+    "ui_premium": {"damping_ratio": 0.8, "stiffness": 170, "mass": 1},
+    "character_lively": {"damping_ratio": 0.5, "stiffness": 120, "mass": 1},
+    "no_bounce": {"damping_ratio": 1.0, "stiffness": 100, "mass": 1}
+  },
+  "stagger": {"letter_frames": 1, "word_ms": [60, 120], "list_ms": [40, 80], "total_budget_ms": 500, "overlap_start_pct": [30, 50]},
+  "parallax": {"fg": 1.0, "mid": 0.5, "bg": 0.2},
+  "deformation": {"max_edge_stretch": 0.12, "max_area_change": 0.10},
+  "audio": {
+    "lufs_target": -14,
+    "true_peak_master_dbtp": -2.0,
+    "true_peak_encoded_dbtp": -1.0,
+    "sfx_offset_frames": 1,
+    "sfx_character": "soft paper/pencil foley, short pops; no whooshes on every cut",
+    "music_bed_db": -20,
+    "ducking": {"under_voice_db": -10, "attack_ms": 80, "release_ms": 300},
+    "limiter_max_gr_db": 3
+  }
+}

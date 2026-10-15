@@ -32,7 +32,10 @@
         "hero": "frames/s01/hero.png"
       },
       "transition_to_next": "cut",
-      "transition_programmatic": "cut"
+      "transition_programmatic": "cut",
+      "shot_intent": "Plant the want: the cat's fixed gaze tells us the cookie jar is the goal.",
+      "information_role": "setup",
+      "layout": "two_shot_kitchen"
     },
     {
       "shot_id": "s02",
@@ -49,7 +52,10 @@
         "hero": "frames/s02/hero.png"
       },
       "transition_to_next": "dissolve",
-      "transition_sec": 0.4
+      "transition_sec": 0.4,
+      "shot_intent": "Reveal the culprit through the dog's guilty freeze - the joke lands here.",
+      "information_role": "payoff",
+      "layout": "cu_reaction"
     }
   ]
 }

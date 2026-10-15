@@ -62,7 +62,9 @@
         "duration_sec",
         "cinematography",
         "transition_to_next",
-        "frames"
+        "frames",
+        "shot_intent",
+        "information_role"
       ],
       "properties": {
         "shot_id": {
@@ -256,6 +258,36 @@
         },
         "notes": {
           "type": "string"
+        },
+        "shot_intent": {
+          "type": "string",
+          "minLength": 8,
+          "description": "Why this shot exists: what the viewer must feel/learn here that no other shot provides. Empty/filler intents fail Shot Lock."
+        },
+        "information_role": {
+          "type": "string",
+          "enum": [
+            "hook",
+            "setup",
+            "context",
+            "explain_mechanism",
+            "evidence_data",
+            "emotional_beat",
+            "reaction",
+            "transition_bridge",
+            "payoff",
+            "cta",
+            "brand"
+          ],
+          "description": "Narrative/information job of the shot. Used by slideshow_risk.py."
+        },
+        "layout": {
+          "type": "string",
+          "description": "Optional layout tag (e.g. 'center_title', 'left_text_right_image'); repeated tags raise slideshow risk."
+        },
+        "is_text_card": {
+          "type": "boolean",
+          "description": "True if the shot is primarily a text/title card."
         }
       }
     }

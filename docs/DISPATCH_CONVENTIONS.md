@@ -120,3 +120,19 @@ push / 终版 16 采样渲染（§9）属于昂贵动作：需全部镜头 pass 
  "answers":{"verdict":["fix",0.82]},"evidence_hash":"…","action":"rerender_preview",
  "verified_by_code":true,"ts":"2026-10-15T02:30-07:00"}
 ```
+
+## 6. 交付门（P0-4，硬规则）
+- **没有 `final_review.json`，或 `status != "pass"` → 不得进入 Final Accept**，不得问 `bot_e_final_accept` 的模型题，也不得把成片发给用户当终版。
+- `final_review.json` 由 `tools/final_review.py` 产生（schema：`schemas/final_review.schema.json`），检查：ffprobe 参数、≥4 帧联系表、黑帧、静音（警告）、削波、**编码后**真峰值 ≤ −1 dBTP、积分响度 −14±1 LUFS（ML §7）、Story Card `delivery_promise` 的运动镜头比例。
+- 无声成片必须显式 `--allow-no-audio`，并在决策日志写一条原因。
+- 人工可放行 fail，但必须记 decision_log（`user_visible: true`）。
+
+## 7. 决策日志（P0-3）
+- 总监每个关键选择（视频类型、风格、时长档、交付承诺、重做/不重做、放行 fail）**必须**追加一条到 `projects/<id>/decision_log.json`（schema：`schemas/decision_log.schema.json`）。
+- 必填：`options_considered`（≥2）、`selected`、`reason`、`confidence`、`routed`、`user_visible`、`timestamp`、`model`。
+- `confidence < 0.9` 的破坏性决策或任何 `routed: human*` 的条目 → `user_visible: true`，下次汇报必须带上。
+
+## 8. 断点、成本、审美节奏（P1）
+- **断点**：每阶段结束写 `projects/<id>/checkpoints/<NN>_<stage>.json`（`schemas/checkpoint.schema.json`）。续跑 = 从第一个缺失或非 `done` 的阶段开始；输入的 sha256 变了就从该阶段重跑。
+- **成本**：`projects/<id>/cost_log.json`（`schemas/cost_log.schema.json`），每阶段估算/实际/修订上限；`python3 tools/cost_check.py` 在实际 > 估算 ×1.3 或修订超上限时告警 → 转人工。
+- **动效节奏**：`styles/<slug>/motion_profile.json`（独立于 Style Bible），Bot D 取停留/转场/弹簧/音频数字，Bot E 用它判 `timing`。

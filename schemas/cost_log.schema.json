@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.animation-pipeline/cost_log.schema.json",
+  "title": "CostLog",
+  "description": "projects/<id>/cost_log.json. Alert when actual > estimate*1.30 (budget drift) or revisions > cap.",
+  "type": "object",
+  "required": [
+    "project_id",
+    "currency",
+    "budget_total",
+    "drift_alert_pct",
+    "stages"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "budget_total": {
+      "type": "number",
+      "minimum": 0
+    },
+    "drift_alert_pct": {
+      "type": "number",
+      "default": 30
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "stage",
+          "estimate",
+          "actual",
+          "revision_cap",
+          "revisions"
+        ],
+        "properties": {
+          "stage": {
+            "type": "string"
+          },
+          "estimate": {
+            "type": "number",
+            "minimum": 0
+          },
+          "actual": {
+            "type": "number",
+            "minimum": 0
+          },
+          "revision_cap": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "revisions": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "kind",
+                "amount"
+              ],
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "model_tokens",
+                    "render_minutes",
+                    "gpu_minutes",
+                    "api_call",
+                    "human_minutes",
+                    "other"
+                  ]
+                },
+                "model": {
+                  "type": "string"
+                },
+                "tokens_in": {
+                  "type": "integer"
+                },
+                "tokens_out": {
+                  "type": "integer"
+                },
+                "minutes": {
+                  "type": "number"
+                },
+                "amount": {
+                  "type": "number"
+                },
+                "ts": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "alerts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "message"
+              ],
+              "properties": {
+                "type": {
+                  "enum": [
+                    "budget_drift",
+                    "revision_cap"
+                  ]
+                },
+                "message": {
+                  "type": "string"
+                },
+                "ts": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -15,6 +15,8 @@
 2. RS 默认做法：先开 Studio 预览、不明确要求就不渲染、发现手改代码就保留。
 3. 动画用 `interpolate()` 加 `Easing.bezier` / `Easing.spring`（RS `remotion-markup/timing.md`），不另起 GSAP 时钟（ML §6）。
 4. 迭代期只出静帧和联系表（ML §5），终版才开运动模糊（ML §9）。
+5. **Shot Lock 前**跑 `python3 tools/slideshow_risk.py shot_list.json`：查无意图镜头、弱运动、重复版式、字卡占比；分数 > 40 或有镜头缺 `shot_intent` → 不得锁定。02 动态文字类字卡占比天然高，可在 `--max-score` 放宽并在决策日志记原因。
+6. **交付前**跑 `python3 tools/final_review.py out.mp4 --promise story_card.json`，`status=pass` 才能进 Final Accept（DISPATCH §6）。
 
 ## 目录
 

@@ -6,6 +6,11 @@
 |------|------|------------------|
 | `style_bible.schema.json` | Look: medium, palette, line, light, still composition, prompts | Motion, transitions, timing |
 | `shot_list.schema.json` | Shots: duration, FilmGraph cinematography, transitions, frames | Visual DNA |
+| `motion_profile.schema.json` | Per-style pacing/transition/spring/audio numbers (`styles/<slug>/motion_profile.json`) | Look |
+| `final_review.schema.json` | Output of `tools/final_review.py` (delivery gate) | — |
+| `decision_log.schema.json` | Director key decisions | — |
+| `checkpoint.schema.json` | `projects/<id>/checkpoints/<NN>_<stage>.json` resume points | — |
+| `cost_log.schema.json` | Per-stage cost, revision caps, >30% drift alert (`tools/cost_check.py`) | — |
 | `cinematography_vocab.json` | FilmGraph enums + map → Remotion presets | Style look |
 
 ## Sources

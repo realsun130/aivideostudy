@@ -98,19 +98,21 @@ OM 流程：拆参考片 → 能力核对（哪些我们做不到）→ 关键�
 
 ## 7. 待办（按优先级）
 
+> 2026-10-15：P0 全部与 P1 全部已实现（✅），见 `tools/`、`schemas/`、`config/dispatch_questions.yaml`。P2 未动（P2-1 等 Style Lock）。
+
 **P0**
-- P0-1 在 shot_list 增加 `shot_intent`（这一镜为何存在）与 `information_role` 字段 → `schemas/shot_list.schema.json`
-- P0-2 新建渲染后自检脚本：ffprobe 参数、≥4 帧抽帧联系表、黑帧、静音段、削波、编码后真峰值，输出 final_review JSON → `tools/final_review.py` + `schemas/final_review.schema.json`
-- P0-3 新建决策日志 schema（options_considered / selected / reason / confidence / user_visible），总监每个关键选择必须记一条 → `schemas/decision_log.schema.json` + `docs/DISPATCH_CONVENTIONS.md`
-- P0-4 Bot E 交付规则：无 final_review 或 status≠pass 不得进入 Final Accept → `docs/DISPATCH_CONVENTIONS.md`
+- ✅ P0-1 在 shot_list 增加 `shot_intent`（这一镜为何存在）与 `information_role` 字段 → `schemas/shot_list.schema.json`
+- ✅ P0-2 新建渲染后自检脚本：ffprobe 参数、≥4 帧抽帧联系表、黑帧、静音段、削波、编码后真峰值，输出 final_review JSON → `tools/final_review.py` + `schemas/final_review.schema.json`
+- ✅ P0-3 新建决策日志 schema（options_considered / selected / reason / confidence / user_visible），总监每个关键选择必须记一条 → `schemas/decision_log.schema.json` + `docs/DISPATCH_CONVENTIONS.md`
+- ✅ P0-4 Bot E 交付规则：无 final_review 或 status≠pass 不得进入 Final Accept → `docs/DISPATCH_CONVENTIONS.md`
 
 **P1**
-- P1-1 风格级动效/节奏/音频数字（pacing hold、转场时长、弹簧、入出场、sfx 气质、ducking）作为独立文件，不改 Bible 值 → `styles/<slug>/motion_profile.json` + `schemas/motion_profile.schema.json`
-- P1-2 slideshow 风险评分（重复版式、无意图镜头、字卡占比、弱运动）在 Shot Lock 前跑 → `tools/slideshow_risk.py` + `docs/video-guides/README.md`
-- P1-3 delivery promise：Story Card 写明“动态为主/静帧为主”与最低运动镜头比例，自检核对 → `framework-v1.md` §2.3 + final_review
-- P1-4 checkpoint JSON（stage/status/artifacts/时间戳）支持断点续跑 → `schemas/checkpoint.schema.json` + `projects/<id>/checkpoints/`
-- P1-5 参考视频 5 维度拆片模板 + 10–15 s 动态样片门 → `docs/REFERENCE_VIDEO_INTAKE.md`
-- P1-6 成本日志（模型 token、渲染分钟、估算/实际），每阶段修订上限与预算漂移 >30% 告警 → `schemas/cost_log.schema.json`
+- ✅ P1-1 风格级动效/节奏/音频数字（pacing hold、转场时长、弹簧、入出场、sfx 气质、ducking）作为独立文件，不改 Bible 值 → `styles/<slug>/motion_profile.json` + `schemas/motion_profile.schema.json`
+- ✅ P1-2 slideshow 风险评分（重复版式、无意图镜头、字卡占比、弱运动）在 Shot Lock 前跑 → `tools/slideshow_risk.py` + `docs/video-guides/README.md`
+- ✅ P1-3 delivery promise：Story Card 写明“动态为主/静帧为主”与最低运动镜头比例，自检核对 → `framework-v1.md` §2.3 + final_review
+- ✅ P1-4 checkpoint JSON（stage/status/artifacts/时间戳）支持断点续跑 → `schemas/checkpoint.schema.json` + `projects/<id>/checkpoints/`
+- ✅ P1-5 参考视频 5 维度拆片模板 + 10–15 s 动态样片门 → `docs/REFERENCE_VIDEO_INTAKE.md`
+- ✅ P1-6 成本日志（模型 token、渲染分钟、估算/实际），每阶段修订上限与预算漂移 >30% 告警 → `schemas/cost_log.schema.json`
 
 **P2**
 - P2-1 Style Bible 补 `best_for/not_for`、`palette.muted`、字体字重数字、`color_rules` 开关（需 Style Lock 时一并确认）→ `schemas/style_bible.schema.json`

@@ -1,0 +1,1 @@
+{"project_id":"demo-short","stage":"shot_lock","status":"done","started_at":"2026-10-15T02:00:00-07:00","finished_at":"2026-10-15T02:20:00-07:00","inputs":[{"path":"projects/demo-short/story_card.json","version":"1"}],"artifacts":[{"path":"projects/demo-short/shot_list.json","kind":"shot_list"}],"decision_ids":["d001"],"resume_hint":"next: keyframes"}

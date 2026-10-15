@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.animation-pipeline/decision_log.schema.json",
+  "title": "DecisionLog",
+  "description": "Append-only log of director key decisions (projects/<id>/decision_log.json). One entry per key choice.",
+  "type": "object",
+  "required": [
+    "project_id",
+    "entries"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "timestamp",
+          "stage",
+          "decision",
+          "options_considered",
+          "selected",
+          "reason",
+          "confidence",
+          "user_visible",
+          "model"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "stage": {
+            "enum": [
+              "brief",
+              "style_lock",
+              "story_card",
+              "shot_lock",
+              "keyframes",
+              "render",
+              "review",
+              "delivery"
+            ]
+          },
+          "decision": {
+            "type": "string",
+            "description": "What was being decided"
+          },
+          "options_considered": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "required": [
+                "option"
+              ],
+              "properties": {
+                "option": {
+                  "type": "string"
+                },
+                "pros": {
+                  "type": "string"
+                },
+                "cons": {
+                  "type": "string"
+                },
+                "est_cost_usd": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "selected": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 5
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "routed": {
+            "enum": [
+              "auto",
+              "auto_spotcheck",
+              "human_confirm",
+              "human"
+            ],
+            "description": "Per DISPATCH_CONVENTIONS §1"
+          },
+          "user_visible": {
+            "type": "boolean",
+            "description": "Must be surfaced to the user in the next update"
+          },
+          "model": {
+            "type": "string",
+            "description": "<name>@<pinned-version> or 'human'"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cost_snapshot_usd": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

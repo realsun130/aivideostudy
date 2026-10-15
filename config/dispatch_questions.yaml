@@ -1,0 +1,62 @@
+# All model-judgement questions + thresholds (docs/DISPATCH_CONVENTIONS.md). Change thresholds by commit only.
+# Answer types: choice | score | yesno. Every answer carries confidence 0-1.
+version: 1
+confidence:
+  human_below: 0.5
+  destructive_auto_above: 0.9      # rerender full, overwrite keyframes, push, edit Style Bible
+
+director_route:
+  state_fields: [brief_text, target_platform, has_voiceover, has_music, has_data, ref_links]
+  questions:
+    video_type:   {type: choice, options: 'from_dir("docs/video-guides", "0*.md")'}
+    style:        {type: choice, options: 'from_dir("styles/") + ["new_style_needed"]'}
+    length_tier:  {type: choice, options: ["<=6s", "6-15s", "15-60s", "1-5min"]}
+    abstractness: {type: score, levels: [concrete_mechanism, mixed, abstract_concept]}   # abstract => 拆题卡 required
+    delivery_mode: {type: choice, options: [motion_led, still_led, mixed]}               # feeds Story Card delivery_promise
+    needs_voiceover: {type: yesno}
+    needs_beat_sync: {type: yesno}
+    data_source_reliability: {type: score, levels: [none, unverified, cited, first_party]}  # speculative: only 03/05
+  route:
+    - if: min_conf(video_type, style, length_tier) < 0.5
+      then: human
+    - if: abstractness == abstract_concept
+      then: require_breakdown_card
+    - if: style == new_style_needed
+      then: bot_a
+  log: decision_log   # every routed key choice -> projects/<id>/decision_log.json
+
+bot_e_shot_review:
+  state_fields: [shot_spec, style_bible_excerpt, motion_profile_excerpt, evidence]
+  questions:
+    verdict:            {type: choice, options: [pass, fix, redo]}
+    motion_naturalness: {type: score, levels: [broken, stiff, ok, natural, great]}
+    sliding_feet:       {type: score, levels: [none, subtle, visible, severe]}
+    stretch_look:       {type: score, levels: [rigid, ok, rubbery, broken]}
+    style_match:        {type: score, levels: [off, drifting, on_style]}
+    timing:             {type: score, levels: [rushed, ok, draggy]}
+    intent_delivered:   {type: yesno}          # does the shot do what shot_intent says?
+    forbidden_hit:      {type: yesno}
+    fix_scope:          {type: choice, options: [easing_only, pose_keyframe, rig_weights, layer_asset, sound]}
+    worst_frame:        {type: choice, options: 'evidence.frames'}
+  rules: [opinions_need_frame_number, max_2_opinions_per_round]
+  hard_checks:            # code only, never asked to the model
+    max_edge_stretch: 0.12
+    max_area_change: 0.10
+    foot_contact_drift_px: 0
+    loop_first_last_diff: 0
+    true_peak_encoded_dbtp_max: -1.0
+    lufs_target: -14
+    lufs_tolerance: 1.0
+
+bot_e_final_accept:
+  precondition: 'final_review.json exists AND status == pass'   # else blocked, no question asked
+  state_fields: [final_review_summary, contact_sheet, story_card.delivery_promise, decision_log_tail]
+  questions:
+    final_verdict:     {type: choice, options: [accept, fix, redo]}
+    promise_kept:      {type: yesno}
+    overall_taste:     {type: score, levels: [off, ok, good, great]}
+
+shot_lock_gate:
+  tool: tools/slideshow_risk.py
+  max_score: 40
+  block_if_missing_intent: true

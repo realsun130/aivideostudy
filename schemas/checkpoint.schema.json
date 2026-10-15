@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.animation-pipeline/checkpoint.schema.json",
+  "title": "Checkpoint",
+  "description": "projects/<id>/checkpoints/<NN>_<stage>.json — written at end of each stage; resume = first stage whose checkpoint is missing or not 'done'.",
+  "type": "object",
+  "required": [
+    "project_id",
+    "stage",
+    "status",
+    "started_at",
+    "inputs",
+    "artifacts"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "stage": {
+      "enum": [
+        "brief",
+        "style_lock",
+        "story_card",
+        "shot_lock",
+        "keyframes",
+        "render_preview",
+        "review",
+        "render_final",
+        "final_review",
+        "delivery"
+      ]
+    },
+    "status": {
+      "enum": [
+        "in_progress",
+        "done",
+        "failed",
+        "waiting_human"
+      ]
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finished_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "git_commit": {
+      "type": "string"
+    },
+    "decision_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "resume_hint": {
+      "type": "string"
+    },
+    "error": {
+      "type": "string"
+    }
+  }
+}

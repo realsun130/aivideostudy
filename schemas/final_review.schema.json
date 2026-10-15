@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.animation-pipeline/final_review.schema.json",
+  "title": "FinalReview",
+  "description": "Output of tools/final_review.py. Bot E may not Final Accept unless status=pass.",
+  "type": "object",
+  "required": [
+    "schema",
+    "video",
+    "reviewed_at",
+    "status",
+    "reasons",
+    "probe",
+    "contact_sheet",
+    "black_segments",
+    "motion",
+    "thresholds"
+  ],
+  "properties": {
+    "schema": {
+      "const": "final_review/1"
+    },
+    "video": {
+      "type": "string"
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "probe": {
+      "type": "object",
+      "required": [
+        "duration_sec",
+        "width",
+        "height",
+        "fps",
+        "video_codec",
+        "has_audio"
+      ],
+      "properties": {
+        "duration_sec": {
+          "type": "number"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "fps": {
+          "type": "number"
+        },
+        "video_codec": {
+          "type": "string"
+        },
+        "pix_fmt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "audio_codec": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "audio_sample_rate": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "has_audio": {
+          "type": "boolean"
+        }
+      }
+    },
+    "contact_sheet": {
+      "type": "object",
+      "required": [
+        "path",
+        "frames"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "frames": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "frame_times_sec": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "black_segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "start",
+          "end"
+        ],
+        "properties": {
+          "start": {
+            "type": "number"
+          },
+          "end": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "audio": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "integrated_lufs": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "true_peak_dbtp": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "sample_peak_dbfs": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "silences": {
+          "type": "array"
+        }
+      }
+    },
+    "motion": {
+      "type": "object",
+      "required": [
+        "ratio_moving_windows"
+      ],
+      "properties": {
+        "ratio_moving_windows": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "threshold": {
+          "type": "number"
+        },
+        "diff_series": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "delivery_promise": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "motion_led",
+            "still_led",
+            "mixed"
+          ]
+        },
+        "min_motion_shot_ratio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "thresholds": {
+      "type": "object"
+    }
+  }
+}

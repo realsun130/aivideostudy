@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.animation-pipeline/motion_profile.schema.json",
+  "title": "MotionProfile",
+  "description": "Per-style motion/pacing/audio numbers. Separate from style_bible.json (look only); never overrides Bible values.",
+  "type": "object",
+  "required": [
+    "style_slug",
+    "version",
+    "status",
+    "pacing",
+    "transitions",
+    "easing",
+    "springs",
+    "stagger",
+    "audio"
+  ],
+  "properties": {
+    "style_slug": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "locked"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    },
+    "pacing": {
+      "type": "object",
+      "description": "Hold seconds per information_role",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "min_sec",
+          "max_sec"
+        ],
+        "properties": {
+          "min_sec": {
+            "type": "number"
+          },
+          "max_sec": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "text_hold": {
+      "type": "object",
+      "properties": {
+        "sec_per_word": {
+          "type": "number"
+        },
+        "base_sec": {
+          "type": "number"
+        },
+        "hold_push_pct": {
+          "type": "number"
+        }
+      }
+    },
+    "transitions": {
+      "type": "object",
+      "properties": {
+        "default": {
+          "type": "string"
+        },
+        "allowed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "duration_sec": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "easing": {
+      "type": "object",
+      "properties": {
+        "enter": {
+          "type": "string"
+        },
+        "exit": {
+          "type": "string"
+        },
+        "exit_shorter_pct": {
+          "type": "number"
+        },
+        "camera": {
+          "type": "string"
+        },
+        "linear_only_for": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "springs": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "damping_ratio"
+        ],
+        "properties": {
+          "damping_ratio": {
+            "type": "number"
+          },
+          "stiffness": {
+            "type": "number"
+          },
+          "mass": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "stagger": {
+      "type": "object",
+      "properties": {
+        "letter_frames": {
+          "type": "number"
+        },
+        "word_ms": {
+          "type": "array"
+        },
+        "list_ms": {
+          "type": "array"
+        },
+        "total_budget_ms": {
+          "type": "number"
+        },
+        "overlap_start_pct": {
+          "type": "array"
+        }
+      }
+    },
+    "parallax": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "deformation": {
+      "type": "object",
+      "properties": {
+        "max_edge_stretch": {
+          "type": "number"
+        },
+        "max_area_change": {
+          "type": "number"
+        }
+      }
+    },
+    "audio": {
+      "type": "object",
+      "properties": {
+        "lufs_target": {
+          "type": "number"
+        },
+        "true_peak_master_dbtp": {
+          "type": "number"
+        },
+        "true_peak_encoded_dbtp": {
+          "type": "number"
+        },
+        "sfx_offset_frames": {
+          "type": "integer"
+        },
+        "sfx_character": {
+          "type": "string"
+        },
+        "music_bed_db": {
+          "type": "number"
+        },
+        "ducking": {
+          "type": "object",
+          "properties": {
+            "under_voice_db": {
+              "type": "number"
+            },
+            "attack_ms": {
+              "type": "number"
+            },
+            "release_ms": {
+              "type": "number"
+            }
+          }
+        },
+        "limiter_max_gr_db": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
