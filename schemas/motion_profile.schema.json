@@ -203,6 +203,42 @@
           "type": "number"
         }
       }
+    },
+    "spring_presets": {
+      "description": "Optional. ⚠️ 待测试. Remotion spring() config per UI element type; not for character gait.",
+      "type": "object",
+      "properties": {
+        "_note": {
+          "type": "string"
+        },
+        "_source": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "stiffness",
+          "damping"
+        ],
+        "properties": {
+          "stiffness": {
+            "type": "number"
+          },
+          "damping": {
+            "type": "number"
+          },
+          "mass": {
+            "type": "number"
+          },
+          "feel": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }

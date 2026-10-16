@@ -166,3 +166,32 @@ GOAL（一句话：观众感受/动作） → TIME（fps、总帧数、画幅）
 ### (b) 检查定期复审（build to delete）
 
 每个检查记录最近拦截次数；长期零拦截的检查考虑删除或合并，避免检查越堆越多拖慢流水线。
+
+## 12. 确定性与弹簧参数（来源：@damkina7《Autonomous Motion Studio》）
+
+### 动画是时间的纯函数 seek(t)（⚠️ 待测试）
+
+- 规则：`Frame = f(frame)`。每一帧只由帧号（或 t = frame / fps）算出，不依赖上一帧状态、系统时间或计时器。这样跳到任意帧都能复现，修片可以直接带帧号。
+- Remotion 写法：只用 `useCurrentFrame()`、`interpolate()`、`spring({frame, fps, ...})`、`random(seed)`。
+- 禁用清单：`setTimeout`、`setInterval`、`requestAnimationFrame`、`Date.now()`、`new Date(`、`performance.now()`、无种子 `Math.random()`（用 Remotion `random("固定种子")` 代替）。
+- 逐帧物理模拟（依赖上一帧速度）也不行，弹簧一律用解析公式（见下节）。
+- 渲染前必须跑：`python tools/determinism_check.py projects/ <你的 src 目录>`，非 0 退出即不准渲染；输出为 `file:line`。
+- 确实需要的（如渲染脚本外层、非动画代码）在该行加 `// determinism-ok` 豁免，并在决策日志里说明原因。
+
+### 弹簧预设表（⚠️ 待测试，来源 @damkina7 文章，仅适用 UI/图形元素，不用于角色步态）
+
+| 元素 | 文章参数 ω / ζ | 手感 | 映射到 Remotion（假设） | 按假设算出的实际阻尼比 / 回弹 |
+|---|---|---|---|---|
+| 按钮 / 开关 | 300 / 24 | 干脆 snappy | `stiffness:300, damping:24, mass:1` | ζ≈0.69，回弹≈4.9% |
+| 卡片 / 仪表盘 | 180 / 18 | 约 2% 微回弹 | `stiffness:180, damping:18, mass:1` | ζ≈0.67，回弹≈5.8%（与文章“2%”不符） |
+| 标题 / 文字 | 120 / 20 | 不回弹 | `stiffness:120, damping:20, mass:1` | ζ≈0.91，回弹≈0.1% |
+| 吉祥物 / 徽章 | 220 / 12 | 活泼 playful | `stiffness:220, damping:12, mass:1` | ζ≈0.40，回弹≈25% |
+
+- 单位存疑：文章写的是 ω/ζ，但 ζ=24、18 远大于 1，不可能是标准阻尼比（ζ>1 就是过阻尼、完全不回弹，和“微回弹/活泼”矛盾）。最可能是 Remotion `spring()` 的 stiffness / damping。
+- **假设（待验证）**：ω → `stiffness`，ζ → `damping`，`mass: 1`。换算：真实 ω₀ = √(stiffness/mass)，真实阻尼比 ζ = damping / (2√(stiffness·mass))。
+- 按此假设，卡片回弹约 5.8%，不是文章说的 2%；验证时渲染这 4 组对比，若卡片回弹偏大，可把 damping 提到约 22（ζ≈0.82，回弹≈1.5–2%）。验证通过前不改数值。
+- 闭式解（欠阻尼，0→1，ζ<1）：
+  `x(t) = 1 − e^(−ζω₀t)·(cos ω_d t + (ζω₀/ω_d)·sin ω_d t)`，其中 `ω_d = ω₀·√(1−ζ²)`，t 单位秒（= frame / fps）。
+  这里的 ζ、ω₀ 是换算后的真实值，不是文章原数字。输入时间直接算位置，满足 seek(t)。
+- 数值同时写在 `styles/rough-animation-pet-sketch-storyboard-style/motion_profile.json` 的 `spring_presets`（状态：待测试）。
+- 角色步态、猫走路不用这张表，仍按第 10 节。

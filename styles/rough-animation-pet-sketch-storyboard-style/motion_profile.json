@@ -4,39 +4,124 @@
   "status": "draft",
   "notes": "DRAFT. Numbers derived from docs/MOTION_LESSONS.md §3/§7/§10; does not modify style_bible.json. Lock after first 10-15s sample.",
   "pacing": {
-    "hook": {"min_sec": 1.0, "max_sec": 2.5},
-    "setup": {"min_sec": 2.0, "max_sec": 4.0},
-    "context": {"min_sec": 1.5, "max_sec": 3.5},
-    "explain_mechanism": {"min_sec": 3.0, "max_sec": 6.0},
-    "evidence_data": {"min_sec": 2.5, "max_sec": 5.0},
-    "emotional_beat": {"min_sec": 2.0, "max_sec": 5.0},
-    "reaction": {"min_sec": 0.8, "max_sec": 2.0},
-    "transition_bridge": {"min_sec": 0.5, "max_sec": 1.5},
-    "payoff": {"min_sec": 1.5, "max_sec": 3.5},
-    "cta": {"min_sec": 2.0, "max_sec": 3.0},
-    "brand": {"min_sec": 1.5, "max_sec": 3.0}
+    "hook": {
+      "min_sec": 1.0,
+      "max_sec": 2.5
+    },
+    "setup": {
+      "min_sec": 2.0,
+      "max_sec": 4.0
+    },
+    "context": {
+      "min_sec": 1.5,
+      "max_sec": 3.5
+    },
+    "explain_mechanism": {
+      "min_sec": 3.0,
+      "max_sec": 6.0
+    },
+    "evidence_data": {
+      "min_sec": 2.5,
+      "max_sec": 5.0
+    },
+    "emotional_beat": {
+      "min_sec": 2.0,
+      "max_sec": 5.0
+    },
+    "reaction": {
+      "min_sec": 0.8,
+      "max_sec": 2.0
+    },
+    "transition_bridge": {
+      "min_sec": 0.5,
+      "max_sec": 1.5
+    },
+    "payoff": {
+      "min_sec": 1.5,
+      "max_sec": 3.5
+    },
+    "cta": {
+      "min_sec": 2.0,
+      "max_sec": 3.0
+    },
+    "brand": {
+      "min_sec": 1.5,
+      "max_sec": 3.0
+    }
   },
-  "text_hold": {"sec_per_word": 0.3, "base_sec": 0.5, "hold_push_pct": 2},
+  "text_hold": {
+    "sec_per_word": 0.3,
+    "base_sec": 0.5,
+    "hold_push_pct": 2
+  },
   "transitions": {
     "default": "cut",
-    "allowed": ["cut", "dissolve", "match-cut", "fade-to-black"],
-    "duration_sec": {"cut": 0, "dissolve": 0.4, "match-cut": 0, "fade-to-black": 0.6}
+    "allowed": [
+      "cut",
+      "dissolve",
+      "match-cut",
+      "fade-to-black"
+    ],
+    "duration_sec": {
+      "cut": 0,
+      "dissolve": 0.4,
+      "match-cut": 0,
+      "fade-to-black": 0.6
+    }
   },
   "easing": {
     "enter": "ease-out",
     "exit": "ease-in",
     "exit_shorter_pct": 45,
     "camera": "ease-in-out-quart",
-    "linear_only_for": ["rotation", "progress", "loop_phase"]
+    "linear_only_for": [
+      "rotation",
+      "progress",
+      "loop_phase"
+    ]
   },
   "springs": {
-    "ui_premium": {"damping_ratio": 0.8, "stiffness": 170, "mass": 1},
-    "character_lively": {"damping_ratio": 0.5, "stiffness": 120, "mass": 1},
-    "no_bounce": {"damping_ratio": 1.0, "stiffness": 100, "mass": 1}
+    "ui_premium": {
+      "damping_ratio": 0.8,
+      "stiffness": 170,
+      "mass": 1
+    },
+    "character_lively": {
+      "damping_ratio": 0.5,
+      "stiffness": 120,
+      "mass": 1
+    },
+    "no_bounce": {
+      "damping_ratio": 1.0,
+      "stiffness": 100,
+      "mass": 1
+    }
   },
-  "stagger": {"letter_frames": 1, "word_ms": [60, 120], "list_ms": [40, 80], "total_budget_ms": 500, "overlap_start_pct": [30, 50]},
-  "parallax": {"fg": 1.0, "mid": 0.5, "bg": 0.2},
-  "deformation": {"max_edge_stretch": 0.12, "max_area_change": 0.10},
+  "stagger": {
+    "letter_frames": 1,
+    "word_ms": [
+      60,
+      120
+    ],
+    "list_ms": [
+      40,
+      80
+    ],
+    "total_budget_ms": 500,
+    "overlap_start_pct": [
+      30,
+      50
+    ]
+  },
+  "parallax": {
+    "fg": 1.0,
+    "mid": 0.5,
+    "bg": 0.2
+  },
+  "deformation": {
+    "max_edge_stretch": 0.12,
+    "max_area_change": 0.1
+  },
   "audio": {
     "lufs_target": -14,
     "true_peak_master_dbtp": -2.0,
@@ -44,7 +129,43 @@
     "sfx_offset_frames": 1,
     "sfx_character": "soft paper/pencil foley, short pops; no whooshes on every cut",
     "music_bed_db": -20,
-    "ducking": {"under_voice_db": -10, "attack_ms": 80, "release_ms": 300},
+    "ducking": {
+      "under_voice_db": -10,
+      "attack_ms": 80,
+      "release_ms": 300
+    },
     "limiter_max_gr_db": 3
+  },
+  "spring_presets": {
+    "_note": "⚠️ 待测试。来源 @damkina7 文章；仅用于 UI/图形元素，不用于角色步态。假设：文章 ω→Remotion stiffness，ζ→damping，mass=1，待实测确认。",
+    "_source": "@damkina7 Autonomous Motion Studio",
+    "button_toggle": {
+      "stiffness": 300,
+      "damping": 24,
+      "mass": 1,
+      "feel": "snappy",
+      "status": "待测试"
+    },
+    "card_dashboard": {
+      "stiffness": 180,
+      "damping": 18,
+      "mass": 1,
+      "feel": "~2% overshoot",
+      "status": "待测试"
+    },
+    "heading_typography": {
+      "stiffness": 120,
+      "damping": 20,
+      "mass": 1,
+      "feel": "no bounce",
+      "status": "待测试"
+    },
+    "mascot_badge": {
+      "stiffness": 220,
+      "damping": 12,
+      "mass": 1,
+      "feel": "playful",
+      "status": "待测试"
+    }
   }
 }

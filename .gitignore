@@ -10,3 +10,5 @@ projects/first-frame/debug/
 
 # rembg experiment venv
 .venv-rembg/
+
+node_modules/
