@@ -166,6 +166,7 @@ GOAL（一句话：观众感受/动作） → TIME（fps、总帧数、画幅）
 ### (b) 检查定期复审（build to delete）
 
 每个检查记录最近拦截次数；长期零拦截的检查考虑删除或合并，避免检查越堆越多拖慢流水线。
+- 3D 方向（Blender、动作库、实验顺序）备忘见 [`3D_DIRECTION.md`](3D_DIRECTION.md)（⚠️ 待测试 / 备忘未实施）。
 
 ## 12. 确定性与弹簧参数（来源：@damkina7《Autonomous Motion Studio》）
 
