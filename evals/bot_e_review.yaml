@@ -21,3 +21,10 @@ cases:
     input: {video: "evals/fixtures/low_contrast_title.mp4"}
     expect: ["指出标题对比度不足"]
     expect_verdict: reject
+
+# ⚠️ 待测试：来自 lemo-opuscar TECHNIQUE §8 / DIRECTOR §10-11
+lemo_checks:
+  - contact_sheet: 每 1-2 秒抽一帧拼总览图，至少完整过两遍
+  - auto: ffmpeg blackdetect 查空白帧；ebur128 查响度；有人声用 whisper 核字幕
+  - failure_list: [主体太小或贴边, 同色叠同色, 字幕挡主体, 笑点太快看不懂, 转场空帧, 跟随特效没跟上主体]
+  - anti_copy: 与参考片对比 6 项，至少 4 项不同
