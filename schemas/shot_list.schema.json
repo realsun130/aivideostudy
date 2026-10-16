@@ -288,6 +288,20 @@
         "is_text_card": {
           "type": "boolean",
           "description": "True if the shot is primarily a text/title card."
+        },
+        "must_not_change": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "⚠️ 待测试：未点名、不可改动的区域/元素；代码对比前后帧，像素差超阈值即拦截"
+        },
+        "approval_required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "⚠️ 待测试：需人工批准才能执行的动作"
         }
       }
     }

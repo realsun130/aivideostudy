@@ -136,3 +136,48 @@ push / 终版 16 采样渲染（§9）属于昂贵动作：需全部镜头 pass 
 - **断点**：每阶段结束写 `projects/<id>/checkpoints/<NN>_<stage>.json`（`schemas/checkpoint.schema.json`）。续跑 = 从第一个缺失或非 `done` 的阶段开始；输入的 sha256 变了就从该阶段重跑。
 - **成本**：`projects/<id>/cost_log.json`（`schemas/cost_log.schema.json`），每阶段估算/实际/修订上限；`python3 tools/cost_check.py` 在实际 > 估算 ×1.3 或修订超上限时告警 → 转人工。
 - **动效节奏**：`styles/<slug>/motion_profile.json`（独立于 Style Bible），Bot D 取停留/转场/弹簧/音频数字，Bot E 用它判 `timing`。
+
+## 9. 任务合同字段（⚠️ 待测试）
+
+每个下发给 Bot 的任务都写成合同，不写就不派：
+
+| 字段 | 含义 |
+|---|---|
+| `objective` | 这次要达成什么（一句话） |
+| `scope` | 允许动的范围（镜头 / 图层 / 文件） |
+| `must_not_change` | 不许动的区域或元素。用户约定"只改点名的内容"；渲染后用代码对比前后帧，未点名区域像素差超阈值即拦截 |
+| `constraints` | 风格、时长、帧率、预算等硬约束 |
+| `acceptance` | 可被检查的验收条件（优先写成脚本能判的数字） |
+| `approval_required` | 执行前必须问人的动作（删除、覆盖、对外发布、超预算） |
+
+`schemas/shot_list.schema.json` 的 shot 已加可选字段 `must_not_change`、`approval_required`（数组），不影响现有校验。像素差阈值待实测后定。
+
+## 10. 失败分类恢复表（⚠️ 待测试）
+
+先分类，再恢复；不许不分类就盲目重试。每次重试必须带上失败原因。
+
+| 失败类型 | 恢复动作 |
+|---|---|
+| 渲染超时 | 退避重试（间隔递增） |
+| 缺素材 | 补素材后重跑 |
+| 拉伸超标 | 回骨骼参数修正（见 MOTION_LESSONS §10） |
+| 风格偏 | 退回 Bot A 重新对齐 Style Bible |
+| 合同 / 验收不清 | 停下问人 |
+| 同类失败连续 2 次 | 停止，升级给人 |
+
+**循环预算**：每个镜头最多修订 1 次（与 §2 一致），整条任务重试总数 ≤ 3；超出即停并升级给人，在决策日志记录。
+
+## 11. 失败→系统升级飞轮（Bot F 职责，⚠️ 待测试）
+
+每个废片都要让系统变强：
+1. 记录：缺的是哪条检查，或哪个合同字段没写清；
+2. 补一条规则或一个自动检查（新规则同样先标"⚠️ 待测试"）；
+3. 写入决策日志（§7），关联废片 ID。
+
+## 12. 指标（⚠️ 待测试）
+
+核心指标：**每分钟人工审片换来的被接受成片数**
+
+`accepted outputs ÷ (review minutes + cost)`
+
+成本按 `cost_log` 折算；配合 `tools/cost_check.py` 统计。
