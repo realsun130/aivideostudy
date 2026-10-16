@@ -181,3 +181,11 @@ push / 终版 16 采样渲染（§9）属于昂贵动作：需全部镜头 pass 
 `accepted outputs ÷ (review minutes + cost)`
 
 成本按 `cost_log` 折算；配合 `tools/cost_check.py` 统计。
+
+## 13. 开工先读工具清单（⚠️ 待测试）
+
+- **开工第一步**：每个 Bot（A–F 与导演）先读 `tools/registry.json`，按 `run_when`（阶段、Bot、是否必跑）挑本次要跑的工具；`mandatory: true` 的必须跑，结果写进收据。
+- **提示词不得写死工具列表**：只写“按 tools/registry.json 的 run_when 选择工具”。具体命令、退出码含义、失败对应的恢复类（§10）一律以清单为准。
+- **新增工具 = 加清单条目**：往 `tools/` 加脚本必须同时在 `registry.json` 登记（字段见 `schemas/tool_registry.schema.json`）；`python3 tools/registry_check.py` 在提交前强制检查，未登记或路径失效即失败。
+- `status: 待测试` 的工具失败时先怀疑工具本身，记决策日志，不直接判镜头不合格。
+- 现存写死工具名的地方（待逐步改为引用清单）：`config/dispatch_questions.yaml`（slideshow_risk）、`framework-v1.md` §2.3/Shot List、`docs/video-guides/README.md` 第 5–6 步。

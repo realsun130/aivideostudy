@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "tool_registry",
+  "description": "tools/registry.json：Bot 开工先读的工具清单（⚠️ 待测试）",
+  "type": "object",
+  "required": ["version", "tools"],
+  "properties": {
+    "version": {"type": "integer"},
+    "note": {"type": "string"},
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path", "purpose", "run_when", "command", "inputs", "outputs", "exit_codes", "on_fail", "status"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "path": {"type": "string"},
+          "purpose": {"type": "string"},
+          "run_when": {
+            "type": "object", "required": ["stage", "bots", "mandatory"],
+            "properties": {
+              "stage": {"type": "string"},
+              "bots": {"type": "array", "items": {"enum": ["A", "B", "C", "D", "E", "F", "director", "any"]}},
+              "mandatory": {"type": "boolean"},
+              "condition": {"type": "string"}
+            }
+          },
+          "command": {"type": "string"},
+          "inputs": {"type": "array", "items": {"type": "string"}},
+          "outputs": {"type": "array", "items": {"type": "string"}},
+          "exit_codes": {"type": "object", "patternProperties": {"^[0-9]+$": {"type": "string"}}, "additionalProperties": false},
+          "on_fail": {
+            "type": "object", "required": ["meaning", "recovery_class"],
+            "properties": {"meaning": {"type": "string"}, "recovery_class": {"type": "string"}}
+          },
+          "status": {"enum": ["verified", "待测试"]},
+          "status_note": {"type": "string"}
+        }
+      }
+    }
+  }
+}
