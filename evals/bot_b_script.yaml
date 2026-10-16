@@ -1,0 +1,23 @@
+bot: B
+prompt_ref: prompts/bot_b_script.md  # 占位，提示词文件待建
+status: 待测试
+note: 以下用例均为示例（示例，待测试），需补到 5–10 条并用真实失败替换
+cases:
+  - id: b01
+    tag: 示例
+    input: {brief: "上班族周一早上闹钟响了三次的瞬间", duration_s: 20, audience: "25-35 岁上班族"}
+    expect:
+      - "前 3 秒内出现钩子"
+      - "节拍数 6–12，每拍标秒数，总时长 ±2s 内"
+      - "有一个具体可视的细节，不是抽象概括"
+  - id: b02
+    tag: 边界-模糊brief
+    input: {brief: "做个好玩的", duration_s: 30}
+    expect:
+      - "先列出缺失信息（受众/目的/瞬间）或给出带假设说明的方案，不硬编"
+  - id: b03
+    tag: 边界-易落俗套
+    input: {brief: "猫咪讨厌洗澡", duration_s: 15}
+    expect:
+      - "至少一个结构不是常见“挣扎-湿透-生气”套路"
+    must_not_contain: ["宇宙", "命运的齿轮"]

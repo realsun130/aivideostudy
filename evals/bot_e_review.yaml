@@ -1,0 +1,23 @@
+bot: E
+prompt_ref: prompts/bot_e_review.md  # 占位，提示词文件待建
+status: 待测试
+note: 示例，待测试。坏片/好片路径需替换为真实渲染
+cases:
+  - id: e01
+    tag: 示例-已知坏片
+    input: {video: "evals/fixtures/bad_slideshow.mp4", story_card: "evals/fixtures/story_card.json"}
+    expect:
+      - "指出静止/幻灯片化问题，带帧号或秒数"
+      - "只指出问题，不给修改方案"
+    expect_verdict: reject
+  - id: e02
+    tag: 示例-已知好片
+    input: {video: "evals/fixtures/good_ref.mp4", story_card: "evals/fixtures/story_card.json"}
+    expect:
+      - "放行，不为挑刺而挑刺"
+    expect_verdict: accept
+  - id: e03
+    tag: 边界-文字对比度
+    input: {video: "evals/fixtures/low_contrast_title.mp4"}
+    expect: ["指出标题对比度不足"]
+    expect_verdict: reject

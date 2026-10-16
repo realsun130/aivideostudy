@@ -6,12 +6,31 @@
       "id": "slideshow_risk",
       "path": "tools/slideshow_risk.py",
       "purpose": "给 shot_list 打“PPT 化”风险分：无意图镜头、弱运动、重复版式、字卡占比。",
-      "run_when": {"stage": "Shot Lock 前", "bots": ["C", "director"], "mandatory": true, "condition": "每次锁定 shot_list 前"},
+      "run_when": {
+        "stage": "Shot Lock 前",
+        "bots": [
+          "C",
+          "director"
+        ],
+        "mandatory": true,
+        "condition": "每次锁定 shot_list 前"
+      },
       "command": "python3 tools/slideshow_risk.py {shot_list.json} [--max-score 40] [--json]",
-      "inputs": ["shot_list.json（schemas/shot_list.schema.json）"],
-      "outputs": ["stdout JSON：score / components / issues / missing_intent / verdict(ok|block)"],
-      "exit_codes": {"0": "verdict=ok，可锁定", "1": "verdict=block，不得锁定", "2": "参数错误"},
-      "on_fail": {"meaning": "分镜偏幻灯片：缺 shot_intent、运动太弱或字卡过多", "recovery_class": "合同/验收不清 → 退回改 shot_list；动态文字类可放宽 --max-score 并在决策日志记原因"},
+      "inputs": [
+        "shot_list.json（schemas/shot_list.schema.json）"
+      ],
+      "outputs": [
+        "stdout JSON：score / components / issues / missing_intent / verdict(ok|block)"
+      ],
+      "exit_codes": {
+        "0": "verdict=ok，可锁定",
+        "1": "verdict=block，不得锁定",
+        "2": "参数错误"
+      },
+      "on_fail": {
+        "meaning": "分镜偏幻灯片：缺 shot_intent、运动太弱或字卡过多",
+        "recovery_class": "合同/验收不清 → 退回改 shot_list；动态文字类可放宽 --max-score 并在决策日志记原因"
+      },
       "status": "verified",
       "status_note": "已在 schemas/examples 的好/坏两个样例上跑通（ok=8 分 / block）；尚未用于真实项目"
     },
@@ -19,12 +38,30 @@
       "id": "determinism_check",
       "path": "tools/determinism_check.py",
       "purpose": "扫描动画代码中的非确定性调用（setTimeout、Date.now、无种子 Math.random 等），保证 Frame = f(frame)。",
-      "run_when": {"stage": "渲染前（代码写完后）", "bots": ["D"], "mandatory": true, "condition": "任何 .ts/.tsx/.js 动画代码改动后"},
+      "run_when": {
+        "stage": "渲染前（代码写完后）",
+        "bots": [
+          "D"
+        ],
+        "mandatory": true,
+        "condition": "任何 .ts/.tsx/.js 动画代码改动后"
+      },
       "command": "python3 tools/determinism_check.py [dir_or_file ...]",
-      "inputs": ["动画源码目录（默认 projects/ src/）；行内豁免 // determinism-ok"],
-      "outputs": ["stdout：违规文件:行号 列表与汇总"],
-      "exit_codes": {"0": "干净", "1": "发现违规", "2": "路径不存在"},
-      "on_fail": {"meaning": "动画依赖计时器/系统时间/无种子随机，渲染不可复现", "recovery_class": "代码缺陷 → Bot D 改为 frame 驱动或 random(seed) 后重跑（不算重试预算外的盲重试）"},
+      "inputs": [
+        "动画源码目录（默认 projects/ src/）；行内豁免 // determinism-ok"
+      ],
+      "outputs": [
+        "stdout：违规文件:行号 列表与汇总"
+      ],
+      "exit_codes": {
+        "0": "干净",
+        "1": "发现违规",
+        "2": "路径不存在"
+      },
+      "on_fail": {
+        "meaning": "动画依赖计时器/系统时间/无种子随机，渲染不可复现",
+        "recovery_class": "代码缺陷 → Bot D 改为 frame 驱动或 random(seed) 后重跑（不算重试预算外的盲重试）"
+      },
       "status": "待测试",
       "status_note": "只在自造测试文件上验证；仓库暂无自写动画代码，真实代码上扫描 0 个文件"
     },
@@ -32,12 +69,32 @@
       "id": "final_review",
       "path": "tools/final_review.py",
       "purpose": "成片自检：分辨率/帧率/音轨/黑帧/响度，并按 delivery_promise 用帧差核对运动镜头占比。",
-      "run_when": {"stage": "交付前（Final Accept 门）", "bots": ["E", "F"], "mandatory": true, "condition": "每个成片；无 pass 不得 Final Accept（§6）"},
+      "run_when": {
+        "stage": "交付前（Final Accept 门）",
+        "bots": [
+          "E",
+          "F"
+        ],
+        "mandatory": true,
+        "condition": "每个成片；无 pass 不得 Final Accept（§6）"
+      },
       "command": "python3 tools/final_review.py {video.mp4} [--out DIR] [--promise story_card.json | --min-motion-ratio 0.6] [--allow-no-audio] [--expect-width W --expect-height H --expect-fps F]",
-      "inputs": ["成片 mp4", "story_card.json（含 delivery_promise，可选）"],
-      "outputs": ["stdout/--out 目录下 final_review JSON（schemas/final_review.schema.json）：status / reasons / warnings"],
-      "exit_codes": {"0": "status=pass", "1": "status=fail（见 reasons）", "2": "参数错误"},
-      "on_fail": {"meaning": "成片不达交付承诺或技术规格", "recovery_class": "按 reasons 分类：缺音轨/素材 → 缺素材；运动不足 → 风格偏/回 Bot D；规格错 → 渲染参数修正"},
+      "inputs": [
+        "成片 mp4",
+        "story_card.json（含 delivery_promise，可选）"
+      ],
+      "outputs": [
+        "stdout/--out 目录下 final_review JSON（schemas/final_review.schema.json）：status / reasons / warnings"
+      ],
+      "exit_codes": {
+        "0": "status=pass",
+        "1": "status=fail（见 reasons）",
+        "2": "参数错误"
+      },
+      "on_fail": {
+        "meaning": "成片不达交付承诺或技术规格",
+        "recovery_class": "按 reasons 分类：缺音轨/素材 → 缺素材；运动不足 → 风格偏/回 Bot D；规格错 → 渲染参数修正"
+      },
       "status": "verified",
       "status_note": "已在 local-render demo.mp4 上跑通（正确报出无音轨）"
     },
@@ -45,12 +102,30 @@
       "id": "cost_check",
       "path": "tools/cost_check.py",
       "purpose": "检查 cost_log：单项超预估 drift_alert_pct 及修订次数超上限即告警。",
-      "run_when": {"stage": "每个阶段结束 / 交付前", "bots": ["F", "director"], "mandatory": true, "condition": "cost_log.json 有更新时"},
+      "run_when": {
+        "stage": "每个阶段结束 / 交付前",
+        "bots": [
+          "F",
+          "director"
+        ],
+        "mandatory": true,
+        "condition": "cost_log.json 有更新时"
+      },
       "command": "python3 tools/cost_check.py projects/{id}/cost_log.json",
-      "inputs": ["cost_log.json（schemas/cost_log.schema.json）"],
-      "outputs": ["stdout JSON：total_actual / budget_total / alerts"],
-      "exit_codes": {"0": "无告警", "1": "有预算漂移或修订超限"},
-      "on_fail": {"meaning": "成本漂移或循环预算超标", "recovery_class": "同类失败连续 2 次 / 超循环预算 → 停止，升级给人，记决策日志"},
+      "inputs": [
+        "cost_log.json（schemas/cost_log.schema.json）"
+      ],
+      "outputs": [
+        "stdout JSON：total_actual / budget_total / alerts"
+      ],
+      "exit_codes": {
+        "0": "无告警",
+        "1": "有预算漂移或修订超限"
+      },
+      "on_fail": {
+        "meaning": "成本漂移或循环预算超标",
+        "recovery_class": "同类失败连续 2 次 / 超循环预算 → 停止，升级给人，记决策日志"
+      },
       "status": "verified",
       "status_note": "已在 schemas/examples/cost_log.example.json 上跑通（报 2 条告警）"
     },
@@ -58,14 +133,67 @@
       "id": "registry_check",
       "path": "tools/registry_check.py",
       "purpose": "防工具清单漂移：tools/ 下脚本未登记或登记路径不存在即失败，并按 schema 校验本文件。",
-      "run_when": {"stage": "提交前 / 新增工具后", "bots": ["F", "any"], "mandatory": true, "condition": "改动 tools/ 或 registry.json 时"},
+      "run_when": {
+        "stage": "提交前 / 新增工具后",
+        "bots": [
+          "F",
+          "any"
+        ],
+        "mandatory": true,
+        "condition": "改动 tools/ 或 registry.json 时"
+      },
       "command": "python3 tools/registry_check.py",
-      "inputs": ["tools/registry.json", "schemas/tool_registry.schema.json", "tools/ 目录"],
-      "outputs": ["stdout：缺登记 / 路径不存在 / schema 错误列表"],
-      "exit_codes": {"0": "一致", "1": "有漂移或 schema 错误"},
-      "on_fail": {"meaning": "工具清单与 tools/ 实际不一致", "recovery_class": "合同/验收不清 → 补登记或删除失效条目后重跑"},
+      "inputs": [
+        "tools/registry.json",
+        "schemas/tool_registry.schema.json",
+        "tools/ 目录"
+      ],
+      "outputs": [
+        "stdout：缺登记 / 路径不存在 / schema 错误列表"
+      ],
+      "exit_codes": {
+        "0": "一致",
+        "1": "有漂移或 schema 错误"
+      },
+      "on_fail": {
+        "meaning": "工具清单与 tools/ 实际不一致",
+        "recovery_class": "合同/验收不清 → 补登记或删除失效条目后重跑"
+      },
       "status": "verified",
       "status_note": "已在本仓库跑通，并用临时未登记脚本验证能报错"
+    },
+    {
+      "id": "prompt_eval",
+      "path": "tools/prompt_eval.py",
+      "purpose": "提示词回归测试打分：按 evals/*.yaml 对模型输出机判 must_contain / must_not_contain / expect_verdict，输出通过率。",
+      "run_when": {
+        "stage": "提示词改动前后",
+        "bots": [
+          "F",
+          "any"
+        ],
+        "mandatory": true,
+        "condition": "任何 Bot 提示词改动（DISPATCH_CONVENTIONS §14）"
+      },
+      "command": "python3 tools/prompt_eval.py {evals/bot_x.yaml} --outputs {DIR} [--json]",
+      "inputs": [
+        "evals/*.yaml",
+        "DIR/<case_id>.txt|.json 模型输出"
+      ],
+      "outputs": [
+        "stdout：逐条 PASS/FAIL 与通过率；--json 输出结构化结果"
+      ],
+      "exit_codes": {
+        "0": "机判全过",
+        "1": "有用例失败",
+        "2": "路径错误"
+      },
+      "on_fail": {
+        "meaning": "提示词改动造成回归或输出不合期望",
+        "recovery_class": "改后比改前多失败 → 挡住改动，回退提示词，记决策日志"
+      },
+      "status": "待测试",
+      "status_note": "仅在临时假输出上跑通；尚无真实提示词与模型输出"
     }
   ]
 }
