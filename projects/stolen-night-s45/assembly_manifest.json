@@ -1,0 +1,108 @@
+{
+  "project": "stolen-night-s45",
+  "title": "偷来的夜 Track S motion 成片",
+  "version": "motion-v1",
+  "output": "out/stolen_night_s45_motion.mp4",
+  "spec": {
+    "duration_sec": 45.0,
+    "width": 1080,
+    "height": 1920,
+    "fps": 24,
+    "codec": "h264",
+    "pix_fmt": "yuv420p",
+    "audio": "silent"
+  },
+  "approach": "Python/PIL frame-driven camera (scale/pan/rotate/fog/grade) piped raw RGB → ffmpeg libx264 yuv420p; hard cuts; silent",
+  "stills_locked": true,
+  "transitions_default": "hard_cut",
+  "shots": [
+    {
+      "shot": 1,
+      "still": "stills/01.jpg",
+      "start_sec": 0.0,
+      "duration_sec": 4,
+      "frames": 96,
+      "primary_move": "push-in 1.00→1.06 + downward drift (tired weight)",
+      "transition_in": "none",
+      "transition_out": "cut"
+    },
+    {
+      "shot": 2,
+      "still": "stills/02.jpg",
+      "start_sec": 4.0,
+      "duration_sec": 5,
+      "frames": 120,
+      "primary_move": "fog opacity pulse 0→0.12→0.08; z1.02 + 2px vertical drift",
+      "transition_in": "cut",
+      "transition_out": "cut"
+    },
+    {
+      "shot": 3,
+      "still": "stills/03.jpg",
+      "start_sec": 9.0,
+      "duration_sec": 5,
+      "frames": 120,
+      "primary_move": "gentle pan right toward phone (scale 1.05)",
+      "transition_in": "cut",
+      "transition_out": "cut"
+    },
+    {
+      "shot": 4,
+      "still": "stills/04.jpg",
+      "start_sec": 14.0,
+      "duration_sec": 6,
+      "frames": 144,
+      "primary_move": "settle scale 1.04→1.00 (18f ease-out) then ±0.5% breath",
+      "transition_in": "cut",
+      "transition_out": "cut"
+    },
+    {
+      "shot": 5,
+      "still": "stills/05.jpg",
+      "start_sec": 20.0,
+      "duration_sec": 6,
+      "frames": 144,
+      "primary_move": "slow upward pan + tiny handheld (scale 1.08)",
+      "transition_in": "cut",
+      "transition_out": "cut"
+    },
+    {
+      "shot": 6,
+      "still": "stills/06.jpg",
+      "start_sec": 26.0,
+      "duration_sec": 7,
+      "frames": 168,
+      "primary_move": "slower upward pan + cool grade rise (scale 1.10)",
+      "transition_in": "cut",
+      "transition_out": "cut"
+    },
+    {
+      "shot": 7,
+      "still": "stills/07.jpg",
+      "start_sec": 33.0,
+      "duration_sec": 6,
+      "frames": 144,
+      "primary_move": "ease toward pillow, rotate -1.5°, darken→8%",
+      "transition_in": "cut",
+      "transition_out": "cut"
+    },
+    {
+      "shot": 8,
+      "still": "stills/08.jpg",
+      "start_sec": 39.0,
+      "duration_sec": 6,
+      "frames": 144,
+      "primary_move": "near-static push 1.00→1.03; fade-to-black last 0.8s",
+      "transition_in": "cut",
+      "transition_out": "fade-to-black"
+    }
+  ],
+  "bans_honored": [
+    "no whoosh",
+    "no particles",
+    "no lens flare",
+    "no text/watermark",
+    "no Date.now motion",
+    "no roof-cam reframe"
+  ]
+}
