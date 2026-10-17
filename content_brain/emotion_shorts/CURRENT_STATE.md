@@ -1,11 +1,5 @@
-# emotion_shorts 当前状态
-
-- **日期**：2026-10-17
-- **状态**：情感动画创作体系 V1.0 已入库（STYLE_BIBLE / STORY_SEEDS / FOUR_AGENTS）。⚠️ 待测试
-- **《偷来的夜》**：暂停迭代（v5 未过 8 分线；根因是从主题演绎，缺未经设计的真实行为核心）
-- **下一步**：
-  1. 行为素材卡（观察/访谈/公共主题 → yaml 卡）
-  2. Track S（30–60s 竖屏，情感体系语法）先试
-  3. Track M（约 90s，Bot B 清单模板）保留，选题时二选一
-- **管线合并说明**：`docs/STORY_PIPELINE_MERGED.md`
-- **传播**：创作阶段不猜；上传真实平台后再测
+# CURRENT_STATE ⚠️ 待测试
+- 2026-10-17：情感体系原文入库；合并方案见 `docs/STORY_PIPELINE_MERGED.md`。
+- 2026-10-17：桥接文档 `docs/EMOTION_TO_PIPELINE_BRIDGE.md` + 人类情感 Style Bible + 素材卡 schema 已加。
+- 《偷来的夜》v1–v5 暂停锁版。
+- 下一动作：写满至少 5 张 LIFE_MOMENTS → 选 Track S 第一条。

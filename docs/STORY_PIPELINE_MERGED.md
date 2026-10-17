@@ -84,3 +84,6 @@ projects/stolen-night/            ← Track M 试验归档，暂不锁版
 ## 7. 与《偷来的夜》的关系
 
 v1–v5 保留作 Track M 试验档案；在未用行为素材卡重开选题前，不继续为过 8 分而空转结构。若重开，须先补至少 5 张真实行为卡（交稿后松口气、敷面膜睡着等），再决定走 S 还是 M。
+
+## 桥接详版
+字段级 schema、Agent4 闸门、风格/Track 规则：见 [EMOTION_TO_PIPELINE_BRIDGE.md](./EMOTION_TO_PIPELINE_BRIDGE.md)。人类情感视觉：`content_brain/emotion_shorts/style-bible-human-emotion.md`。

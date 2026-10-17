@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/realsun130/aivideostudy/schemas/life_moment_card.schema.json",
+  "title": "LifeMomentCard",
+  "type": "object",
+  "required": [
+    "id", "scene", "observed_behavior", "visible_object",
+    "apparent_goal", "hidden_need_hypothesis", "conflict",
+    "source_type", "consent_or_usage", "privacy_notes", "confidence"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^LM-[0-9]{4,}$" },
+    "scene": { "type": "string", "minLength": 4 },
+    "observed_behavior": { "type": "string", "minLength": 4 },
+    "exact_words": { "type": "string" },
+    "visible_object": { "type": "string", "minLength": 1 },
+    "apparent_goal": { "type": "string" },
+    "hidden_need_hypothesis": { "type": "string" },
+    "conflict": { "type": "string" },
+    "source_type": {
+      "type": "string",
+      "enum": ["自我观察", "授权访谈", "公共主题观察", "原创虚构"]
+    },
+    "source_date": { "type": "string" },
+    "source_reference": { "type": "string" },
+    "consent_or_usage": { "type": "string" },
+    "privacy_notes": { "type": "string" },
+    "confidence": {
+      "type": "string",
+      "enum": ["观察到的事实", "采访者陈述", "创作者推断"]
+    },
+    "track_hint": { "type": "string", "enum": ["S", "M", "either"] },
+    "style_hint": { "type": "string", "enum": ["细腻", "刺痛", "荒诞", "unset"] }
+  },
+  "additionalProperties": false
+}
