@@ -1,0 +1,19 @@
+{
+  "id": "LM-0003",
+  "scene": "卧室床上，面膜还贴在脸上；只剩手机屏幕照亮",
+  "observed_behavior": "敷着面膜刷剧集，拇指越来越慢，头一歪睡着；手机仍握在手里，光打在敷着面膜的脸上",
+  "exact_words": "",
+  "visible_object": "面膜、手机、充电线（可在床边）",
+  "apparent_goal": "享受好不容易挤出的追剧时间",
+  "hidden_need_hypothesis": "困到撑不住仍想抓住「自己的时间」的尾巴",
+  "conflict": "身体要睡，手指还不肯关屏；醒着的自我和睡着的身体抢同一部手机",
+  "source_type": "原创虚构",
+  "source_date": "2026-10-17",
+  "source_reference": "stolen-night-reopen-discuss",
+  "consent_or_usage": "n/a-fiction",
+  "privacy_notes": "无真实人像素材依赖；虚构日常动作",
+  "confidence": "创作者推断",
+  "track_hint": "either",
+  "style_hint": "细腻",
+  "emotion_tags": ["疲惫", "孤独", "侥幸"]
+}

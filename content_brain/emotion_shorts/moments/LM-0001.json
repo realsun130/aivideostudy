@@ -1,0 +1,19 @@
+{
+  "id": "LM-0001",
+  "scene": "工作日深夜，出租屋书桌；只剩显示器和手机亮着，窗外偶尔车声",
+  "observed_behavior": "把会议纪要发出去，盯着对话框几秒；老板一直没回；她呼出一口气，马上划开短视频 App",
+  "exact_words": "",
+  "visible_object": "笔记本电脑、工作群对话框、手机短视频流",
+  "apparent_goal": "交完这一稿就算今晚结束",
+  "hidden_need_hypothesis": "想用「终于能刷一会儿」确认这晚还有一点属于自己",
+  "conflict": "松口气需要停下，刷短视频又把刚偷回的时间立刻花掉",
+  "source_type": "原创虚构",
+  "source_date": "2026-10-17",
+  "source_reference": "stolen-night-reopen-discuss",
+  "consent_or_usage": "n/a-fiction",
+  "privacy_notes": "无真实姓名/公司/地址；角色匿名都市上班族",
+  "confidence": "创作者推断",
+  "track_hint": "either",
+  "style_hint": "细腻",
+  "emotion_tags": ["松弛", "疲惫", "侥幸"]
+}

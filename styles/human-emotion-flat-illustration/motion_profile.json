@@ -1,0 +1,161 @@
+{
+  "style_slug": "human-emotion-flat-illustration",
+  "version": "2026-10-17.0-draft",
+  "status": "draft",
+  "notes": "DRAFT ⚠️ 待测试。人类情感竖屏：偏慢停留、默认硬切、软弹簧、房间/拟音非 whoosh。Lock after first Track S sample.",
+  "pacing": {
+    "hook": {
+      "min_sec": 1.5,
+      "max_sec": 3.0
+    },
+    "setup": {
+      "min_sec": 2.5,
+      "max_sec": 5.0
+    },
+    "context": {
+      "min_sec": 2.0,
+      "max_sec": 4.0
+    },
+    "explain_mechanism": {
+      "min_sec": 3.0,
+      "max_sec": 7.0
+    },
+    "evidence_data": {
+      "min_sec": 2.0,
+      "max_sec": 4.0
+    },
+    "emotional_beat": {
+      "min_sec": 2.5,
+      "max_sec": 6.0
+    },
+    "reaction": {
+      "min_sec": 1.0,
+      "max_sec": 2.5
+    },
+    "transition_bridge": {
+      "min_sec": 0.4,
+      "max_sec": 1.2
+    },
+    "payoff": {
+      "min_sec": 2.0,
+      "max_sec": 5.0
+    },
+    "cta": {
+      "min_sec": 1.5,
+      "max_sec": 2.5
+    },
+    "brand": {
+      "min_sec": 1.0,
+      "max_sec": 2.0
+    }
+  },
+  "text_hold": {
+    "sec_per_word": 0.35,
+    "base_sec": 0.6,
+    "hold_push_pct": 5
+  },
+  "transitions": {
+    "default": "cut",
+    "allowed": [
+      "cut",
+      "dissolve",
+      "fade-to-black"
+    ],
+    "duration_sec": {
+      "cut": 0,
+      "dissolve": 0.5,
+      "fade-to-black": 0.8
+    }
+  },
+  "easing": {
+    "enter": "ease-out",
+    "exit": "ease-in",
+    "exit_shorter_pct": 35,
+    "camera": "ease-in-out",
+    "linear_only_for": [
+      "progress",
+      "ui_countdown"
+    ]
+  },
+  "springs": {
+    "ui_premium": {
+      "damping_ratio": 0.95,
+      "stiffness": 90,
+      "mass": 1
+    },
+    "character_lively": {
+      "damping_ratio": 0.85,
+      "stiffness": 70,
+      "mass": 1.1
+    },
+    "no_bounce": {
+      "damping_ratio": 1.0,
+      "stiffness": 80,
+      "mass": 1
+    }
+  },
+  "stagger": {
+    "letter_frames": 1,
+    "word_ms": [
+      80,
+      140
+    ],
+    "list_ms": [
+      60,
+      100
+    ],
+    "total_budget_ms": 600,
+    "overlap_start_pct": [
+      25,
+      40
+    ]
+  },
+  "parallax": {
+    "fg": 0.6,
+    "mid": 0.3,
+    "bg": 0.1
+  },
+  "deformation": {
+    "max_edge_stretch": 0.06,
+    "max_area_change": 0.05
+  },
+  "audio": {
+    "lufs_target": -14,
+    "true_peak_master_dbtp": -2.0,
+    "true_peak_encoded_dbtp": -1.0,
+    "sfx_offset_frames": 1,
+    "sfx_character": "room tone + soft foley (keys, drawer, peel, tap); no whooshes on cuts",
+    "music_bed_db": -22,
+    "ducking": {
+      "under_voice_db": -12,
+      "attack_ms": 100,
+      "release_ms": 350
+    },
+    "limiter_max_gr_db": 3
+  },
+  "spring_presets": {
+    "_note": "⚠️ 待测试。软弹簧，偏 UI/道具位移，不用于复杂步态。",
+    "_source": "human-emotion-flat-illustration draft",
+    "prop_nudge": {
+      "stiffness": 100,
+      "damping": 22,
+      "mass": 1,
+      "feel": "soft settle",
+      "status": "待测试"
+    },
+    "hand_pose": {
+      "stiffness": 80,
+      "damping": 20,
+      "mass": 1,
+      "feel": "no bounce",
+      "status": "待测试"
+    },
+    "ui_bubble": {
+      "stiffness": 140,
+      "damping": 26,
+      "mass": 1,
+      "feel": "gentle pop",
+      "status": "待测试"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "LM-0002",
+  "scene": "下班后浴室与卧室门口；水声刚停，灯光偏暖",
+  "observed_behavior": "伸懒腰，洗澡，刷牙，卸妆，按顺序敷上护肤；每一步做完才进下一步，像在办「终于轮到自己」的仪式",
+  "exact_words": "",
+  "visible_object": "毛巾、洗面奶、卸妆棉、护肤瓶",
+  "apparent_goal": "把一天的外部气味洗掉，进入私人状态",
+  "hidden_need_hypothesis": "用可重复的小仪式证明「我还有一段不被工作占用的身体时间」",
+  "conflict": "仪式越完整越想马上躺下刷手机，洗完的清爽很快被蓝光盖住",
+  "source_type": "原创虚构",
+  "source_date": "2026-10-17",
+  "source_reference": "stolen-night-reopen-discuss",
+  "consent_or_usage": "n/a-fiction",
+  "privacy_notes": "无身份信息；通用都市夜间洗漱流程",
+  "confidence": "创作者推断",
+  "track_hint": "M",
+  "style_hint": "细腻",
+  "emotion_tags": ["松弛", "温暖", "克制"]
+}

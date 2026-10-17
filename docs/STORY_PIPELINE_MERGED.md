@@ -67,23 +67,24 @@ content_brain/emotion_shorts/
   STYLE_BIBLE.md      ← 体系 V1.0
   STORY_SEEDS.md      ← 24 则虚构种子（待真实校验）
   CURRENT_STATE.md
-  LIFE_MOMENTS.md     ← 待建：真实行为素材卡
-  STORY_DNA.md        ← 待建：上线复盘回写
+  LIFE_MOMENTS.md     ← 索引；正文 JSON 在 moments/LM-xxxx.json
+  STORY_DNA.md        ← schema 指针 + 日志表；总监 DELIVER 后写
+  moments/            ← 行为卡 JSON per id
   prompts/FOUR_AGENTS.md
 docs/STORY_PIPELINE_MERGED.md  ← 本文
 prompts/bot_b_script_template.md  ← Track M 可选
 projects/stolen-night/            ← Track M 试验归档，暂不锁版
 ```
 
-## 6. 逐一尝试的顺序（按你的要求）
+## 6. 逐一尝试的顺序（定案）
 
-1. **先 Track S**：从种子或新素材卡里挑 1 条（推荐 L01 / L05 / L04），走 Agent3→4→灰盒，30–60 秒。
-2. **再 Track M**：另挑 1 条需要弧线的题材（或把同一卡写成 90 秒版），走 Bot B 变化表→分镜→红队。
-3. **上传后**才比传播；创作阶段只看：复述率、假感位置、是否联想到自己的经历。
+1. **第一批 Track S（三风格各一）：** **L04（细腻）+ R02（刺痛）+ H02（荒诞）**。同一批评审池必须覆盖两种以上叙事风格；禁止第一批全做细腻。
+2. **第二批：** L01 / L05 等其余细腻种子，以及需要时的 Track M。
+3. **上传后**才比传播；创作阶段只看：复述率、假感位置、是否联想到自己的经历。STORY_DNA 由总监在 DELIVER 后按 `schemas/story_dna.schema.json` 回写。
 
 ## 7. 与《偷来的夜》的关系
 
-v1–v5 保留作 Track M 试验档案；在未用行为素材卡重开选题前，不继续为过 8 分而空转结构。若重开，须先补至少 5 张真实行为卡（交稿后松口气、敷面膜睡着等），再决定走 S 还是 M。
+v1–v5 保留作 Track M 试验档案，不再为过 8 分空转结构。重开素材卡已补 LM-0001…0005（见 `moments/`，虚构标+创作者推断）；决定走 S 或 M 后再开拍。第一批成片仍优先 L04/R02/H02，不与重开素材抢批次。
 
 ## 桥接详版
-字段级 schema、Agent4 闸门、风格/Track 规则：见 [EMOTION_TO_PIPELINE_BRIDGE.md](./EMOTION_TO_PIPELINE_BRIDGE.md)。人类情感视觉：`content_brain/emotion_shorts/style-bible-human-emotion.md`。
+字段级 schema、Agent4 闸门、风格/Track 规则：见 [EMOTION_TO_PIPELINE_BRIDGE.md](./EMOTION_TO_PIPELINE_BRIDGE.md)。人类情感 Style Lock：`styles/human-emotion-flat-illustration/`（人读对照 `content_brain/emotion_shorts/style-bible-human-emotion.md`）。

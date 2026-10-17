@@ -1,0 +1,189 @@
+{
+  "project_id": "human-emotion-flat-illustration",
+  "version": "2026-10-17.2",
+  "title": "Human Emotion Flat Illustration",
+  "summary": "克制的平面插画：少线、干净色块、大胆留白；情绪靠姿态与道具，不靠夸张表情口型；室内日常光；默认每片一个强调色，双色对抗须 Story Card 声明。⚠️ 待测试",
+  "medium": "2d_illustration",
+  "medium_notes": "人类情感短片专用画风；与 rough-animation-pet-sketch 并列不混用。五官固定简化；情绪靠姿态+道具；可选 2–3 个整脸预设静帧切换（neutral/tired/soft），禁止眉眼点位微表情与口型同步。",
+  "palette": {
+    "primary": [
+      {
+        "name": "paper_warm",
+        "hex": "#F3EEE6",
+        "role": "primary"
+      },
+      {
+        "name": "wall_grey",
+        "hex": "#E4E0D8",
+        "role": "primary"
+      },
+      {
+        "name": "skin_light",
+        "hex": "#E8C4B0",
+        "role": "primary"
+      },
+      {
+        "name": "skin_medium",
+        "hex": "#C9956C",
+        "role": "primary"
+      },
+      {
+        "name": "skin_deep",
+        "hex": "#8D5A3C",
+        "role": "primary"
+      },
+      {
+        "name": "cloth_ink",
+        "hex": "#2C333A",
+        "role": "primary"
+      }
+    ],
+    "accent": [
+      {
+        "name": "soft_amber",
+        "hex": "#E6A756",
+        "role": "accent"
+      },
+      {
+        "name": "night_blue",
+        "hex": "#3D5A73",
+        "role": "accent"
+      },
+      {
+        "name": "mute_rose",
+        "hex": "#C9898F",
+        "role": "accent"
+      },
+      {
+        "name": "system_grey",
+        "hex": "#8B939C",
+        "role": "accent"
+      }
+    ],
+    "background": {
+      "name": "paper_warm",
+      "hex": "#F3EEE6",
+      "role": "bg"
+    },
+    "forbidden": [
+      {
+        "name": "neon_cyan",
+        "hex": "#00E5FF",
+        "role": "forbidden"
+      },
+      {
+        "name": "influencer_pink",
+        "hex": "#FF4DA6",
+        "role": "forbidden"
+      },
+      {
+        "name": "hdr_gold",
+        "hex": "#FFD700",
+        "role": "forbidden"
+      }
+    ]
+  },
+  "line": {
+    "weight": "thin",
+    "style": "clean",
+    "notes": "均匀细线或色块无轮廓；禁止宠物风多层潦草修正线。"
+  },
+  "lighting": {
+    "mood": "soft_diffused",
+    "notes": "室内窗光/灯下漫射；屏幕允许一块冷色溢光，面积受控；禁止网感滤镜与炫光。"
+  },
+  "texture": {
+    "grain": "subtle",
+    "paper": true,
+    "notes": "轻微纸噪即可；禁止厚重水彩晕染抢戏。"
+  },
+  "typography": {
+    "title_font": "clean sans readable UI",
+    "body_font": "system UI / chat bubble",
+    "title_color": {
+      "name": "cloth_ink",
+      "hex": "#2C333A",
+      "role": "text"
+    },
+    "body_color": {
+      "name": "system_grey",
+      "hex": "#8B939C",
+      "role": "text"
+    },
+    "notes": "UI/聊天气泡可读；禁止片尾人生道理大字；竖屏字号 ≥ 画面高约 3%。"
+  },
+  "composition": {
+    "preferred_framings": [
+      "medium",
+      "close_up",
+      "insert",
+      "wide"
+    ],
+    "aspect_hints": [
+      "9:16 vertical default",
+      "16:9 optional for Track M"
+    ],
+    "layer_order": [
+      "warm paper or flat interior wash",
+      "simple furniture blocks",
+      "character body and cloth",
+      "hands and core prop (priority)",
+      "fixed simplified face (optional preset swap)",
+      "UI bubble / system text if any",
+      "subtle paper grain"
+    ],
+    "notes": "9:16 安全区：避开顶部 12% / 底部 18%。大留白允许；动作必须可读。手可占画面 30%+。"
+  },
+  "prompt_blocks": {
+    "positive": "Create an image in the Human Emotion Flat Illustration style. Clean thin lines or flat color blocks, restrained palette, bold negative space, soft indoor diffused light, simplified fixed facial features, emotion told through posture and props especially hands, one clear everyday prop beat, quiet domestic interior, no lip sync, no exaggerated comic faces, vertical 9:16 friendly composition with safe margins.",
+    "character_lock": "original human characters only; skin chosen from skin_light #E8C4B0 / skin_medium #C9956C / skin_deep #8D5A3C per role — never default all cast to one skin; fixed simplified features; optional whole-face preset stills (neutral, tired, soft) as swaps only; no brow/eye micro-expression points; no lip sync; hands and props carry emotion.",
+    "environment_lock": "simple warm interiors (bedroom, bathroom, desk, hallway); lightly blocked furniture; secondary to hands and props; controlled screen spill allowed; no neon influencer lighting."
+  },
+  "negative_constraints": [
+    "watermark / username / platform logo / QR / creator signature / brand logo",
+    "franchise or celebrity likeness",
+    "pet-sketch scratchy multi-pass construction lines",
+    "exaggerated comic / meme faces / floating emoji / sparkle healing particles",
+    "brow/eye micro-expression point animation / lip sync / mouth shapes",
+    "3D render / photoreal skin pores / HDR glow / influencer filter",
+    "neon cyan / influencer pink / hdr gold dominance",
+    "dense life-lesson end-card typography",
+    "single default skin for all characters"
+  ],
+  "likeness_rules": [
+    "读起来像克制平面插画，不是宠物潦草分镜",
+    "五官固定简化；情绪靠姿态与道具，不靠微表情点位",
+    "可选 2–3 个整脸预设（neutral/tired/soft）静帧切换，禁止口型同步",
+    "手与核心道具优先；每片 1 个核心道具反复出现",
+    "默认每片只用 1 个主强调色；双色冷暖对抗仅当 Story Card 声明 dual_accent_conflict: true（如《偷来的夜》）",
+    "肤色随角色设定在 skin_light / skin_medium / skin_deep 中选择，禁止单一默认",
+    "线条干净克制，无多层修正笔触",
+    "竖屏安全区：主体避开顶 12% / 底 18%"
+  ],
+  "defaults": {
+    "resolution": {
+      "width": 1080,
+      "height": 1920
+    },
+    "preview_label": "720p_still_preview_9x16",
+    "final_label": "1080p_still_9x16"
+  },
+  "preference_appendix": {
+    "do": [
+      "静帧切换、手部 3–4 关键姿态、道具位移、色温插值、UI 气泡",
+      "每片声明一个 accent；双色对抗须 dual_accent_conflict: true",
+      "按角色选肤色档，写入角色卡"
+    ],
+    "dont": [
+      "套用 rough-animation-pet-sketch",
+      "承诺程序化管线做不到的眉眼微表情",
+      "片尾人生道理大字 / 说教旁白"
+    ],
+    "source_memory_refs": [
+      "content_brain/emotion_shorts/style-bible-human-emotion.md",
+      "docs/EMOTION_TO_PIPELINE_BRIDGE.md"
+    ]
+  },
+  "locked_at": "2026-10-17T12:00:00Z",
+  "locked_by": "pending_user_style_lock"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "LM-0005",
+  "scene": "床边插座旁；夜里很晚，屏幕突然弹出低电量",
+  "observed_behavior": "低电量提示弹出；她伸手插上充电线，手机靠在枕边或床头，线连着仍继续往下划",
+  "exact_words": "",
+  "visible_object": "低电量弹窗、充电线、插着电仍在刷的手机",
+  "apparent_goal": "别让手机死掉，好接着看",
+  "hidden_need_hypothesis": "用「我已经在充电了」给自己继续刷的许可证",
+  "conflict": "身体该睡，设备却被续命；充电像在延长偷来的夜，而不是结束它",
+  "source_type": "原创虚构",
+  "source_date": "2026-10-17",
+  "source_reference": "stolen-night-reopen-discuss",
+  "consent_or_usage": "n/a-fiction",
+  "privacy_notes": "无真实设备账号信息",
+  "confidence": "创作者推断",
+  "track_hint": "either",
+  "style_hint": "细腻",
+  "emotion_tags": ["疲惫", "侥幸", "克制"]
+}

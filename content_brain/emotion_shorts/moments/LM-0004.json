@@ -1,0 +1,19 @@
+{
+  "id": "LM-0004",
+  "scene": "床上或沙发，聊天 App 输入框亮着",
+  "observed_behavior": "打出很长一句「我今天真的很累」，停顿，整段删掉，改成只发「晚安」",
+  "exact_words": "我今天真的很累 →（删除）→ 晚安",
+  "visible_object": "手机输入框、删除键、发送的「晚安」气泡",
+  "apparent_goal": "别把负面情绪丢给对方",
+  "hidden_need_hypothesis": "其实很想被接住，但更怕说出来变成麻烦",
+  "conflict": "倾诉的冲动与维持「好相处」的礼貌互相覆盖，最后只剩最短的体面",
+  "source_type": "原创虚构",
+  "source_date": "2026-10-17",
+  "source_reference": "stolen-night-reopen-discuss",
+  "consent_or_usage": "n/a-fiction",
+  "privacy_notes": "不含真实聊天对象；文案为通用虚构",
+  "confidence": "创作者推断",
+  "track_hint": "S",
+  "style_hint": "细腻",
+  "emotion_tags": ["克制", "犹疑", "心软"]
+}

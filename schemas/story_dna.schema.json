@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/realsun130/aivideostudy/schemas/story_dna.schema.json",
+  "title": "StoryDNA",
+  "description": "Post-upload recap row. Written by director after DELIVER. ⚠️ 待测试",
+  "type": "object",
+  "required": [
+    "story_id",
+    "track",
+    "narrative_style",
+    "style_slug",
+    "keep_or_kill",
+    "written_by"
+  ],
+  "properties": {
+    "story_id": { "type": "string", "minLength": 1 },
+    "track": { "type": "string", "enum": ["S", "M"] },
+    "narrative_style": {
+      "type": "string",
+      "enum": ["细腻", "刺痛", "荒诞"]
+    },
+    "style_slug": { "type": "string", "minLength": 1 },
+    "retell_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Share of viewers who can retell the beat in one sentence"
+    },
+    "fake_spots": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Where it felt arranged / preachy"
+    },
+    "personal_association": {
+      "type": "string",
+      "description": "Whether viewers said it reminded them of their own life"
+    },
+    "completion_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+    "share_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+    "comment_mood": {
+      "type": "string",
+      "description": "Short mood summary of comments"
+    },
+    "keep_or_kill": {
+      "type": "string",
+      "enum": ["keep", "iterate", "kill"]
+    },
+    "written_by": {
+      "type": "string",
+      "description": "Must be director after DELIVER",
+      "pattern": ".+"
+    },
+    "uploaded_at": { "type": "string", "format": "date-time" },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}
