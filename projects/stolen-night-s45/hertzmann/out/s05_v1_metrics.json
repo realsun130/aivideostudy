@@ -1,0 +1,64 @@
+{
+  "tag": "s05_v1",
+  "content": "/workspace/animation-pipeline/projects/stolen-night-s45/stills/05.jpg",
+  "style_ref": "/workspace/animation-pipeline/projects/stolen-night-s45/stills_src/style_ref_ghibli.jpg",
+  "paint_input_size": [
+    540,
+    960
+  ],
+  "output_size": [
+    1080,
+    1920
+  ],
+  "S": 2,
+  "paint_seconds": 14.1,
+  "strokes": 347920,
+  "paint": {
+    "mse": 84.8,
+    "ssim": 0.777,
+    "ssim_blur2": 0.966
+  },
+  "inked": {
+    "mse": 107.1,
+    "ssim": 0.769,
+    "ssim_blur2": 0.958
+  },
+  "inked_vs_content": {
+    "mse": 124.3,
+    "ssim": 0.766,
+    "ssim_blur2": 0.952
+  },
+  "style_prep": {
+    "method": "warm-masked Lab partial match + desaturated style high-pass + unsharp; cool glow restored from content",
+    "keeps_night_dual_lighting": true,
+    "avoids_daylight_forest_morph": true,
+    "transfer": {
+      "L": {
+        "content_mean": 143.9,
+        "content_std": 56.5,
+        "style_std": 53.4,
+        "blend_warm": 0.55
+      },
+      "A": {
+        "content_warm_mean": 138.9,
+        "style_mean": 128.8,
+        "target_mean": 135.3,
+        "blend_warm": 0.7
+      },
+      "B": {
+        "content_warm_mean": 150.2,
+        "style_mean": 141.8,
+        "target_mean": 147.2,
+        "blend_warm": 0.7
+      }
+    },
+    "texture_strength": 0.12,
+    "cool_mask_mean": 0.0966
+  },
+  "limits": [
+    "Stroke remake follows primed content geometry; does not invent Ghibli subject matter.",
+    "Style warmth is Lab-stat + texture only — no spatial style warp / NST.",
+    "Cel anime source + oil-stroke paint = hybrid look; not full hand-painted plate.",
+    "Ink from dark ridges of primed frame; may miss soft edges."
+  ]
+}
