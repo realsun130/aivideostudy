@@ -47,3 +47,7 @@
 3. 高潮来自主角自己换了做法，而非外力（参考 Hair Love、Soar）。
 4. 伏笔写进构图，并记下在哪个镜头回收（参考 The Present）。
 5. 话越少，最后那一点声音或那一句台词越重（参考 Negative Space）。
+
+
+## 管线位置（2026-10-17）⚠️ 待测试
+本模板仅用于 **Track M（约 90 秒）**；完整合并说明见 [docs/STORY_PIPELINE_MERGED.md](../docs/STORY_PIPELINE_MERGED.md)。Track S（30–60 秒）用情感体系语法，见 `content_brain/emotion_shorts/`。
