@@ -53,3 +53,4 @@
 - **FR**：剪辑间“先写好故事、留空位”；工作流第 3 步；Barty-Bart 的 Motion Graphics 技能（让卡片在说到某个词时出现）。
 - **ML**：§2 导演模板、§3 停留时间、§7 声音合同（响度、峰值、晚 1 帧）。
 - **MDS**：情绪表（平静 / 优雅）、`director/narrative-structure.md`。
+- **AO55（可选参考）**：[awesome-opus5-5-videos](https://github.com/yihui-dev/awesome-opus5-5-videos)，代码渲染爆款视频合集，每条附原作者提示词。只看「Explainers」「3D scenes」两类，用来对照镜头节奏、数字与文字出场方式、提示词里哪些参数写成数字；「Motion graphics」类（Logo、音乐动效）不借鉴。按需参考，不强制。

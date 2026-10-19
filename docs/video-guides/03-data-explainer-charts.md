@@ -56,3 +56,4 @@
 - **RS**：`remotion-markup/timing.md`、`parameters.md`、`calculate-metadata.md`、`multi-scene-video.md`、`text-highlights.md`、`sequencing.md`。
 - **ML**：§1 渲染合同、§3 错开和停留、§5 审核循环。
 - **BDAY**：“量，不要猜”的精神——数值用程序读出来核对，不靠肉眼。
+- **AO55（可选参考）**：[awesome-opus5-5-videos](https://github.com/yihui-dev/awesome-opus5-5-videos)，代码渲染爆款视频合集，每条附原作者提示词。只看「Explainers」「3D scenes」两类，用来对照镜头节奏、数字与文字出场方式、提示词里哪些参数写成数字；「Motion graphics」类（Logo、音乐动效）不借鉴。按需参考，不强制。

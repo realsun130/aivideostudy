@@ -8,6 +8,7 @@
 - **RS**：remotion-dev/skills，路径相对 `skills/remotion-best-practices/`（如 `remotion-markup/timing.md`）。
 - **BDAY**：Motion Lab「Birthday Surprise」Prompt Pack（BRAND / FORMAT / LOOK / BEATS / CAMERA / CHECKS）。
 - **FR**：Francesco 的文章（数据间 / 动效间 / 剪辑间；参考 → 数据 → 留空位的故事 → 动效 → 用话导演 → 组装）。
+- **AO55**：yihui-dev/awesome-opus5-5-videos，讲解类（03/05/09）的可选参考，只看 Explainers 与 3D scenes 两类。
 - 标注「**起始值，需调**」的数字不是出自资料，是第一次渲染用的起点，按帧号调整。
 
 ## 通用前提（所有类型）

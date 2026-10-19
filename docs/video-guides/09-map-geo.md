@@ -57,3 +57,4 @@
 - **ML**：§1 渲染合同、§3 镜头曲线与视差、§9 终版运动模糊。
 - **MDS**：1/3 距离规则、距离换算、`director/choreography.md`。
 - **FR**：数据核对在先（地理数据同样适用）。
+- **AO55（可选参考）**：[awesome-opus5-5-videos](https://github.com/yihui-dev/awesome-opus5-5-videos)，代码渲染爆款视频合集，每条附原作者提示词。只看「Explainers」「3D scenes」两类，用来对照镜头节奏、数字与文字出场方式、提示词里哪些参数写成数字；「Motion graphics」类（Logo、音乐动效）不借鉴。按需参考，不强制。
