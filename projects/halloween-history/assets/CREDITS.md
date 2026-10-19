@@ -11,6 +11,12 @@
 | 2 | 中 | [File:Irish Halloween Mask at the Horniman Museum.jpg](https://commons.wikimedia.org/wiki/File:Irish_Halloween_Mask_at_the_Horniman_Museum.jpg) → `src/irish_halloween_mask_horniman.jpg` | Ethan Doyle White（摄，2018） | **CC BY-SA 4.0** | 20 世纪初爱尔兰万圣节布面具，霍尼曼博物馆藏品 111605 | 万圣节布面具 / 爱尔兰·霍尼曼 / 20世纪初 |
 | 3 | 右 | [File:Traditional-irish-halloween-mask.jpg](https://commons.wikimedia.org/wiki/File:Traditional-irish-halloween-mask.jpg) → `src/traditional_irish_halloween_mask_country_life.jpg` | rannṗáirtí anaiṫnid（摄，约 2009） | **CC BY-SA 3.0** | 20 世纪初爱尔兰传统万圣节面具，摄于爱尔兰乡村生活博物馆（Museum of Country Life） | 万圣节布面具 / 爱尔兰·乡村生活馆 / 20世纪初 |
 
+
+### 镜 03 左 · Skekler 剪影说明（v0.3.1）
+原照片里玻璃反光、展柜立柱、墙面展板和稻草缠在一起，自动抠图去不干净。
+成片剪影只保留**外形 + 稻草状明暗**（程序生成的有机轮廓与竖向纤维纹理，种子 1031），
+不再带入展柜直线/矩形。标签仍指向设得兰博物馆那件展品与 CC BY-SA 4.0 照片来源。
+
 ### ⚠️ BY-SA（相同方式共享）
 镜 03 三张现用素材**全部是 CC BY-SA**（4.0 / 4.0 / 3.0）。可商用，但使用它们改编的那段画面（镜 03）须以对应的 CC BY-SA 提供，并署名。
 本仓库在 Wikimedia Commons 与博物馆开源库检索后，**未找到**公有领域 / CC0 / 纯 CC BY 的爱尔兰或苏格兰「假脸」面具旧照；设得兰 Skekler 也只有 BY-SA 展品照。

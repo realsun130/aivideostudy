@@ -128,9 +128,10 @@ def mask_cut(fr, name, cx, bottom, width=None, height=None, invert=False, lo=0.5
 
 
 MASKS03 = [  # (cutout, cx, size kw, invert, tone floor, label) — all Halloween/Samhain-season guising
-    ('skekler.png', 225, dict(height=480), False, 0.38, 'Skekler 稻草伪装\n设得兰'),
-    ('irish_mask.png', 540, dict(width=270), False, 0.42, '万圣节布面具\n爱尔兰·霍尼曼\n20世纪初'),
-    ('irish_mask_country_life.png', 860, dict(width=280), False, 0.42, '万圣节布面具\n爱尔兰·乡村生活馆\n20世纪初'),
+    # bottoms at y=1035; similar visual weight; no overlap
+    ('skekler.png', 225, dict(height=380), False, 0.30, 'Skekler 稻草伪装\n设得兰'),
+    ('irish_mask.png', 540, dict(width=280), False, 0.42, '万圣节布面具\n爱尔兰·霍尼曼\n20世纪初'),
+    ('irish_mask_country_life.png', 860, dict(width=290), False, 0.42, '万圣节布面具\n爱尔兰·乡村生活馆\n20世纪初'),
 ]
 
 
