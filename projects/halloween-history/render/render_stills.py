@@ -6,6 +6,7 @@ import math, os, sys
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 from common import *
+from cutouts import *
 
 OUT = os.path.join(PROJ, 'stills')
 CREAM, MIST, AMBER, VEIL = P['paper_cream'], P['mist_grey'], P['ember_amber'], P['veil_moon']
@@ -22,21 +23,57 @@ def rule(fr, x0, x1, y, col=MIST, a=0.5, w=1.5):
 
 
 # ---------------------------------------------------------------- shot 01
+# v0.2: same composition/text; ~70 city hubs + ~1,500 town lights (seeded), stronger two-layer glow,
+# cool moon-lit limb line, Ireland = brighter core + double ring.
+CITIES01 = [  # (lat, lon, weight)  weight ~ relative night-light size
+    (53.35, -6.26, 1.6), (54.6, -5.93, 0.6), (51.9, -8.47, 0.5), (53.27, -9.05, 0.4), (55.95, -3.19, 1.2), (55.86, -4.25, 1.0),
+    (57.15, -2.1, 0.4), (51.5, -0.12, 2.2), (53.48, -2.24, 1.0), (52.48, -1.9, 0.9), (53.8, -1.55, 0.7), (51.45, -2.58, 0.5),
+    (48.85, 2.35, 1.8), (45.76, 4.84, 0.7), (43.3, 5.37, 0.6), (52.37, 4.9, 0.9), (50.85, 4.35, 0.8), (51.22, 6.77, 1.0),
+    (52.52, 13.40, 1.1), (48.14, 11.58, 0.8), (50.11, 8.68, 0.8), (53.55, 9.99, 0.7), (40.42, -3.70, 1.2), (41.39, 2.17, 0.9),
+    (38.72, -9.14, 0.6), (41.9, 12.5, 0.9), (45.46, 9.19, 1.0), (59.33, 18.07, 0.5), (55.68, 12.57, 0.5), (59.91, 10.75, 0.4),
+    (60.17, 24.94, 0.4), (52.23, 21.01, 0.7), (48.21, 16.37, 0.7), (50.08, 14.44, 0.5), (47.5, 19.04, 0.6), (33.57, -7.59, 0.6),
+    (36.75, 3.06, 0.5), (14.69, -17.44, 0.4), (6.52, 3.38, 0.8), (40.71, -74.0, 2.4), (42.36, -71.06, 1.1), (39.95, -75.17, 1.0),
+    (38.9, -77.03, 1.0), (41.88, -87.63, 1.6), (43.65, -79.38, 1.2), (45.5, -73.57, 0.9), (46.81, -71.21, 0.4), (44.65, -63.57, 0.3),
+    (47.56, -52.71, 0.2), (42.33, -83.05, 0.8), (39.96, -82.99, 0.5), (40.44, -79.99, 0.6), (35.23, -80.84, 0.6), (33.75, -84.39, 1.0),
+    (25.76, -80.19, 1.0), (28.54, -81.38, 0.6), (29.76, -95.37, 1.1), (32.78, -96.8, 1.1), (39.1, -94.58, 0.5), (38.63, -90.2, 0.6),
+    (44.98, -93.27, 0.6), (39.74, -104.99, 0.6), (23.13, -82.38, 0.5), (19.43, -99.13, 1.4), (18.47, -69.9, 0.4), (10.48, -66.9, 0.6),
+    (4.71, -74.07, 0.7), (-23.55, -46.63, 1.6), (-22.9, -43.2, 1.1), (-15.79, -47.88, 0.4), (-12.97, -38.5, 0.5), (-8.05, -34.9, 0.5),
+    (-3.73, -38.52, 0.5), (-34.6, -58.38, 1.0), (64.15, -21.94, 0.2),
+]
+
+
 def shot01():
     fr = Frame(1032)
     pr = Ortho(-35, 38, 460, 540, 990)
     draw_map(fr, pr)
-    cities = [(53.35, -6.26, 1.6), (55.95, -3.19, 1.2), (51.5, -0.12, 0.9), (40.71, -74.0, 1.3), (42.36, -71.06, 1.0),
-              (41.88, -87.63, 0.9), (43.65, -79.38, 0.9), (34.05, -118.24, 0.8), (19.43, -99.13, 0.8),
-              (48.85, 2.35, 0.7), (52.52, 13.40, 0.7), (40.42, -3.70, 0.6), (-23.55, -46.63, 0.6), (45.5, -73.57, 0.8),
-              (29.76, -95.37, 0.7), (33.75, -84.39, 0.7), (38.9, -77.03, 0.8), (47.6, -122.33, 0.6), (59.33, 18.07, 0.5)]
-    for la, lo, k in cities:
+    rng = np.random.default_rng(101)
+    m = land_mask()
+    pts = []
+    for la, lo, k in CITIES01:                 # town clusters around each hub (only on visible land)
+        n = int(14 + 26 * k)
+        sl = 0.55 + 0.75 * k
+        lat = la + rng.normal(0, sl * 0.75, n); lon = lo + rng.normal(0, sl, n)
+        x, y, v = pr.fwd(lon, lat)
+        mi = ((90 - lat) / 180 * MH).astype(int).clip(0, MH - 1); mj = (((lon + 180) % 360) / 360 * MW).astype(int).clip(0, MW - 1)
+        ok = v & m[mi, mj]
+        pts += list(zip(x[ok], y[ok]))
+    many_lights(fr, pts, r=1.25, blur=4, strength=0.75)
+    # wider warm haze over dense regions (light from many towns), blur 26
+    many_lights(fr, pts, r=2.0, blur=26, strength=0.22)
+    for la, lo, k in CITIES01:
         x, y, v = pr.fwd(np.array([lo]), np.array([la]))
-        if v[0]:
-            city_light(fr, float(x[0]), float(y[0]), r=2.6 + 1.8 * k, strength=1.0)
-    # Ireland: the origin, a ring
+        if v[0] and k >= 0.8:
+            city_light(fr, float(x[0]), float(y[0]), r=2.2 + 1.6 * k, strength=1.0)
+    # moon-lit limb: thin cool line on the globe edge (base layer, no glow)
+    fr.d.ellipse([(540 - 461) * S, (990 - 461) * S, (540 + 461) * S, (990 + 461) * S], outline=rgb(VEIL, 0.30), width=int(2 * S))
+    # Ireland: the origin — brighter core + double ring
     x, y, _ = pr.fwd(np.array([-7.5]), np.array([53.4]))
-    fr.d.ellipse([(x[0] - 26) * S, (y[0] - 26) * S, (x[0] + 26) * S, (y[0] + 26) * S], outline=rgb(AMBER, 0.8), width=int(2 * S))
+    x, y = float(x[0]), float(y[0])
+    fr.glow(x, y, 5, P['ember_core'], 5, 1.0)
+    fr.glow(x, y, 12, AMBER, 18, 0.6)
+    fr.glow(x, y, 30, P['ember_deep'], 40, 0.35)
+    fr.d.ellipse([(x - 26) * S, (y - 26) * S, (x + 26) * S, (y + 26) * S], outline=rgb(AMBER, 0.85), width=int(2 * S))
+    fr.d.ellipse([(x - 44) * S, (y - 44) * S, (x + 44) * S, (y + 44) * S], outline=rgb(AMBER, 0.35), width=int(1.5 * S))
     fr.text((540, 260), '10月31日', 'headline', 96, CREAM, anchor='ma')
     fr.text((540, 400), '一个夜晚，怎么走到了你身边？', 'body', 52, CREAM, anchor='ma')
     fr.text((540, 1500), '万圣节的历史演变', 'caption', 38, AMBER, anchor='ma')
@@ -75,46 +112,35 @@ def shot02():
 
 
 # ---------------------------------------------------------------- shot 03 masks
-def mask_glyph(fr, kind, cx, cy, s):
-    d = fr.d
-    c = rgb(CREAM)
-    hole = rgb('#0D1828')
-    if kind == 'antler':      # folk disguise: hood with antlers
-        for sgn in (-1, 1):
-            base = (cx + sgn * 60 * s, cy - 120 * s)
-            pts = [base, (cx + sgn * 110 * s, cy - 230 * s), (cx + sgn * 150 * s, cy - 300 * s)]
-            d.line([(a * S, b * S) for a, b in pts], fill=c, width=int(9 * s * S), joint='curve')
-            for t, l in ((0.45, 60), (0.8, 50)):
-                bx = pts[0][0] + (pts[2][0] - pts[0][0]) * t; by = pts[0][1] + (pts[2][1] - pts[0][1]) * t
-                d.line([(bx * S, by * S), ((bx + sgn * l * s * 0.9) * S, (by - l * s * 0.6) * S)], fill=c, width=int(7 * s * S))
-        d.polygon([((cx + a * s) * S, (cy + b * s) * S) for a, b in
-                   [(-95, -130), (95, -130), (110, 10), (60, 150), (0, 185), (-60, 150), (-110, 10)]], fill=c)
-    elif kind == 'false_face':  # Scots 'fause-face': plain card mask
-        d.ellipse([(cx - 100 * s) * S, (cy - 140 * s) * S, (cx + 100 * s) * S, (cy + 150 * s) * S], fill=c)
-        d.line([((cx - 100 * s) * S, (cy - 20 * s) * S), ((cx - 170 * s) * S, (cy - 40 * s) * S)], fill=rgb(MIST), width=int(3 * S))
-        d.line([((cx + 100 * s) * S, (cy - 20 * s) * S), ((cx + 170 * s) * S, (cy - 40 * s) * S)], fill=rgb(MIST), width=int(3 * S))
-    else:                       # 20th-c moulded plastic cat mask
-        d.polygon([((cx + a * s) * S, (cy + b * s) * S) for a, b in
-                   [(-105, -150), (-55, -95), (55, -95), (105, -150), (115, 0), (70, 110), (0, 140), (-70, 110), (-115, 0)]], fill=c)
-    # eye holes (objects only — no faces/expressions)
-    for sgn in (-1, 1):
-        d.ellipse([(cx + sgn * 42 * s - 20 * s) * S, (cy - 30 * s - 12 * s) * S, (cx + sgn * 42 * s + 20 * s) * S, (cy - 30 * s + 12 * s) * S], fill=hole)
-    # warm rim from the fire below: thin amber arc at bottom edge
-    lay = Image.new('RGB', (W * S, H * S), (0, 0, 0)); g = ImageDraw.Draw(lay)
-    g.arc([(cx - 112 * s) * S, (cy - 140 * s) * S, (cx + 112 * s) * S, (cy + 190 * s) * S], 35, 145, fill=tuple(int(v * 0.7) for v in rgb(AMBER)), width=int(5 * S))
-    fr.add_light_image(lay, blur=2)
+# v0.2: silhouettes from real photos (assets/cut, credits in assets/CREDITS.md); desaturated,
+# toned to paper colour on ink; amber rim from the fire below. Labels describe what each photo shows.
+def mask_cut(fr, name, cx, bottom, width=None, height=None, invert=False, lo=0.50):
+    col, a = load_cut(name, width=width, height=height)
+    a = soften_alpha(a, 0.8)
+    t = norm_l(lum(col), a)
+    if invert:
+        t = 1 - t
+    tone = ramp(lo + (1 - lo) * t, [(0, P['night_ink']), (1, CREAM)])
+    h, w = a.shape
+    x0, y0 = cx - w / S / 2, bottom - h / S
+    paste(fr, tone, a, x0, y0)
+    light_from(fr, rim_light(a, width=3, strength=0.55), x0, y0, blur=1.5)
+
+
+MASKS03 = [  # (cutout, cx, size kw, invert, tone floor, label)
+    ('mari_lwyd.png', 225, dict(height=470), False, 0.40, '马头伪装\n威尔士\n20世纪初'),
+    ('irish_mask.png', 540, dict(width=270), False, 0.42, '万圣节布面具\n爱尔兰\n20世纪初'),
+    ('dennison_cat.png', 860, dict(width=250), True, 0.30, '黑猫纸饰\n美国\n1920'),
+]
 
 
 def shot03():
     fr = Frame(1034)
-    xs = [225, 540, 860]
-    kinds = ['antler', 'false_face', 'plastic']
-    labels = ['兽皮与鹿角\n古代 · 传说', '“假脸” fause-face\n1890 · 苏格兰', '塑料面具\n20世纪 · 美国']
-    for x, k, lab in zip(xs, kinds, labels):
-        mask_glyph(fr, k, x, 900, 0.82)
-        fr.text((x, 1110), lab, 'caption', 34, MIST, anchor='ma')
+    for name, x, kw, inv, lo, lab in MASKS03:
+        mask_cut(fr, name, x, 1035, invert=inv, lo=lo, **kw)
+        fr.text((x, 1075), lab, 'caption', 34, MIST, anchor='ma', spacing=10)
     rule(fr, SIDE, W - SIDE, 1240, MIST, 0.35)
-    for x in xs:
+    for x in (225, 540, 860):
         fr.circle(x, 1240, 5, rgb(AMBER))
     fire(fr, 540, 1385, size=2.0, seed=303, embers=16)
     headline_block(fr, 220, '伪装', '戴上面具')
@@ -124,20 +150,98 @@ def shot03():
 
 
 # ---------------------------------------------------------------- shot 04 calendar
-def card(fr, x, y, w, h, top, big, sub, hot=False):
+# v0.2: parchment cards (seeded fibre/stain texture, deckled edges), faint manuscript ruling + Latin rubric
+# behind, a candle as the only light source (warm pool on the centre card). Text unchanged.
+def parchment(w, h, seed, tone='#E6D8BA', bright=1.0):
+    """RGBA parchment patch at S×: value noise + fibres + edge darkening + deckled alpha."""
+    rng = np.random.default_rng(seed)
+    W2, H2 = int(w * S), int(h * S)
+    def noise(sc):
+        n = rng.normal(0, 1, (max(2, H2 // sc), max(2, W2 // sc))).astype(np.float32)
+        return np.asarray(Image.fromarray(((n * 40) + 128).clip(0, 255).astype(np.uint8)).resize((W2, H2), Image.BICUBIC), np.float32) / 128 - 1
+    n = 0.55 * noise(60) + 0.30 * noise(16) + 0.15 * noise(4)
+    yy, xx = np.mgrid[0:H2, 0:W2].astype(np.float32)
+    ex = np.minimum(xx, W2 - 1 - xx) / (W2 / 2); ey = np.minimum(yy, H2 - 1 - yy) / (H2 / 2)
+    edge = np.clip(np.minimum(ex, ey) * 3.0, 0, 1) ** 0.6           # darker toward the edge
+    base = np.array(rgb(tone), np.float32)
+    col = base[None, None] * (0.80 + 0.10 * n[..., None]) * (0.78 + 0.22 * edge[..., None])
+    # stains: 3 soft blots, warm-brown
+    for _ in range(3):
+        cx, cy, r = rng.uniform(0, W2), rng.uniform(0, H2), rng.uniform(0.15, 0.35) * W2
+        k = np.exp(-(((xx - cx) ** 2 + (yy - cy) ** 2) / (2 * r * r)))
+        col *= (1 - 0.10 * k[..., None])
+    img = Image.fromarray(np.clip(col * bright, 0, 255).astype(np.uint8))
+    d = ImageDraw.Draw(img, 'RGBA')
+    for _ in range(int(w * h / 900)):                               # fibres
+        x0, y0 = rng.uniform(0, W2), rng.uniform(0, H2); L = rng.uniform(8, 30) * S; a = rng.uniform(-0.4, 0.4)
+        d.line([(x0, y0), (x0 + L * math.cos(a), y0 + L * math.sin(a))], fill=(70, 50, 30, int(rng.uniform(10, 26))), width=1)
+    # deckled alpha: rectangle with noisy edge (±3 px)
+    al = Image.new('L', (W2, H2), 0); ad = ImageDraw.Draw(al)
+    m = 4 * S
+    top = [(x, m + rng.uniform(-3, 3) * S) for x in np.linspace(m, W2 - m, 40)]
+    right = [(W2 - m + rng.uniform(-3, 3) * S, y) for y in np.linspace(m, H2 - m, 40)]
+    bot = [(x, H2 - m + rng.uniform(-3, 3) * S) for x in np.linspace(W2 - m, m, 40)]
+    left = [(m + rng.uniform(-3, 3) * S, y) for y in np.linspace(H2 - m, m, 40)]
+    ad.polygon(top + right + bot + left, fill=255)
+    al = al.filter(ImageFilter.GaussianBlur(0.8 * S))
+    img.putalpha(al)
+    return img
+
+
+def parch_card(fr, x, y, w, h, top, big, sub, seed, hot=False):
+    bright = 1.12 if hot else 0.42
+    img = parchment(w, h, seed, bright=bright)
+    fr.base.paste(img, (int(x * S), int(y * S)), img); fr.d = ImageDraw.Draw(fr.base, 'RGBA')
+    ink = '#2A2118'
+    if hot:   # rubric month in ember_deep, numerals/sub in iron-gall ink
+        fr.text((x + w / 2, y + 26), top, 'caption', 34, P['ember_deep'], anchor='ma')
+        fr.text((x + w / 2, y + 80), big, 'headline', 96, ink, anchor='ma')
+        fr.text((x + w / 2, y + h - 66), sub, 'caption', 34, ink, anchor='ma')
+        fr.d.line([((x + 40) * S, (y + 72) * S), ((x + w - 40) * S, (y + 72) * S)], fill=rgb(P['ember_deep'], 0.55), width=int(1.5 * S))
+    else:
+        fr.text((x + w / 2, y + 26), top, 'caption', 34, MIST, anchor='ma')
+        fr.text((x + w / 2, y + 80), big, 'headline', 72, CREAM, anchor='ma', a=0.9)
+        fr.text((x + w / 2, y + h - 66), sub, 'caption', 34, MIST, anchor='ma')
+
+
+def candle(fr, cx, base_y, s=1.0):
     d = fr.d
-    d.rounded_rectangle([x * S, y * S, (x + w) * S, (y + h) * S], radius=int(14 * S), fill=rgb('#16263B'),
-                        outline=rgb(AMBER if hot else '#2C4260', 0.95), width=int((3 if hot else 1.5) * S))
-    fr.text((x + w / 2, y + 26), top, 'caption', 34, AMBER if hot else MIST, anchor='ma')
-    fr.text((x + w / 2, y + 80), big, 'headline', 96 if hot else 72, CREAM if hot else MIST, anchor='ma')
-    fr.text((x + w / 2, y + h - 66), sub, 'caption', 34, CREAM if hot else MIST, anchor='ma')
+    h = 110 * s; w = 30 * s
+    d.rounded_rectangle([(cx - w / 2) * S, (base_y - h) * S, (cx + w / 2) * S, base_y * S], radius=int(4 * S), fill=rgb('#CDBFA4'))
+    d.rectangle([(cx - w / 2) * S, (base_y - h) * S, (cx - w / 2 + 6 * s) * S, base_y * S], fill=rgb('#B3A68E'))   # shaded side
+    d.ellipse([(cx - 46 * s) * S, (base_y - 8 * s) * S, (cx + 46 * s) * S, (base_y + 10 * s) * S], fill=rgb('#2A2622'))  # holder
+    d.line([(cx * S, (base_y - h) * S), (cx * S, (base_y - h - 9 * s) * S)], fill=rgb('#1A1410'), width=int(2 * S))       # wick
+    fy = base_y - h - 10 * s
+    lay = Image.new('RGB', (W * S, H * S), (0, 0, 0)); g = ImageDraw.Draw(lay)
+    a = np.linspace(0, 2 * np.pi, 64)
+    for ww, hh, col in ((7.5, 30, P['ember_amber']), (4.5, 20, P['ember_core'])):
+        xs = cx + ww * s * np.sin(a) * np.sin(a / 2) ** 1.4; ys = fy + 4 * s - hh * s * (0.5 + 0.5 * np.cos(a))
+        g.polygon([(px * S, py * S) for px, py in zip(xs, ys)], fill=rgb(col))
+    fr.add_light_image(lay); fr.add_light_image(lay, blur=4 * s)
+    fr.glow(cx, fy - 8 * s, 12 * s, P['ember_core'], 16 * s, 0.8)
+    fr.glow(cx, fy - 8 * s, 40 * s, AMBER, 60 * s, 0.32)
+    fr.glow(cx, fy, 120 * s, P['ember_deep'], 140 * s, 0.10)
 
 
 def shot04():
     fr = Frame(1035)
-    card(fr, 70, 560, 280, 330, '10月', '31', '前夜')
-    card(fr, 380, 520, 320, 410, '11月', '1', '万圣节', hot=True)
-    card(fr, 730, 560, 280, 330, '11月', '2', '万灵节')
+    # manuscript ruling + Latin rubric (faint, behind everything; Latin = "On the Kalends of November, the feast of All Saints")
+    lat = 'In Kalendis Novembris · festivitas omnium sanctorum · '
+    tm = Image.new('L', (W * S, H * S), 0); td = ImageDraw.Draw(tm)
+    for i, y in enumerate(range(520, 980, 44)):
+        rule(fr, 40, W - 40, y + 36, '#2C4260', 0.35, 1.0)
+        off = (i * 137) % 400
+        td.text((40 * S - off * S, y * S), lat * 3, font=font('latin_italic', 30), fill=255)
+    tm = Image.fromarray((np.asarray(tm, np.float32) * 0.06).astype(np.uint8))
+    fr.base.paste(Image.new('RGB', tm.size, rgb(CREAM)), (0, 0), tm); fr.d = ImageDraw.Draw(fr.base, 'RGBA')
+    # warm pool from the candle onto the table/cards
+    pool = Image.new('RGB', (W * S, H * S), (0, 0, 0)); pg = ImageDraw.Draw(pool)
+    pg.ellipse([440 * S, 620 * S, 1160 * S, 1180 * S], fill=tuple(int(v * 0.15) for v in rgb(AMBER)))
+    fr.add_light_image(pool, blur=90)
+    parch_card(fr, 70, 560, 280, 330, '10月', '31', '前夜', seed=41)
+    parch_card(fr, 380, 520, 320, 410, '11月', '1', '万圣节', seed=42, hot=True)
+    parch_card(fr, 730, 560, 280, 330, '11月', '2', '万灵节', seed=43)
+    candle(fr, 935, 1045, 1.0)
     # word chain
     y0 = 1030
     words = [("All Hallows' Eve", MIST, 48), ("Hallowe'en", MIST, 54), ('Halloween', CREAM, 72)]
@@ -233,39 +337,39 @@ def pumpkin(fr, px, py, ps, holes=True):
         fr.add_light_image(pool, blur=16 * ps)
 
 
-def turnip(fr, tx, ty, ts, alpha=1.0):
-    d = fr.d
-    a = np.linspace(0, 2 * np.pi, 160)
-    # bulb with tapered root at the bottom (teardrop pointing down)
-    xs = tx + 118 * ts * np.sin(a) * (np.sin(a / 2) ** 0.35) * (0.82 + 0.18 * np.cos(a))
-    ys = ty + 120 * ts * np.cos(a) * -1 * 0.95
-    poly = [(x * S, y * S) for x, y in zip(xs, ys)]
-    body = Image.new('L', (W * S, H * S), 0); ImageDraw.Draw(body).polygon(poly, fill=255)
-    cream = Image.new('RGB', (W * S, H * S), rgb('#E2D8C4'))
-    mauve = Image.new('RGB', (W * S, H * S), rgb('#8E7C93'))
-    band = Image.new('L', (W * S, H * S), 0); ImageDraw.Draw(band).rectangle([0, 0, W * S, (ty - 40 * ts) * S], fill=255)
-    band = band.filter(ImageFilter.GaussianBlur(22 * ts * S))
-    col = Image.composite(mauve, cream, band)
-    m = Image.fromarray((np.asarray(body, np.float32) * alpha).astype(np.uint8))
-    fr.base.paste(col, (0, 0), m); fr.d = ImageDraw.Draw(fr.base, 'RGBA'); d = fr.d
-    # root tail + leaves
-    d.line([(tx * S, (ty + 114 * ts) * S), ((tx + 6 * ts) * S, (ty + 170 * ts) * S)], fill=rgb('#CFC3AC'), width=int(3 * S))
-    for dx, dy in ((-24, -205), (6, -220), (34, -195)):
-        d.line([(tx * S, (ty - 112 * ts) * S), ((tx + dx * ts) * S, (ty + dy * ts) * S)], fill=rgb('#6E8A5A'), width=int(6 * S))
-    d2 = ImageDraw.Draw(fr.base); carved_holes(d2, tx, ty + 6 * ts, ts * 0.8, rgb('#2A1408'))
-    lay = Image.new('RGB', (W * S, H * S), (0, 0, 0)); g = ImageDraw.Draw(lay)
-    carved_holes(g, tx, ty + 6 * ts, ts * 0.77, tuple(int(v * 0.95) for v in rgb(P['ember_core'])))
-    fr.add_light_image(lay); fr.add_light_image(lay, blur=7)
+def photo_lantern(fr, name, cx, cy, width, body_stops, hot_thr, seed_blur=8):
+    """Real-photo lantern -> palette: body via luminance ramp, carved holes (hot, saturated pixels) -> light layer."""
+    col, a = load_cut(name, width=width)
+    a = soften_alpha(a, 0.6)
+    L = lum(col)
+    r, g, b = col[..., 0], col[..., 1], col[..., 2]
+    hot = np.clip((L - hot_thr) / 40, 0, 1) * np.clip((r - b - 40) / 60, 0, 1) * a      # orange-bright = candle light
+    hot = np.asarray(Image.fromarray((hot * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.6 * S)), np.float32) / 255
+    t = norm_l(L, a)
+    body = ramp(t, body_stops)
+    tone = body * (1 - hot[..., None]) + np.array(rgb(P['ember_deep']), np.float32) * hot[..., None]
+    h, w = a.shape
+    x0, y0 = cx - w / S / 2, cy - h / S / 2
+    paste(fr, tone, a, x0, y0)
+    core = hot[..., None] * np.array(rgb(P['ember_core']), np.float32)[None, None]
+    light_from(fr, core, x0, y0)
+    light_from(fr, core * 0.9, x0, y0, blur=seed_blur)
+    return x0, y0, w / S, h / S, a
 
 
 def shot06():
     fr = Frame(1037)
-    turnip(fr, 290, 760, 0.72)
-    fr.text((290, 920), '芜菁灯 · 爱尔兰/苏格兰', 'caption', 34, MIST, anchor='ma')
+    # turnip (CC BY 2.5, Geni): neutral duotone ink->paper, mauve-grey mid
+    photo_lantern(fr, 'turnip.png', 290, 770, 250, [(0, '#1E2433'), (0.55, '#968A8E'), (1, '#E2D8C4')], hot_thr=140, seed_blur=8)
+    fr.text((290, 905), '芜菁灯\n爱尔兰/苏格兰传统', 'caption', 34, MIST, anchor='ma', spacing=8)
     ax, ay = arc_pts(400, 820, 560, 940, -0.30, 60)
     for i in range(0, 60, 4):
         fr.circle(ax[i], ay[i], 2.6, rgb(AMBER, 0.30 + 0.6 * i / 60))
-    pumpkin(fr, 650, 1130, 1.22)
+    # pumpkin (CC0, Teutschmann, Eau Claire US 2016): body lit from inside -> deep ember ramp
+    x0, y0, w, h, a = photo_lantern(fr, 'pumpkin.png', 650, 1125, 380, [(0, '#2A160E'), (0.40, '#8A3C1A'), (1, '#D9793A')], hot_thr=150, seed_blur=12)
+    pool = Image.new('RGB', (W * S, H * S), (0, 0, 0)); pg = ImageDraw.Draw(pool)
+    pg.ellipse([(650 - 230) * S, (y0 + h - 60) * S, (650 + 230) * S, (y0 + h - 16) * S], fill=tuple(int(v * 0.30) for v in rgb(AMBER)))
+    fr.add_light_image(pool, blur=18)
     fr.text((650, 1330), '南瓜灯 · 美国', 'caption', 34, CREAM, anchor='ma')
     headline_block(fr, 220, '灯，换了', '芜菁 → 南瓜')
     fr.text((SIDE, 400), '在家乡，灯是用芜菁刻的\n到了美洲，换成了更大的南瓜', 'body', 46, CREAM)
@@ -309,7 +413,7 @@ def shot07():
     return fr
 
 
-# ---------------------------------------------------------------- shot 08 China today
+# ---------------------------------------------------------------- shot 08 today: city windows (v0.2, no map)
 def phone_card(fr, x, y, w, h, ang, seed):
     lay = Image.new('RGBA', (int(w * S) + 40, int(h * S) + 40), (0, 0, 0, 0)); g = ImageDraw.Draw(lay)
     g.rounded_rectangle([20, 20, 20 + w * S, 20 + h * S], radius=int(18 * S), fill=rgb('#16263B', 0.92), outline=rgb(CREAM, 0.8), width=int(2.5 * S))
@@ -327,29 +431,77 @@ def phone_card(fr, x, y, w, h, ang, seed):
     fr.base.paste(lay, (int(x * S - lay.width / 2), int(y * S - lay.height / 2)), lay)
 
 
+def skyline(fr, seed=808):
+    """Generic apartment blocks with window grids (no landmarks, no map). Returns list of pumpkin-window centres."""
+    rng = np.random.default_rng(seed)
+    d = fr.d
+    lay = Image.new('RGB', (W * S, H * S), (0, 0, 0)); g = ImageDraw.Draw(lay)
+    warm = [P['ember_core'], P['ember_amber'], '#E8C38A']
+    # far layer: low, dim, small windows
+    x = -20
+    while x < W + 20:
+        bw = rng.uniform(70, 140); top = rng.uniform(820, 980)
+        d.rectangle([x * S, top * S, (x + bw) * S, H * S], fill=rgb('#0F1A2B'))
+        for wy in np.arange(top + 14, 1380, 18):
+            for wx in np.arange(x + 8, x + bw - 10, 14):
+                if rng.uniform() < 0.12:
+                    c = tuple(int(v * 0.35) for v in rgb(warm[rng.integers(3)]))
+                    g.rectangle([wx * S, wy * S, (wx + 7) * S, (wy + 9) * S], fill=c)
+        x += bw + rng.uniform(4, 14)
+    # near layer: 7 blocks
+    blocks = [(-10, 150, 700), (150, 175, 860), (335, 140, 760), (485, 190, 640), (690, 150, 880), (850, 120, 720), (978, 130, 800)]
+    pumpkins = []
+    for bi, (bx, bw, top) in enumerate(blocks):
+        d.rectangle([bx * S, top * S, (bx + bw) * S, H * S], fill=rgb('#101C2E'))
+        d.line([(bx * S, top * S), ((bx + bw) * S, top * S)], fill=rgb('#22344E'), width=int(2 * S))        # roof edge
+        d.rectangle([(bx + bw * 0.62) * S, (top - 22) * S, (bx + bw * 0.62 + 26) * S, top * S], fill=rgb('#101C2E'))  # roof box
+        ww, wh, gx, gy = 16, 22, 10, 14
+        cols = int((bw - 24) // (ww + gx)); x0 = bx + (bw - (cols * (ww + gx) - gx)) / 2
+        for r, wy in enumerate(np.arange(top + 24, 1400, wh + gy)):
+            for c in range(cols):
+                wx = x0 + c * (ww + gx)
+                box = [wx * S, wy * S, (wx + ww) * S, (wy + wh) * S]
+                p = rng.uniform() + max(0, (wy - 1200) / 400)     # fewer lit floors toward the street
+                if p < 0.24:
+                    k = rng.uniform(0.45, 0.80)
+                    col = tuple(int(v * k) for v in rgb(warm[rng.integers(3)]))
+                    d.rectangle(box, fill=tuple(int(v * 0.55) for v in col))
+                    g.rectangle(box, fill=tuple(int(v * 0.55) for v in col))
+                elif p < 0.255:     # a few cool TV-lit windows (≤5% cool rule)
+                    d.rectangle(box, fill=tuple(int(v * 0.35) for v in rgb(VEIL)))
+                else:
+                    d.rectangle(box, fill=rgb('#0B1422'))
+    # pumpkin windows: fixed list (block, col-fraction, row) -> tiny lit pumpkin on the sill
+    for bx, bw, top, frac, row in ((150, 175, 860, 0.3, 4), (335, 140, 760, 0.7, 9), (485, 190, 640, 0.5, 6), (690, 150, 880, 0.25, 3),
+                                   (850, 120, 720, 0.6, 12), (-10, 150, 700, 0.6, 7), (978, 130, 800, 0.4, 5), (485, 190, 640, 0.2, 15)):
+        ww, wh, gx, gy = 16, 22, 10, 14
+        cols = int((bw - 24) // (ww + gx)); x0 = bx + (bw - (cols * (ww + gx) - gx)) / 2
+        c = int(frac * (cols - 1)); wx = x0 + c * (ww + gx); wy = top + 24 + row * (wh + gy)
+        box = [wx * S, wy * S, (wx + ww) * S, (wy + wh) * S]
+        d.rectangle(box, fill=rgb('#4A2512'))
+        g.rectangle(box, fill=tuple(int(v * 0.30) for v in rgb(P['ember_deep'])))
+        pcx, pcy = wx + ww / 2, wy + wh - 7
+        d.ellipse([(pcx - 7) * S, (pcy - 6) * S, (pcx + 7) * S, (pcy + 6) * S], fill=rgb('#D9793A'))
+        d.line([(pcx * S, (pcy - 6) * S), (pcx * S, (pcy - 9) * S)], fill=rgb('#5F7A4C'), width=int(2 * S))
+        g.ellipse([(pcx - 6) * S, (pcy - 5) * S, (pcx + 6) * S, (pcy + 5) * S], fill=tuple(int(v * 0.6) for v in rgb(AMBER)))
+        for sx in (-3, 3):     # two eyes + mouth glow
+            g.rectangle([(pcx + sx - 1.2) * S, (pcy - 2.5) * S, (pcx + sx + 1.2) * S, (pcy - 0.5) * S], fill=rgb(P['ember_core']))
+        g.rectangle([(pcx - 3.5) * S, (pcy + 1) * S, (pcx + 3.5) * S, (pcy + 2.5) * S], fill=rgb(P['ember_core']))
+        fr.glow(pcx, pcy, 8, AMBER, 14, 0.75)
+        fr.glow(pcx, pcy, 20, P['ember_deep'], 30, 0.35)
+        pumpkins.append((pcx, pcy))
+    fr.add_light_image(lay)
+    fr.add_light_image(lay, blur=3)
+    return pumpkins
+
+
 def shot08():
     fr = Frame(1039)
-    pr = Ortho(112, 31, 1500, 560, 1000)
-    draw_map(fr, pr, dot_spacing=11, coast=True, graticule=True, disk=False, region=(0, 0, W, H))
-    cities = {'北京': (39.9, 116.4), '上海': (31.23, 121.47), '广州': (23.13, 113.26), '成都': (30.66, 104.07), '深圳': (22.54, 114.06),
-              '杭州': (30.27, 120.15), '武汉': (30.59, 114.3), '西安': (34.34, 108.94), '重庆': (29.56, 106.55), '南京': (32.06, 118.8),
-              '长沙': (28.23, 112.94), '香港': (22.32, 114.17), '天津': (39.13, 117.2), '厦门': (24.48, 118.09)}
-    pos = {}
-    for name, (la, lo) in cities.items():
-        x, y, _ = pr.fwd(np.array([lo]), np.array([la])); pos[name] = (float(x[0]), float(y[0]))
-        big = name in ('北京', '上海', '广州', '成都')
-        rng = np.random.default_rng(800 + len(pos))
-        n = 60 if big else 22
-        xs, ys, _ = pr.fwd(lo + rng.normal(0, 0.45, n), la + rng.normal(0, 0.35, n))
-        many_lights(fr, list(zip(xs, ys)), r=1.5, blur=4, strength=0.85)
-        city_light(fr, *pos[name], r=3.2 if big else 2.2, strength=1.0)
-    for name, dx, dy, anc in (('北京', 14, -46, 'la'), ('上海', 18, -10, 'la'), ('成都', -16, -12, 'ra')):
-        fr.text((pos[name][0] + dx, pos[name][1] + dy), name, 'caption', 34, MIST, anchor=anc)
-    fr.text((pos['广州'][0] - 16, pos['广州'][1] + 6), '广州', 'caption', 34, MIST, anchor='ra')
-    # three social-post cards rising from cities (thin amber tether)
-    for (name, cx, cy, ang, sd) in (('北京', 860, 640, -6, 1), ('成都', 200, 760, 5, 2), ('上海', 920, 1230, 4, 3)):
-        sx, sy = pos[name]
-        fr.d.line([(sx * S, sy * S), (cx * S, (cy + 80) * S)], fill=rgb(AMBER, 0.35), width=int(1.5 * S))
+    pk = skyline(fr)
+    # three social-post cards rising from pumpkin windows (thin amber tether)
+    for (pi, cx, cy, ang, sd) in ((2, 860, 640, -6, 1), (5, 200, 760, 5, 2), (4, 920, 1230, 4, 3)):
+        sx, sy = pk[pi]
+        fr.d.line([(sx * S, sy * S), (cx * S, (cy + 80) * S)], fill=rgb(AMBER, 0.45), width=int(1.5 * S))
         phone_card(fr, cx, cy, 130, 220, ang, sd)
     fr.scrim(200, 470, 0.75); fr.scrim(1420, 1580, 0.7)
     headline_block(fr, 220, '今天', '它也来到了这里')

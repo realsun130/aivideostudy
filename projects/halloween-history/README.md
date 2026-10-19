@@ -8,3 +8,8 @@
 - `render/render_stills.py`：复现方法是 `cd render && python3 render_stills.py`。种子固定，同一镜重复渲染像素完全一致（已用 md5 校验）
 - 画风：`styles/halloween-history-map/style_bible.json`（locked_by=pending_user_style_lock）
 - 依赖：Python 3、Pillow、numpy、Noto Serif/Sans CJK；地图来自 Natural Earth 1:50m land（公有领域）
+
+
+## 素材（v0.2）
+- `assets/src/` 原图，`assets/cut/` 抠图结果（已提交，渲染不需要 rembg）；来源与授权见 `assets/CREDITS.md`。
+- 重新抠图：`cd render && python3 prep_assets.py`（需要 rembg 和 opencv）。渲染：`python3 render_stills.py [镜号…]`。
