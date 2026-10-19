@@ -1,0 +1,70 @@
+{
+  "project_id": "halloween-history-map",
+  "version": "2026-10-18.1",
+  "title": "Halloween History · Ink Night Map",
+  "status": "draft",
+  "locked_by": "pending_user_style_lock",
+  "summary": "墨蓝夜色地图 + 琥珀火光：陆地是点阵，光只来自火、灯、窗；纸面颗粒；无人物、无人脸。⚠️ 待测试",
+  "medium": "programmatic_2d_data_map",
+  "canvas": {"width": 1080, "height": 1920, "fps": 24, "supersample": 2},
+  "accent_policy": {
+    "type": "warm_cool_pair",
+    "declared_in": "projects/halloween-history/story_card.md",
+    "warm": "ember_amber #F2A541 = 火/灯/活人的记忆",
+    "cool": "veil_moon #BFD8E6 = 亡者/那层纱/月光",
+    "rule": "同一画面暖色面积 ≤ 8%，冷色 ≤ 5%，其余全部为墨蓝与纸色"
+  },
+  "palette": {
+    "night_ink":    {"hex": "#0D1828", "role": "background"},
+    "night_lift":   {"hex": "#132238", "role": "background center lift (radial, ΔL ≤ 4)"},
+    "graticule":    {"hex": "#1C2E46", "role": "经纬线 1px @1x, alpha 0.55"},
+    "land_fill":    {"hex": "#15263C", "role": "陆地底色"},
+    "land_dot":     {"hex": "#35506F", "role": "陆地点阵"},
+    "coast":        {"hex": "#4C6A8C", "role": "海岸线 1.6px @1x, alpha 0.7"},
+    "paper_cream":  {"hex": "#EDE4D3", "role": "主文字 / 物件剪影"},
+    "mist_grey":    {"hex": "#93A5B8", "role": "副文字 / 注释"},
+    "ember_amber":  {"hex": "#F2A541", "role": "warm accent"},
+    "ember_core":   {"hex": "#FFD98A", "role": "火芯（仅光源中心 ≤ 6px）"},
+    "ember_deep":   {"hex": "#C4612B", "role": "火焰外缘 / 南瓜暗部"},
+    "veil_moon":    {"hex": "#BFD8E6", "role": "cool accent"}
+  },
+  "fonts": {
+    "headline": {"file": "/usr/share/fonts/opentype/noto/NotoSerifCJK-Bold.ttc", "index": 2, "size_px": [72, 96]},
+    "body":     {"file": "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc", "index": 2, "size_px": [46, 56]},
+    "caption":  {"file": "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc", "index": 2, "size_px": [34, 38]},
+    "latin_italic": {"file": "/usr/share/fonts/truetype/sand-box/google/Noto Serif/NotoSerif-Italic-VariableFont_wdth,wght.ttf", "size_px": [44, 64]},
+    "min_size_px": 34,
+    "line_height": 1.45,
+    "letter_spacing_px": 2
+  },
+  "layout": {
+    "safe_top_px": 200,
+    "safe_bottom_px": 420,
+    "safe_side_px": 80,
+    "text_align": "left for 正文与注释; 仅片头与片尾主句居中",
+    "rule": "主信息全部落在 y 200–1500；1500 以下只放 ≤34px 注释或留空（给平台字幕/按钮）"
+  },
+  "lines": {"coast_px": 1.6, "graticule_px": 1.0, "arc_px": 2.0, "object_outline_px": 3.0},
+  "map": {
+    "projection": "orthographic",
+    "land_source": "Natural Earth 1:50m land (public domain)",
+    "dot_spacing_px": 11,
+    "dot_radius_px": 2.0,
+    "no_borders": true,
+    "no_country_names": true
+  },
+  "glow": {
+    "allowed_on": ["fire", "lantern", "lit window/city light", "carved-lantern holes"],
+    "banned_on": ["text", "UI", "map land", "decor"],
+    "blur_radius_px": [10, 36],
+    "intensity_max": 0.85,
+    "blend": "additive in linear-ish RGB, then clip"
+  },
+  "grain": {"seed": 1031, "amplitude": 0.035, "blur_sigma_px": 0.8, "apply": "after downsample, luminance only"},
+  "vignette": {"strength": 0.28, "radius": 0.85},
+  "ban_list": [
+    "紫/蓝渐变背景", "镜头光斑", "装饰粒子（无光源的漂浮粒子）", "人物与人脸",
+    "国界线与国家名（规避地图审图问题）", "霓虹/赛博配色", "万圣节俗套橙黑撞色海报风",
+    "全部元素同时淡入", "阅读中移动的文字"
+  ]
+}

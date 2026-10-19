@@ -1,0 +1,14 @@
+{
+  "project_id": "halloween-history-map",
+  "status": "stub ⚠️ 待测试 — 静帧未锁定前不填数值",
+  "locked_by": "pending_user_style_lock",
+  "fps": 24,
+  "time_source": "frame only (t = frame/24); seeded randomness, seed per shot = 1031 + shot_no",
+  "camera": {"type": "orthographic globe rotate/zoom", "easing": "ease-in-out-quart", "max_rotation_deg_per_s": 12},
+  "fire": {"flicker_hz": [1.5, 3.0], "flicker_amp": 0.12, "ember_rise_px_per_s": [40, 90], "ember_life_s": [0.8, 1.6]},
+  "light_points": {"stagger_frames": [1, 3], "fade_in_frames": 8, "easing": "ease-out-cubic"},
+  "arcs": {"draw_frames": 36, "particle_speed_px_per_s": [120, 220]},
+  "text": {"enter_frames": 10, "exit_frames": 6, "hold_rule": ">= 0.3s/词 + 0.5s", "moving_while_reading": false},
+  "transitions": "媒介原生：光点缩放推进/地球旋转转场，默认硬切；禁用交叉淡化",
+  "todo": ["静帧锁定后补缓动参数", "补每镜帧区间与 BPM 网格", "补声音提示点"]
+}
