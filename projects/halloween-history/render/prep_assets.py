@@ -67,3 +67,9 @@ rem('turnip_jackolantern_geni.jpg', (0, 0, 547, 505), 'turnip.png')
 
 # 5 Carved pumpkin (CC0), right-hand pumpkin
 rem('carved_pumpkin_teutschmann_cc0.jpg', (1850, 650, 3200, 1950), 'pumpkin.png')
+
+# --- v0.3 shot 03 additions (run after sources are in assets/src/) ---
+# Skekler: color-threshold straw + rembg union; see one-off script history in commit message.
+# Country Life Irish mask: rembg or GrabCut on Traditional-irish-halloween-mask.jpg
+# Outputs: cut/skekler.png, cut/irish_mask_country_life.png
+# Horniman irish_mask.png unchanged from v0.2.

@@ -127,10 +127,10 @@ def mask_cut(fr, name, cx, bottom, width=None, height=None, invert=False, lo=0.5
     light_from(fr, rim_light(a, width=3, strength=0.55), x0, y0, blur=1.5)
 
 
-MASKS03 = [  # (cutout, cx, size kw, invert, tone floor, label)
-    ('mari_lwyd.png', 225, dict(height=470), False, 0.40, '马头伪装\n威尔士\n20世纪初'),
-    ('irish_mask.png', 540, dict(width=270), False, 0.42, '万圣节布面具\n爱尔兰\n20世纪初'),
-    ('dennison_cat.png', 860, dict(width=250), True, 0.30, '黑猫纸饰\n美国\n1920'),
+MASKS03 = [  # (cutout, cx, size kw, invert, tone floor, label) — all Halloween/Samhain-season guising
+    ('skekler.png', 225, dict(height=480), False, 0.38, 'Skekler 稻草伪装\n设得兰'),
+    ('irish_mask.png', 540, dict(width=270), False, 0.42, '万圣节布面具\n爱尔兰·霍尼曼\n20世纪初'),
+    ('irish_mask_country_life.png', 860, dict(width=280), False, 0.42, '万圣节布面具\n爱尔兰·乡村生活馆\n20世纪初'),
 ]
 
 
