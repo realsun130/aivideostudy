@@ -42,3 +42,17 @@
 
 ## 改动说明（通用）
 裁切 → 抠图 → 去色 → 按亮度映射到 `paper_cream`/`night_ink` → 刻孔/边缘琥珀光进加光层。
+
+## 声音（v3）
+
+| 用途 | 来源 | 授权 | 说明 |
+|---|---|---|---|
+| 旁白 TTS | **Kokoro-82M v1.0**（hexgrad/Kokoro-82M），声线 `zm_yunjian`；Python 包 kokoro 0.7.16 + misaki（中文 G2P：jieba / pypinyin / cn2an） | 模型权重 **Apache-2.0**；kokoro / misaki 代码 Apache-2.0 | 本机 CPU 生成（无 GPU）。Apache-2.0 允许商用，生成音频归使用者；无需署名（建议简介注明“配音由 Kokoro-82M 合成”）。每镜单独合成，语速 1.0–1.2 适配拍点镜长 |
+| 配乐 | **原创程序化合成**（`audio/build_audio_v3.py`，numpy/scipy，种子 1031）：90 BPM，D 小调铺底 → 教堂五度 → 饥荒低音 → F 大调拨弦 → D 大调八分音符 → 安静钟声收尾 | 原创，无采样 | 可商用，无第三方权利 |
+| 音效 | 同上脚本合成：篝火噼啪、8 次点火、烛火、海浪、甩镜呼啸、Ireland 钟声、窗灯“嗒”声、卡片铃、3 次吹灯 | 原创，无采样 | 可商用 |
+
+检索过但未采用：
+- **Piper `zh_CN-huayan-medium`**：代码 GPL-3.0（不影响输出），但模型卡写明训练数据 HuaYan **授权 Unknown** → 商用不安全，弃用（`audio/vo/shot*.wav` 为早期试听，未进成片）。
+- Kokoro-82M-v1.1-zh：包镜像只有 kokoro 0.7.x（不支持 repo_id），未能加载。
+- CosyVoice2 / LuxTTS：无 GPU，未测；F5-TTS（权重 CC-BY-NC）按要求避开；edge-tts / 云服务按要求避开。
+- Openverse CC0 音乐/音效：接口超时，未下载任何文件；最终全部自合成。

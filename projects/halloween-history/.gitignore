@@ -4,3 +4,12 @@ frames/
 render/cache/
 render/__pycache__/
 frames_v2/
+frames_v3/
+render/cache_v2/
+audio/models/
+audio/score/
+out/qa_v3/
+audio/vo/shot*.wav
+audio/vo/narration_*.wav
+audio/src/
+audio/vo/timing.json

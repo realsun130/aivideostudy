@@ -1,0 +1,123 @@
+{
+ "fps": 24,
+ "bpm": 90,
+ "frames_per_beat": 16,
+ "total_frames": 1792,
+ "total_seconds": 74.66666666666667,
+ "shots": {
+  "1": {
+   "start": 0,
+   "end": 127,
+   "frames": 128,
+   "vo_start_frame": 4,
+   "vo_frames": 110,
+   "text": "十月三十一日。一个夜晚，怎么走到了你身边？",
+   "file": "vo/k_shot01.wav",
+   "vo_dur": 4.565,
+   "tts_speed": 1.0,
+   "tts_text": "十月三十一日。一个夜晚，怎么走到了你身边？"
+  },
+  "2": {
+   "start": 128,
+   "end": 399,
+   "frames": 272,
+   "vo_start_frame": 132,
+   "vo_frames": 244,
+   "text": "在爱尔兰和苏格兰，这一夜叫萨温节——冬天开始的那一夜。人们点起山顶的篝火，相信生者与亡者之间的那层纱，最薄。",
+   "file": "vo/k_shot02.wav",
+   "vo_dur": 10.165,
+   "tts_speed": 1.0,
+   "tts_text": "在爱尔兰和苏格兰，这一夜叫萨温节——冬天开始的那一夜。人们点起山顶的篝火，相信生者与亡者之间的那层纱，最薄。"
+  },
+  "3": {
+   "start": 400,
+   "end": 575,
+   "frames": 176,
+   "vo_start_frame": 402,
+   "vo_frames": 171,
+   "text": "有人戴上面具，好让游荡的亡灵认不出你。这一说法来自民俗传说，学界并无定论。",
+   "file": "vo/k_shot03.wav",
+   "vo_dur": 7.115,
+   "tts_speed": 1.1,
+   "tts_text": "有人戴上面具，好让游荡的亡灵认不出你。这一说法来自民俗传说，学界并无定论。"
+  },
+  "4": {
+   "start": 576,
+   "end": 847,
+   "frames": 272,
+   "vo_start_frame": 578,
+   "vo_frames": 266,
+   "text": "公元九世纪，教会定下十一月一日为诸圣节。「万圣节」的前一晚，就是今天的万圣夜。Halloween，源自苏格兰对 All Hallows' Eve 的缩写。",
+   "file": "vo/k_shot04.wav",
+   "vo_dur": 11.065,
+   "tts_speed": 1.0,
+   "tts_text": "公元九世纪，教会定下十一月一日为诸圣节。「万圣节」的前一晚，就是今天的万圣夜。它的英文名字，源自苏格兰人对「诸圣节前夜」的缩写。"
+  },
+  "5": {
+   "start": 848,
+   "end": 1055,
+   "frames": 208,
+   "vo_start_frame": 852,
+   "vo_frames": 190,
+   "text": "一八四五到五二年，爱尔兰大饥荒。很多人离开故土，远渡北美——他们把万圣节，也带上了船。",
+   "file": "vo/k_shot05.wav",
+   "vo_dur": 7.915,
+   "tts_speed": 1.0,
+   "tts_text": "一八四五到五二年，爱尔兰大饥荒。很多人离开故土，远渡北美——他们把万圣节，也带上了船。"
+  },
+  "6": {
+   "start": 1056,
+   "end": 1215,
+   "frames": 160,
+   "vo_start_frame": 1060,
+   "vo_frames": 145,
+   "text": "灯，换了。在家乡，灯笼用芜菁刻；到了美洲，换成了更大的南瓜。",
+   "file": "vo/k_shot06.wav",
+   "vo_dur": 6.04,
+   "tts_speed": 1.0,
+   "tts_text": "灯，换了。在家乡，灯笼用芜菁刻；到了美洲，换成了更大的南瓜。"
+  },
+  "7": {
+   "start": 1216,
+   "end": 1423,
+   "frames": 208,
+   "vo_start_frame": 1218,
+   "vo_frames": 202,
+   "text": "二十世纪的北美，「不给糖就捣蛋」从报纸上的一句话，变成全美孩子的夜晚，再借电影和网络走向世界。",
+   "file": "vo/k_shot07.wav",
+   "vo_dur": 8.415,
+   "tts_speed": 1.15,
+   "tts_text": "二十世纪的北美，「不给糖就捣蛋」从报纸上的一句话，变成全美孩子的夜晚，再借电影和网络走向世界。"
+  },
+  "8": {
+   "start": 1424,
+   "end": 1535,
+   "frames": 112,
+   "vo_start_frame": 1426,
+   "vo_frames": 111,
+   "text": "今天，它也来到了这里——主题乐园、变装派对、朋友圈。",
+   "file": "vo/k_shot08.wav",
+   "vo_dur": 4.615,
+   "tts_speed": 1.2,
+   "tts_text": "今天，它也来到了这里：主题乐园、变装派对、朋友圈。"
+  },
+  "9": {
+   "start": 1536,
+   "end": 1791,
+   "frames": 256,
+   "vo_start_frame": 1540,
+   "vo_frames": 184,
+   "text": "万圣夜、中元节、寒衣节。每个文化，都给想念留了一个夜晚。今年的寒衣节，是十一月九日。",
+   "file": "vo/k_shot09.wav",
+   "vo_dur": 7.64,
+   "tts_speed": 1.0,
+   "tts_text": "万圣夜、中元节、寒衣节。每个文化，都给想念留了一个夜晚。今年的寒衣节，是十一月九日。"
+  }
+ },
+ "tts": {
+  "model": "Kokoro-82M v1.0 (hexgrad)",
+  "voice": "zm_yunjian",
+  "license": "Apache-2.0",
+  "package": "kokoro 0.7.16"
+ }
+}
