@@ -9,6 +9,7 @@
 |---|---|---|---|---|
 | OpenMontage styles | https://github.com/calesthio/OpenMontage/tree/main/styles | AGPLv3 | 5 套 YAML（anime-ghibli / clean-professional / flat-motion-graphics / minimalist-diagram / premium-minimalist） | 只借字段思路（停留秒数、转场时长、弹簧、音量、闪避），文字为本文自述，不复制 |
 | AI-Visual-Prompt-Cookbook | https://github.com/VigoZhao/AI-Visual-Prompt-Cookbook/tree/main/styles | MIT | 169 个 style.json（含 part-02 等分卷），多为静态海报风 | 画风锚点 + 提示词模板；动效参数需我们自己补 |
+| AO55B 案例目录（⚠️ 待测试） | https://github.com/athemeroy/awesome-claude-5-5-videos | 文字 CC BY 4.0；案例视频归原作者 | 故事短片 + 历史／文化已审读案例 32 条，外加后续收录的历史类 10 条 | 只作可选画面参考，按内容类型／画风筛；摘录与限制说明见 [STYLE_REFERENCE_CASES_AO55B.md](STYLE_REFERENCE_CASES_AO55B.md)；只放链接，不复制截图 |
 
 **OpenMontage 字段思路（自述）**：每套风格都把动效写成数字——最短/最长镜头停留、文字卡与数据卡停留、转场时长、入场/出场方式、弹簧或缓动类型、音乐音量（0.07–0.15）、闪避阈值（-2 到 -4 dB）、同屏颜色上限、对比度 ≥4.5:1、「生成图里不烧字，字由代码叠加」。这些是 Cookbook 缺的部分，候选表的「锁定参数」栏按这套补。
 

@@ -61,4 +61,5 @@
 ## 七、可借鉴资料
 - **SS**：[Leonxlnx/shanshui](https://github.com/Leonxlnx/shanshui)（MIT，可借代码商用，需保留版权声明）。`docs/STYLE.md`（实测色板、构图规则、假感清单、运动数字）、`docs/FILM.md`（镜头表、转场、出血合同）、`docs/ENGINE.md`（分层相机、烘焙、墨处理、预算）、`docs/LIBRARY.md`（元素库索引）、`tools/audio.mjs`（合成配乐）、`tools/forensics.mjs`（已移植为 `tools/forensics.py`）。注意：SS 只有风景、没有角色，横屏 16:9，竖屏构图要自己重排。
 - **ML**：§1 渲染合同、§3 节拍与视差、§5 审核循环与查错、§7 声音、§9 运动模糊、§13 媒介原生转场（墨晕开、线条生长）。
+- **AO55B（可选参考，⚠️ 待测试）**：历史／故事里的水墨、油彩、沙画案例，以及水墨 + 角色骨架的一条，见 [STYLE_REFERENCE_CASES_AO55B.md](../STYLE_REFERENCE_CASES_AO55B.md#c-给-11-号国风水墨线的可选参考从上面挑出来)。只看画面，不强制。
 - 本仓库：[cinematography-filmgraph.md](../cinematography-filmgraph.md)「2.5D 视差镜头与转场合同」、[STYLE_AND_SHOT_SUMMARY.md](../STYLE_AND_SHOT_SUMMARY.md)「Style Bible 编写指南」。

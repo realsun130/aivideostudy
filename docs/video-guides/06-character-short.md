@@ -59,4 +59,5 @@
 - **BDAY**：整份 Prompt Pack——六块结构、六条公式、四轮修改原文、Render it smooth 五步、声音合同。
 - **ML**：§4 角色原则、§5 审核循环、§7 声音、§8 角色短片、§9 运动模糊、§10 拉伸与步态。
 - **MDS**：`director/disney-principles.md`（12 原则）、`director/emotion-mapping.md`、`director/narrative-structure.md`、材质缓动表（纸片 1.0×、回弹 3–5%；橡胶 0.8×、回弹 15–25%）。
+- **可选方向（⚠️ 待测试）**：[角色动画尝试方向](../character-animation-routes.md)（先定模型再表演、粗模定机位、先生成再描摹、纸片骨骼、p5.brush 手绘、一个角色穿越年代），以及 [AO55B 故事短片案例](../STYLE_REFERENCE_CASES_AO55B.md#a-故事短片story_short)。只是灵感，不强制。
 - **RS**：`remotion-markup/3d.md`、`motion-blur.md`、`sequencing.md`、`audio.md`、`sfx.md`。

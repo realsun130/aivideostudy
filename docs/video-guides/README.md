@@ -9,6 +9,8 @@
 - **BDAY**：Motion Lab「Birthday Surprise」Prompt Pack（BRAND / FORMAT / LOOK / BEATS / CAMERA / CHECKS）。
 - **FR**：Francesco 的文章（数据间 / 动效间 / 剪辑间；参考 → 数据 → 留空位的故事 → 动效 → 用话导演 → 组装）。
 - **AO55**：yihui-dev/awesome-opus5-5-videos，讲解类（03/05/09）的可选参考，只看 Explainers 与 3D scenes 两类。
+- **AO55B**：athemeroy/awesome-claude-5-5-videos（原名 awesome-opus-5-5-videos，CC BY 4.0），故事短片与历史／文化案例的可选参考（⚠️ 待测试），摘录在 [`../STYLE_REFERENCE_CASES_AO55B.md`](../STYLE_REFERENCE_CASES_AO55B.md)。和 AO55 是两个独立仓库（GitHub 上都不是 fork），不要混用缩写。
+- **角色动画尝试方向**：[`../character-animation-routes.md`](../character-animation-routes.md)（⚠️ 待测试），只是可选方向清单，不是流程。
 - **SS**：Leonxlnx/shanshui（MIT），纯代码水墨山水片，11 号的主要参考；只有风景、没有角色。
 - 标注「**起始值，需调**」的数字不是出自资料，是第一次渲染用的起点，按帧号调整。
 
