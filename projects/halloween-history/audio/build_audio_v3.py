@@ -9,7 +9,10 @@ from scipy.signal import butter, sosfilt, fftconvolve, resample_poly
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SR, FPS, FPB = 48000, 24, 16
-TL = json.load(open(os.path.join(HERE, 'timeline_v3.json'), encoding='utf-8'))
+TL_NAME = os.environ.get('HH_TIMELINE', 'timeline_v3.json')        # v3.1: env-selectable
+TL = json.load(open(os.path.join(HERE, TL_NAME), encoding='utf-8'))
+MIX_NAME = os.environ.get('HH_MIX', 'mix_v3.wav')
+VO_EQ = 'tts' in TL and 'CosyVoice3' in TL['tts'].get('model', '')     # v3.1 only; v3 unchanged
 NF = TL['total_frames']; N = int(NF / FPS * SR) + SR // 2
 SH = {int(k): v for k, v in TL['shots'].items()}
 rng = np.random.default_rng(1031)
@@ -111,6 +114,8 @@ for b in range(S(9) // 64, NF // 64, 2):
 for k in range(2, 10):
     add(mus, boom(0.32), fs(S(k) + 1))       # 1 frame after the cut
 mus = reverb(mus)
+if VO_EQ:   # v3.1: low shelf on the bed (-6 dB under ~120 Hz) so the phone band carries the mix
+    mus = np.stack([mus[:, c] - 0.5 * bp(mus[:, c], None, 120, 2) for c in range(2)], 1).astype(np.float32)
 # end: musical fade to silence over last 1.5 s
 mus[fs(NF - 36):fs(NF)] *= np.linspace(1, 0, fs(NF) - fs(NF - 36))[:, None]
 mus[fs(NF):] = 0
@@ -144,12 +149,18 @@ for i, lf2 in enumerate([12, 16, 22, 27, 33, 40, 47, 55]):
 for ci in range(3):
     add(sfx, bell(86, 0.05, 0.8), fs(S(8) + int(round((40 + ci * 14) * r8)) + 1), pan=[0.5, -0.5, 0.5][ci])
 # 09 lamp blow-outs on extinguish frames (lf3 210/226/242) + 1
-for i, lf3 in enumerate((210, 226, 242)):
+def lf9(lf3):    # v3 local frame (old 256-f shot) -> this timeline's local frame via v2 knots
+    if 'remap9' not in TL: return lf3
+    old = [(0, 0), (54, 54), (62, 150), (210, 264), (255, 286)]
+    v2f = float(np.interp(lf3, *zip(*old))); xs, ys = zip(*TL['remap9'])
+    return int(round(np.interp(v2f, ys, xs)))
+for i, lf3 in enumerate(lf9(x) for x in (210, 226, 242)):
     n = int(0.9 * SR); t = np.arange(n) / SR
     b = bp(rng.normal(0, 1, n), 250, 3500) * np.exp(-t * 4) * (1 - np.exp(-t * 40))
     add(sfx, b, fs(S(9) + lf3 + 1), pan=0.0, gain=0.45)
 # 01: Ireland ring chime (lf 78 + 1); fly-through whoosh peaking on the cut
-add(sfx, bell(81, 0.10, 2.5), fs(79), 0.2)
+N1 = SH[1]['frames']; CH = 78 if N1 <= 128 else 78 + (N1 - 128)   # ring lights at anim lf 78
+add(sfx, bell(81, 0.10, 2.5), fs(CH + 1), 0.2)
 def whoosh(dur, peak_at):
     n = int(dur * SR); t = np.arange(n) / SR
     e = np.where(t < peak_at, (t / peak_at) ** 2.2, np.exp(-(t - peak_at) * 7))
@@ -170,6 +181,8 @@ for k, sh in SH.items():
     x, sr = read_wav(os.path.join(HERE, sh['file']))
     x = resample_poly(x, 2, 1).astype(np.float32) if sr == 24000 else (resample_poly(x, 320, 147).astype(np.float32) if sr == 22050 else x)
     x = bp(x, 80, None)                                  # rumble cut
+    if VO_EQ:                                            # v3.1 deep CosyVoice3 voice: tame chest below ~160 Hz for phones
+        x = bp(x, 100, None, 2); x = (x - 0.55 * bp(x, None, 170, 2)).astype(np.float32)   # HPF 100 + ~-7 dB low shelf
     i0 = fs(sh['vo_start_frame']); vo[i0:i0 + len(x)] += x[:N - i0]
 
 def write(p, x):
@@ -208,7 +221,7 @@ write(f'{tmp}/vo_only.wav', np.stack([vo, vo], 1)[:fs(NF)])
 write(f'{tmp}/bed_only.wav', (mus * duck[:, None] + sfx_s)[:fs(NF)])
 # final: linear loudness to -14 LUFS, true peak ≤ -1.5 dBTP via gentle limiter (≤3 dB GR)
 I, tp = lufs(f'{tmp}/_mix_pre.wav')
-out = os.path.join(HERE, 'mix_v3.wav')
+out = os.path.join(HERE, MIX_NAME)
 print('pre-mix I/TP', I, tp)
 # iterate: linear gain + 4x-oversampled limiter (true-peak safe) until I = -14 ± 0.15 and TP <= -1.3
 gain = -14 - I

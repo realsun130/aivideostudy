@@ -1,0 +1,207 @@
+{
+ "file": "halloween_history_v3_1.mp4",
+ "fps": 24.0,
+ "frames": 2096,
+ "analysis_size": [
+  90,
+  160
+ ],
+ "median_step": 0.118,
+ "skip_windows": [
+  [
+   116,
+   140
+  ],
+  [
+   388,
+   412
+  ],
+  [
+   596,
+   620
+  ],
+  [
+   916,
+   940
+  ],
+  [
+   1140,
+   1164
+  ],
+  [
+   1348,
+   1372
+  ],
+  [
+   1604,
+   1628
+  ],
+  [
+   1764,
+   1788
+  ]
+ ],
+ "pops": [],
+ "jumps": [
+  {
+   "frame": 108,
+   "tc": "00:04.500",
+   "step": 6.98,
+   "local": 1.67
+  },
+  {
+   "frame": 413,
+   "tc": "00:17.208",
+   "step": 4.36,
+   "local": 0.55
+  },
+  {
+   "frame": 426,
+   "tc": "00:17.750",
+   "step": 3.02,
+   "local": 0.3
+  },
+  {
+   "frame": 1725,
+   "tc": "01:11.875",
+   "step": 2.94,
+   "local": 0.42
+  },
+  {
+   "frame": 1833,
+   "tc": "01:16.375",
+   "step": 2.21,
+   "local": 0.08
+  },
+  {
+   "frame": 1914,
+   "tc": "01:19.750",
+   "step": 1.78,
+   "local": 0.02
+  }
+ ],
+ "holds": [],
+ "dips": [
+  {
+   "from_frame": 104,
+   "to_frame": 112,
+   "lum": 27.7,
+   "localMax": 49.4,
+   "from_tc": "00:04.333",
+   "to_tc": "00:04.667"
+  },
+  {
+   "from_frame": 144,
+   "to_frame": 152,
+   "lum": 28.1,
+   "localMax": 49.4,
+   "from_tc": "00:06.000",
+   "to_tc": "00:06.333"
+  },
+  {
+   "from_frame": 376,
+   "to_frame": 384,
+   "lum": 29.2,
+   "localMax": 45.5,
+   "from_tc": "00:15.667",
+   "to_tc": "00:16.000"
+  },
+  {
+   "from_frame": 416,
+   "to_frame": 424,
+   "lum": 31.3,
+   "localMax": 45.5,
+   "from_tc": "00:17.333",
+   "to_tc": "00:17.667"
+  },
+  {
+   "from_frame": 588,
+   "to_frame": 592,
+   "lum": 35.4,
+   "localMax": 63.1,
+   "from_tc": "00:24.500",
+   "to_tc": "00:24.667"
+  },
+  {
+   "from_frame": 624,
+   "to_frame": 632,
+   "lum": 43.1,
+   "localMax": 63.1,
+   "from_tc": "00:26.000",
+   "to_tc": "00:26.333"
+  },
+  {
+   "from_frame": 944,
+   "to_frame": 952,
+   "lum": 29.0,
+   "localMax": 46.1,
+   "from_tc": "00:39.333",
+   "to_tc": "00:39.667"
+  },
+  {
+   "from_frame": 1128,
+   "to_frame": 1136,
+   "lum": 29.9,
+   "localMax": 56.6,
+   "from_tc": "00:47.000",
+   "to_tc": "00:47.333"
+  },
+  {
+   "from_frame": 1168,
+   "to_frame": 1176,
+   "lum": 27.2,
+   "localMax": 56.6,
+   "from_tc": "00:48.667",
+   "to_tc": "00:49.000"
+  },
+  {
+   "from_frame": 1336,
+   "to_frame": 1344,
+   "lum": 27.8,
+   "localMax": 62.4,
+   "from_tc": "00:55.667",
+   "to_tc": "00:56.000"
+  },
+  {
+   "from_frame": 1376,
+   "to_frame": 1384,
+   "lum": 25.2,
+   "localMax": 62.4,
+   "from_tc": "00:57.333",
+   "to_tc": "00:57.667"
+  },
+  {
+   "from_frame": 1592,
+   "to_frame": 1600,
+   "lum": 27.8,
+   "localMax": 42.2,
+   "from_tc": "01:06.333",
+   "to_tc": "01:06.667"
+  },
+  {
+   "from_frame": 1632,
+   "to_frame": 1640,
+   "lum": 25.9,
+   "localMax": 42.2,
+   "from_tc": "01:08.000",
+   "to_tc": "01:08.333"
+  },
+  {
+   "from_frame": 1792,
+   "to_frame": 1800,
+   "lum": 24.7,
+   "localMax": 40.3,
+   "from_tc": "01:14.667",
+   "to_tc": "01:15.000"
+  },
+  {
+   "from_frame": 2088,
+   "to_frame": 2092,
+   "lum": 11.1,
+   "localMax": 30.9,
+   "from_tc": "01:27.000",
+   "to_tc": "01:27.167"
+  }
+ ],
+ "ghosts": []
+}

@@ -13,3 +13,6 @@ audio/vo/shot*.wav
 audio/vo/narration_*.wav
 audio/src/
 audio/vo/timing.json
+frames_v3_1/
+out/qa_v3_1/
+audio/vo_v3_1/cand/

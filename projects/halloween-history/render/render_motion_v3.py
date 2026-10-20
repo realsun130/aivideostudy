@@ -19,11 +19,12 @@ from motion_lib import (ease_in_out_quart, ease_out_cubic, ease_in_cubic, lerp,
                         light_point, zoom_at, night, RANGES as R2)
 
 PROJ_DIR = PROJ
-TL = json.load(open(os.path.join(PROJ_DIR, 'audio', 'timeline_v3.json'), encoding='utf-8'))
+# v3.1: timeline / frame dir selectable via env (defaults reproduce v3 exactly)
+TL = json.load(open(os.path.join(PROJ_DIR, 'audio', os.environ.get('HH_TIMELINE', 'timeline_v3.json')), encoding='utf-8'))
 FPS = 24
 TOTAL = TL['total_frames']
 R3 = {int(k): (v['start'], v['end']) for k, v in TL['shots'].items()}
-FRAMES = os.path.join(PROJ_DIR, 'frames_v3')
+FRAMES = os.path.join(PROJ_DIR, os.environ.get('HH_FRAMES', 'frames_v3'))
 os.makedirs(FRAMES, exist_ok=True)
 CREAM, MIST, AMBER = P['paper_cream'], P['mist_grey'], P['ember_amber']
 
@@ -228,12 +229,20 @@ NY05 = tuple(float(a[0]) for a in _P05.fwd(np.array([-74.0]), np.array([40.71]))
 
 # v3 local frame -> v2 local frame knots (voice sync). Default: linear.
 REMAP = {9: [(0, 0), (54, 54), (62, 150), (210, 264), (255, 286)]}
+if 'remap9' in TL:                       # v3.1: knots re-derived from the new VO timing
+    REMAP[9] = [tuple(k) for k in TL['remap9']]
+N1 = R3[1][1] - R3[1][0] + 1             # shot 01 designed for 128 f; longer -> slow the 36..78 spin phase
+def lf01(lf):
+    if N1 <= 128 or lf <= 36: return lf
+    ext = N1 - 128
+    if lf <= 78 + ext: return 36 + (lf - 36) * 42 / (42 + ext)
+    return lf - ext
 
 # ------------------------------------------------------------- per-shot camera on SCENE (cx, cy, scale)
 def CAM(shot, lf, n):
     u = lf / max(1, n - 1)
     if shot == 1:
-        return 540, 990, 1.07 - 0.058 * ease_out_cubic(min(1, lf / 60))   # hook: pull-out reveal from f0, then globe flies
+        return 540, 990, 1.07 - 0.058 * ease_out_cubic(min(1, lf01(lf) / 60))   # hook: pull-out reveal from f0, then globe flies
     if shot == 5:                                                # sweep across the Atlantic, then push NY
         w = ease_in_out_quart(min(1, lf / (n - 40)))
         cx, cy = lerp(IRL05[0], NY05[0], w), lerp(IRL05[1], NY05[1], w)
@@ -273,7 +282,7 @@ IN_ANCHOR = {2: (520, 1010), 3: (540, 1385), 4: (935, 1000), 5: IRL05, 6: (290, 
 def scene_for(shot, lf, gframe):
     a, b = R3[shot]; n = b - a + 1
     if shot == 1:
-        img, _ = anim_01(lf, gframe)
+        img, _ = anim_01(lf01(lf), gframe)
     else:
         a2, b2 = R2[shot]; d2 = b2 - a2
         knots = REMAP.get(shot, [(0, 0), (n - 1, d2 - 1)])
@@ -366,11 +375,11 @@ def shot_of(frame):
 
 def render_frame(frame):
     shot, lf, n = shot_of(frame)
-    fast = (shot == 1 and lf >= 92)
+    fast = (shot == 1 and lf01(lf) >= 92)
     if fast:   # 180° shutter on the fly-through: 4 subframe renders over half a frame
         acc = np.zeros((H, W, 3), np.float32); text = None
         for k in range(SUB):
-            img, _ = anim_01(lf + (k / SUB) * 0.5, frame)
+            img, _ = anim_01(lf01(lf) + (k / SUB) * 0.5, frame)
             acc += np.asarray(img, np.float32); text = _TEXT['img']
         scene = Image.fromarray((acc / SUB).astype(np.uint8))
     else:

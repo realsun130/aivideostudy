@@ -43,7 +43,15 @@
 ## 改动说明（通用）
 裁切 → 抠图 → 去色 → 按亮度映射到 `paper_cream`/`night_ink` → 刻孔/边缘琥珀光进加光层。
 
-## 声音（v3）
+## 声音（v3.1 · 当前成片 `out/halloween_history_v3_1.mp4`）
+
+| 用途 | 来源 | 授权 | 说明 |
+|---|---|---|---|
+| 旁白 TTS | **Fun-CosyVoice3-0.5B-2512**（FunAudioLLM / 通义实验室），零样本模式；代码 https://github.com/FunAudioLLM/CosyVoice ，权重 https://huggingface.co/FunAudioLLM/Fun-CosyVoice3-0.5B-2512 | 代码 **Apache-2.0**，模型权重 **Apache-2.0**（模型卡 license 字段） | 本机 CPU 生成（每句约 20–38 s）。可商用；建议简介注明「配音由 CosyVoice3 合成」。权重不入库 |
+| 声线参考音 | `audio/ref/ref_voxcpm2_narrator_s9.wav`：用 **VoxCPM2**（openbmb，https://huggingface.co/openbmb/VoxCPM2 ，**Apache-2.0**）仅凭文字描述「中年男性纪录片旁白，温暖低沉，舒缓从容，不像播音腔」生成的**合成声线**（念的是第 9 句前半） | Apache-2.0 模型输出 | **不是任何真人的声音，没有克隆真人**；用户在 A/B/C 试听中选定的 C |
+| 配乐 / 音效 | 同 v3：`audio/build_audio_v3.py` 原创程序化合成（种子 1031），按 `timeline_v3_1.json` 重定时；v3.1 另加旁白 100 Hz 高通 + 低频搁架、配乐 120 Hz 以下 -6 dB（手机频段） | 原创，无采样 | 可商用，无第三方权利 |
+
+## 声音（v3 · 记录）
 
 | 用途 | 来源 | 授权 | 说明 |
 |---|---|---|---|
