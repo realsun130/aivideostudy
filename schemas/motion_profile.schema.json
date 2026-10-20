@@ -239,6 +239,42 @@
           }
         }
       }
+    },
+    "element_motion": {
+      "type": "object",
+      "description": "⚠️ 待测试 / 可选。环境元素运动参数，单位写死：速度 px/s（按 1080×1920 设计像素），频率 Hz，幅度 px。键为元素名，如 mist / tree_sway / bird_wing。",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "speed_px_s": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "freq_hz": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "amp_px": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }

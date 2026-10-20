@@ -44,6 +44,7 @@ GOAL（一句话：观众感受/动作） → TIME（fps、总帧数、画幅）
   - “太乱”：同时只一个主动作，其余晚 150 ms、行程 60%。
   - “像 AI”：点名默认样式，加入禁用清单，重渲。
 - 记录每条修改意见（收据），用于 Bot F 偏好记忆。
+- **成片逐帧查错（⚠️ 待测试）**：`python3 tools/forensics.py out/片.mp4 --cuts 144,408,... --cut-pad 12 --json out/qa/forensics.json`（或 `--shots shots.json` / `--skip 1176-1248`、`--skip 30s-32s` 声明转场窗口）。报告单帧跳变（pop）、动作突跳（jump）、画面冻住（hold > 0.8 s）、亮度骤降（dip > 25%）、叠影/溶解（ghost，启发式），每条带帧号和时间码。移植自 shanshui `tools/forensics.mjs`（MIT）。v2 实测：主角帧直接贴静帧会造成单帧跳变（f100、f1280、f1700），人眼看着像一闪而过的重影；jump 多为元素入场和逐字打字，属正常，需人看一眼确认。交付前跑一遍，转场外的 pop 目标为 0，其余各项逐条看帧确认。
 
 ## 6. 引擎选择
 - <10 s 单想法：纯 HTML/Canvas + Playwright 截帧 + FFmpeg。

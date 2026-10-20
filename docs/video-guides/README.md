@@ -9,6 +9,7 @@
 - **BDAY**：Motion Lab「Birthday Surprise」Prompt Pack（BRAND / FORMAT / LOOK / BEATS / CAMERA / CHECKS）。
 - **FR**：Francesco 的文章（数据间 / 动效间 / 剪辑间；参考 → 数据 → 留空位的故事 → 动效 → 用话导演 → 组装）。
 - **AO55**：yihui-dev/awesome-opus5-5-videos，讲解类（03/05/09）的可选参考，只看 Explainers 与 3D scenes 两类。
+- **SS**：Leonxlnx/shanshui（MIT），纯代码水墨山水片，11 号的主要参考；只有风景、没有角色。
 - 标注「**起始值，需调**」的数字不是出自资料，是第一次渲染用的起点，按帧号调整。
 
 ## 通用前提（所有类型）
@@ -33,3 +34,4 @@
 | 08 | 音乐卡点 / 可视化 | 10–60 s | 节拍网格精确、不累积误差 | [08-music-beat-sync.md](08-music-beat-sync.md) |
 | 09 | 地图 / 地理讲解 | 10–60 s | 底图抖动、镜头路径、地理数据准备 | [09-map-geo.md](09-map-geo.md) |
 | 10 | 实拍素材辅助（剪辑 + 图形包装） | 30 s–10 min | 素材时长、静音裁剪、图形与人物同步 | [10-live-footage-assist.md](10-live-footage-assist.md) |
+| 11 | 国风水墨风景短片（可选内容线 ⚠️ 待测试） | 30–60 s | 像同一位画师、分层视差不露边、转场由画中元素带出 | [11-ink-wash-scenery.md](11-ink-wash-scenery.md) |

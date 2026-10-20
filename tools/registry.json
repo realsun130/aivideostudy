@@ -194,6 +194,37 @@
       },
       "status": "待测试",
       "status_note": "仅在临时假输出上跑通；尚无真实提示词与模型输出"
+    },
+    {
+      "id": "forensics",
+      "path": "tools/forensics.py",
+      "purpose": "成片逐帧查错：单帧跳变、动作突跳、画面冻住、亮度骤降、叠影/溶解（启发式），带帧号和时间码；可声明转场窗口跳过。移植自 Leonxlnx/shanshui tools/forensics.mjs（MIT）。",
+      "run_when": {
+        "stage": "交付前（final_review 之前或同时）",
+        "bots": [
+          "E"
+        ],
+        "mandatory": false,
+        "condition": "每个成片；⚠️ 待测试，跑通一次 Track S 后再考虑设为强制"
+      },
+      "command": "python3 tools/forensics.py {video.mp4} [--shots shots.json | --cuts f1,f2 --cut-pad 12 | --skip a-b] [--json out/qa/forensics.json] [--fail]",
+      "inputs": [
+        "成片 mp4",
+        "转场窗口：shots.json（帧区间/切点/shanshui 式 SHOTS）或 --cuts / --skip"
+      ],
+      "outputs": [
+        "stdout 报告；--json 写 pops/jumps/holds/dips/ghosts"
+      ],
+      "exit_codes": {
+        "0": "报告完成（默认始终 0）",
+        "1": "--fail 且转场外有发现"
+      },
+      "on_fail": {
+        "meaning": "成片有单帧跳变/突跳/冻帧/暗跳/叠影",
+        "recovery_class": "按帧号回 Bot D 修渲染；jump 多为元素入场或打字，人工看帧确认后可放过"
+      },
+      "status": "待测试",
+      "status_note": "⚠️ 待测试。已在 halloween_history_v2.mp4 上跑：抓到第 6 镜 f1280 单帧重影（主角帧贴静帧），另报 f100、f1700 同类问题；ghost 检测只在合成溶解样例上验证过。"
     }
   ]
 }

@@ -357,6 +357,154 @@
     },
     "locked_by": {
       "type": "string"
+    },
+    "measured_reference": {
+      "type": "object",
+      "description": "⚠️ 待测试 / 可选。从参考图实测的外观数字（见 docs/STYLE_AND_SHOT_SUMMARY.md「Style Bible 编写指南」）。只放画面外观，不放运动。",
+      "properties": {
+        "refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "参与测量的参考图路径或编号"
+        },
+        "paper_rgb": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "最亮 8% 像素平均（纸色/底色）"
+        },
+        "ink_rgb": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "最暗 1% 像素平均（墨色/最深色）"
+        },
+        "luminance_percentiles": {
+          "type": "object",
+          "properties": {
+            "p10": {
+              "type": "number"
+            },
+            "median": {
+              "type": "number"
+            },
+            "p90": {
+              "type": "number"
+            }
+          },
+          "description": "亮度 0-255 的 p10 / 中位 / p90（可写区间字符串放 notes）"
+        },
+        "accents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "rgb": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 255
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              "max_pixel_pct": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "where": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "description": "强调色及其占画面像素上限（%）"
+        },
+        "value_ladder": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "depth": {
+                "type": "string"
+              },
+              "tone_min": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "tone_max": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "detail": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "depth"
+            ]
+          },
+          "description": "按景深的明度阶梯：tone 0=最深色 1=纸色"
+        },
+        "fake_tells": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "「看起来假」清单"
+        },
+        "comparison": {
+          "type": "object",
+          "properties": {
+            "modes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "side",
+                  "compare",
+                  "crop",
+                  "sheet"
+                ]
+              }
+            },
+            "crops": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "description": "逐区域对比参考图的方式与裁切区域"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
     }
   },
   "$defs": {
